@@ -18,6 +18,13 @@
             <version>${cloud.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-gateway-api</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-gateway</artifactId>
         </dependency>

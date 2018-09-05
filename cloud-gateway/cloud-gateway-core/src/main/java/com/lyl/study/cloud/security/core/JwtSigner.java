@@ -1,14 +1,13 @@
 package com.lyl.study.cloud.security.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.lyl.study.cloud.security.core.exception.InvalidJwtException;
+import io.jsonwebtoken.*;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.InvalidClassException;
 import java.util.Date;
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class JwtSigner {
                 .compact();
     }
 
-    public Object deserializeToken(String token) {
+    public Object deserializeToken(String token) throws InvalidJwtException {
         try {
             // parse the token.
             Jws<Claims> claimsJws = Jwts.parser()
@@ -70,7 +69,30 @@ public class JwtSigner {
                 return body;
             }
         } catch (Exception e) {
-            throw new IllegalStateException("Invalid Token. " + e.getMessage());
+            throw new InvalidJwtException("Invalid Token: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T deserializeToken(String token, Class<T> requireType) throws InvalidJwtException {
+        try {
+            // parse the token.
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
+
+            // check jwt class
+            String cls = (String) claimsJws.getHeader().get("cls");
+            if (!requireType.getName().equals(cls)) {
+                throw new InvalidClassException("JWT class should be " + cls);
+            }
+
+            Map<String, Object> body = claimsJws.getBody();
+
+            // deserialize object to cls instance
+            return (T) deserializeObject(cls, body);
+        } catch (Exception e) {
+            throw new InvalidJwtException("Invalid Token: " + e.getMessage());
         }
     }
 }
