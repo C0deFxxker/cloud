@@ -21,7 +21,7 @@ public class JwtSigner {
     // Token expire in 2 hours.
     private long expire = 7200000L;
     // json serializer
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @SuppressWarnings("unchecked")
     private Map<String, Object> serializeObject(Object object) {
@@ -60,7 +60,7 @@ public class JwtSigner {
             Jws<Claims> claimsJws = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token);
-            String cls = (String)claimsJws.getHeader().get("cls");
+            String cls = (String) claimsJws.getHeader().get("cls");
             Map<String, Object> body = claimsJws.getBody();
 
             // deserialize object to cls instance
@@ -69,8 +69,8 @@ public class JwtSigner {
             } else {
                 return body;
             }
-        }catch (Exception e){
-            throw new IllegalStateException("Invalid Token. "+e.getMessage());
+        } catch (Exception e) {
+            throw new IllegalStateException("Invalid Token. " + e.getMessage());
         }
     }
 }

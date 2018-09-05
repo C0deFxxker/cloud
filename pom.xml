@@ -10,11 +10,11 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>cloud-base</module>
-        <module>cloud-security</module>
+        <module>cloud-gateway</module>
     </modules>
 
     <properties>
-        <scrm.verion>1.0-SNAPSHOT</scrm.verion>
+        <cloud.version>1.0-SNAPSHOT</cloud.version>
         <jackson.version>2.9.4</jackson.version>
         <java.version>1.8</java.version>
         <lombok.version>1.16.16</lombok.version>
