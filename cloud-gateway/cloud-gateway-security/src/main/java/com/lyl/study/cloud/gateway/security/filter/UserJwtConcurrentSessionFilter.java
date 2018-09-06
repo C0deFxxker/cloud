@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.gateway.security.filter;
 
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.security.JwtClaims;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;

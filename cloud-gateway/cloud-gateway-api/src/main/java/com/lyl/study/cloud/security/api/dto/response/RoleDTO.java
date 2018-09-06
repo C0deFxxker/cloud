@@ -17,9 +17,13 @@ public class RoleDTO implements Serializable {
     private Long id;
     private String name;
     private String sign;
+    private Long departmentId;
+    private String departmentName;
+    private Boolean enable;
     private List<PermissionItem> permissions = new ArrayList<>();
     private Long creatorId;
-    private Long roleId;
+    private Long ownRoleId;
+    private Long ownerId;
     private Date createTime;
     private Date updateTime;
 

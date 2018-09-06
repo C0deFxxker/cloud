@@ -11,6 +11,7 @@
     <modules>
         <module>cloud-base</module>
         <module>cloud-gateway</module>
+        <module>cloud-cms</module>
     </modules>
 
     <properties>

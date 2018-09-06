@@ -10,16 +10,13 @@ import java.util.Date;
 @Accessors(chain = true)
 public class PermissionDTO implements Serializable {
     private long id;
-    private String appKey;
     private Long parentId;
-    private Integer type;
+    private Short type;
     private String label;
     private String sign;
     private String icon;
     private Integer sort;
-    private boolean visible;
     private Boolean enable;
-    private boolean deleted;
     private Long creatorId;
     private Long ownerId;
     private Long ownerRoleId;
