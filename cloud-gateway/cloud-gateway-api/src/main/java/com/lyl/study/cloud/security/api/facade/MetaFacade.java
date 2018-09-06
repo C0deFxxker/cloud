@@ -1,4 +1,4 @@
 package com.lyl.study.cloud.security.api.facade;
 
-public interface RoleFacade {
+public interface MetaFacade {
 }

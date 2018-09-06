@@ -11,28 +11,5 @@
 
     <artifactId>cloud-gateway-core</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.lyl.study.cloud</groupId>
-            <artifactId>cloud-base</artifactId>
-            <version>${cloud.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.lyl.study.cloud</groupId>
-            <artifactId>cloud-gateway-api</artifactId>
-            <version>${cloud.version}</version>
-        </dependency>
 
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-gateway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.0</version>
-        </dependency>
-    </dependencies>
 </project>
