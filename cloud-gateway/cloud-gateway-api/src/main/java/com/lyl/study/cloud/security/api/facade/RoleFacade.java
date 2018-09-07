@@ -22,7 +22,7 @@ public interface RoleFacade {
     void update(RoleUpdateForm roleUpdateForm);
 
     /**
-     * 删除角色
+     * 删除角色（级联删除角色授权项关联关系）
      *
      * @param id 角色ID
      */
@@ -37,7 +37,7 @@ public interface RoleFacade {
     RoleDTO getById(long roleId);
 
     /**
-     * 角色列表查询
+     * 角色列表查询（这里不会展示每个角色的授权项）
      *
      * @param departmentId 筛选部门（可选）
      * @param pageIndex    页码

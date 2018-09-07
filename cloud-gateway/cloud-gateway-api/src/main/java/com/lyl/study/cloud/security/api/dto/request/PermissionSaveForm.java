@@ -17,10 +17,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class PermissionSaveForm implements Serializable {
     /**
-     * appKey
-     */
-    private String appKey;
-    /**
      * 父菜单ID，不允许修改父节点
      */
     private Long parentId;
@@ -47,11 +43,6 @@ public class PermissionSaveForm implements Serializable {
      */
     @Length(max = 255)
     private String icon;
-    /**
-     * 是否可见
-     */
-    @NotNull
-    private Boolean visible;
     /**
      * 是否启用
      */

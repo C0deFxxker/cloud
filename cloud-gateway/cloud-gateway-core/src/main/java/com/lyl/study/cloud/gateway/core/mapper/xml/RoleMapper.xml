@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyl.study.cloud.gateway.core.mapper.RoleMapper">
+    <select id="selectPermissionByRoleId" parameterType="java.lang.Long"
+            resultType="com.lyl.study.cloud.security.api.dto.response.RoleDTO.PermissionItem">
+        SELECT id, sign FROM sys_role_permission rp
+        LEFT JOIN sys_permission p ON rp.permission_id = p.id
+        WHERE rp.role_id = #{roleId}
+    </select>
 
+    <insert id="insertRolePermissions">
+        INSERT sys_role_permission(role_id, permission_id) VALUES
+        <foreach collection="permissions" separator="," item="permId">
+            (${roleId}, ${permId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRolePermissionsByRoleId" parameterType="java.lang.Long">
+        DELETE FROM sys_role_permission WHERE role_id = #{roleId}
+    </delete>
 </mapper>

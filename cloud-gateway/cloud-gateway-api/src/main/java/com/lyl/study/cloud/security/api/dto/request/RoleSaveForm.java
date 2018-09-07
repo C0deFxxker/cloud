@@ -23,6 +23,12 @@ public class RoleSaveForm implements Serializable {
     @Length(max = 50)
     private String name;
     /**
+     * 角色标识
+     */
+    @NotBlank
+    @Length(max = 50)
+    private String sign;
+    /**
      * 所属部门ID
      */
     @NotNull

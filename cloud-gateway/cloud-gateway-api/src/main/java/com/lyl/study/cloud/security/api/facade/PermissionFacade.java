@@ -10,35 +10,35 @@ import java.util.List;
 
 public interface PermissionFacade {
     /**
-     * 新增菜单项
+     * 新增授权项
      *
      * @param permissionSaveForm 表单
-     * @return 菜单项ID
+     * @return 授权项ID
      */
     long save(PermissionSaveForm permissionSaveForm);
 
     /**
-     * 修改菜单项
+     * 修改授权项
      *
      * @param permissionUpdateForm 表单
      */
     void update(PermissionUpdateForm permissionUpdateForm) throws NoSuchEntityException;
 
     /**
-     * 根据ID获取菜单项
+     * 根据ID获取授权项
      *
-     * @param id 菜单项ID
-     * @return 返回对应ID的菜单项信息；找不到菜单项时，返回null
+     * @param id 授权项ID
+     * @return 返回对应ID的授权项信息；找不到授权项时，返回null
      */
     PermissionDTO getById(long id);
 
     /**
-     * 删除菜单项
+     * 删除授权项（级联删除角色授权项关联关系）
      *
-     * @param id    菜单项ID
-     * @param force 是否强制删除：如果是，则连同子菜单项一并删除；否则，检查到该菜单项有子菜单项时，抛出异常
+     * @param id    授权项ID
+     * @param force 是否强制删除：如果是，则连同子授权项一并删除；否则，检查到该授权项有子授权项时，抛出异常
      * @return 删除记录数
-     * @throws IllegalAccessError 指定不强制删除的情况下，检查到菜单项有子菜单时抛出此异常
+     * @throws IllegalAccessError 指定不强制删除的情况下，检查到授权项有子菜单时抛出此异常
      */
     int deleteById(long id, boolean force);
 
@@ -50,11 +50,11 @@ public interface PermissionFacade {
     List<TreeNode<PermissionDTO>> tree();
 
     /**
-     * 获取角色授权的菜单项
+     * 获取角色授权的授权项
      *
      * @param roleId 角色ID
-     * @return 角色授权的菜单项
+     * @return 角色授权的授权项
      * @throws NoSuchEntityException 找不到角色时，抛出此异常
      */
-    List<PermissionDTO> getPermissionByRoleId(long roleId) throws NoSuchEntityException;
+//    List<PermissionDTO> getPermissionByRoleId(long roleId) throws NoSuchEntityException;
 }

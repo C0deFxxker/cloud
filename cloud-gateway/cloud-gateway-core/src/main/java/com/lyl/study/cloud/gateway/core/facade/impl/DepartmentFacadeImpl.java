@@ -7,7 +7,9 @@ import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.TreeNodeUtils;
 import com.lyl.study.cloud.gateway.core.entity.Department;
+import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.service.DepartmentService;
+import com.lyl.study.cloud.gateway.core.service.RoleService;
 import com.lyl.study.cloud.security.api.dto.request.DepartmentSaveForm;
 import com.lyl.study.cloud.security.api.dto.request.DepartmentUpdateForm;
 import com.lyl.study.cloud.security.api.dto.response.DepartmentDTO;
@@ -30,6 +32,8 @@ public class DepartmentFacadeImpl implements DepartmentFacade {
 
     private final TreeNodeUtils.BuildTreeConfig<DepartmentDTO> config;
 
+    @Autowired
+    private RoleService roleService;
     @Autowired
     private DepartmentService departmentService;
     @Autowired
@@ -80,11 +84,14 @@ public class DepartmentFacadeImpl implements DepartmentFacade {
     public int deleteById(long id) {
         logger.info("删除部门: id={}", id);
 
-        int numOfChild = departmentService.selectCount(
-                new EntityWrapper<Department>().eq(Department.PARENT_ID, id)
-        );
+        int numOfChild = departmentService.selectCount(new EntityWrapper<Department>().eq(Department.PARENT_ID, id));
         if (numOfChild > 0) {
             throw new IllegalAccessError("该部门下还有子部门，不能删除");
+        }
+
+        int numOfRole = roleService.selectCount(new EntityWrapper<Role>().eq(Role.DEPARTMENT_ID, id));
+        if (numOfRole > 0) {
+            throw new IllegalAccessError("该部门下还有角色，不能删除");
         }
 
         return departmentService.deleteById(id) ? 1 : 0;

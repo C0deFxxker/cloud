@@ -2,6 +2,7 @@ package com.lyl.study.cloud.security.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -29,6 +30,7 @@ public class RoleDTO implements Serializable {
 
     @Data
     @ToString
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class PermissionItem implements Serializable {
         private Long id;

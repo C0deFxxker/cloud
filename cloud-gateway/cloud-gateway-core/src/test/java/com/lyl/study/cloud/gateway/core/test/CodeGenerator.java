@@ -58,6 +58,7 @@ public class CodeGenerator {
         strategy.setTablePrefix("sys_");// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setDbColumnUnderline(true);
+        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_department");
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setInclude(tableNames); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表

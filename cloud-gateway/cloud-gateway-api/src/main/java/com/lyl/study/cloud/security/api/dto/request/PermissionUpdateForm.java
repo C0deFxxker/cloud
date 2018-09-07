@@ -22,10 +22,6 @@ public class PermissionUpdateForm implements Serializable {
     @NotNull
     private Long id;
     /**
-     * 父菜单ID，不允许修改父节点
-     */
-    private Long parentId;
-    /**
      * 菜单名称
      */
     @NotBlank
@@ -54,14 +50,13 @@ public class PermissionUpdateForm implements Serializable {
     @NotNull
     private Boolean enable;
     /**
-     * 是否可见
-     */
-    @NotNull
-    private Boolean visible;
-    /**
      * 排序（默认为0）
      */
     private Integer sort = 0;
+    /**
+     * 创建者ID
+     */
+    private Long creatorId;
     /**
      * 拥有者ID
      */
