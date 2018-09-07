@@ -1,5 +1,9 @@
 package com.lyl.study.cloud.security.api.facade;
 
+import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.security.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.security.api.dto.request.UserSaveForm;
+import com.lyl.study.cloud.security.api.dto.request.UserUpdateForm;
 import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.security.api.dto.response.UserDTO;
 import com.lyl.study.cloud.security.api.dto.response.UserDetailDTO;
@@ -36,28 +40,27 @@ public interface UserFacade {
     /**
      * 查询用户列表
      *
-     * @param pageIndex 页码
-     * @param pageSize  页面大小
+     * @param conditions 查询表单
      * @return 用户列表
      */
-    List<UserDTO> list(int pageIndex, int pageSize);
+    PageInfo<UserDTO> list(UserListConditions conditions);
 
     /**
      * 新增用户信息
      *
      * @return 新用户ID
      */
-    long save();
+    long save(UserSaveForm userSaveForm);
 
     /**
      * 修改用户信息
      */
-    void update();
+    void update(UserUpdateForm userUpdateForm);
 
     /**
      * 根据ID删除用户信息
      *
      * @param id 用户ID
      */
-    void deleteById(long id);
+    int deleteById(long id);
 }

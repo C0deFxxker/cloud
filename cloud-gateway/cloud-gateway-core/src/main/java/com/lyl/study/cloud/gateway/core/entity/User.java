@@ -1,20 +1,19 @@
 package com.lyl.study.cloud.gateway.core.entity;
 
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotations.Version;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author liyilin
@@ -32,6 +31,11 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String nickname;
+    private String mobile;
+    private String email;
+    private Date birthday;
+    private Boolean sex;
+    private String address;
     private Boolean enable;
     private Long creatorId;
     private Long ownerId;
@@ -47,6 +51,16 @@ public class User implements Serializable {
     public static final String PASSWORD = "password";
 
     public static final String NICKNAME = "nickname";
+
+    public static final String MOBILE = "mobile";
+
+    public static final String EMAIL = "email";
+
+    public static final String BIRTHDAY = "birthday";
+
+    public static final String SEX = "sex";
+
+    public static final String ADDRESS = "address";
 
     public static final String ENABLE = "enable";
 

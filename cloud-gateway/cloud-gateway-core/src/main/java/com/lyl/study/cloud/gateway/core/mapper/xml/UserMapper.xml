@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyl.study.cloud.gateway.core.mapper.UserMapper">
+    <select id="selectRolesByUserId" resultType="com.lyl.study.cloud.gateway.core.entity.Role">
+        SELECT b.* FROM sys_user_role a
+        LEFT JOIN sys_role b ON a.role_id = b.id
+        WHERE a.user_id=#{userId}
+    </select>
 
+    <insert id="insertUserRoles">
+        INSERT INTO sys_user_role(user_id, role_id) VALUES
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserRolesByUserId" parameterType="java.lang.Long">
+        DELETE FROM sys_user_role WHERE user_id=#{userId}
+    </delete>
+
+    <sql id="selectByConditionsSql">
+        FROM sys_user a
+        <if test="departmentId != null or roleId != null">
+            INNER sys_user_role b ON a.id = b.user_id
+            <if test="departmentId != null">
+                INNER sys_role_department c ON b.role_id=c.role_id
+            </if>
+        </if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="roleId != null">
+                AND b.roleId = #{roleId}
+            </if>
+            <if test="departmentId != null">
+                AND c.department_id = #{departmentId}
+            </if>
+            <if test="username != null">
+                AND a.username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="nickname != null">
+                AND a.nickname LIKE CONCAT('%', #{nickname}, '%')
+            </if>
+            <if test="mobile != null">
+                AND a.mobile LIKE CONCAT('%', #{mobile}, '%')
+            </if>
+            <if test="email != null">
+                AND a.email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="birthdayStart != null">
+                AND a.birthday &gt;= #{birthdayStart}
+            </if>
+            <if test="birthdayEnd != null">
+                AND a.birthday &lt;= #{birthdayEnd}
+            </if>
+            <if test="sex != null">
+                AND a.sex = #{sex}
+            </if>
+            <if test="address != null">
+                AND a.address LIKE CONCAT('%', #{address}, '%')
+            </if>
+            <if test="enable != null">
+                AND a.enable = #{enable}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="selectByConditions"
+            parameterType="com.lyl.study.cloud.security.api.dto.request.UserListConditions"
+            resultType="com.lyl.study.cloud.gateway.core.entity.User">
+        SELECT
+        a.*
+        <include refid="selectByConditionsSql"/>
+        ORDER BY a.create_time
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+    <select id="countByConditions"
+            parameterType="com.lyl.study.cloud.security.api.dto.request.UserListConditions"
+            resultType="java.lang.Long">
+        SELECT
+        COUNT(*)
+        <include refid="selectByConditionsSql"/>
+    </select>
 </mapper>

@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.security.api.dto.response;
+package com.lyl.study.cloud.security.api.dto.request;
 
 import lombok.Data;
 import lombok.ToString;
@@ -12,10 +12,8 @@ import java.util.List;
 @Data
 @ToString
 @Accessors(chain = true)
-public class UserDetailDTO implements Serializable {
+public class UserUpdateForm implements Serializable {
     private Long id;
-    private String username;
-    private String password;
     private String nickname;
     private String mobile;
     private String email;
@@ -23,10 +21,7 @@ public class UserDetailDTO implements Serializable {
     private Boolean sex;
     private String address;
     private Boolean enable;
-    private List<RoleDTO> roles = new ArrayList<>();
-    private Long creatorId;
+    private List<Long> roles = new ArrayList<>();
     private Long ownerId;
     private Long ownerRoleId;
-    private Date createTime;
-    private Date updateTime;
 }
