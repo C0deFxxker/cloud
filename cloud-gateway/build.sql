@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS sys_user;
 CREATE TABLE sys_user (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id BIGINT PRIMARY KEY,
   username VARCHAR(50) NOT NULL,
   password VARCHAR(32) NOT NULL,
   nickname VARCHAR(50),
@@ -14,9 +14,10 @@ CREATE TABLE sys_user (
 
 DROP TABLE IF EXISTS sys_department;
 CREATE TABLE sys_department (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id BIGINT PRIMARY KEY,
   parent_id BIGINT,
   name VARCHAR(50) NOT NULL,
+  description VARCHAR(255),
   enable BIT(1) NOT NULL,
   sort TINYINT NOT NULL DEFAULT 0,
   creator_id BIGINT,
@@ -28,7 +29,7 @@ CREATE TABLE sys_department (
 
 DROP TABLE IF EXISTS sys_permission;
 CREATE TABLE sys_permission (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id BIGINT PRIMARY KEY,
   parent_id BIGINT,
   type TINYINT NOT NULL COMMENT '菜单类型：0-目录，1-页面，2-请求',
   label VARCHAR(50) NOT NULL,
@@ -45,7 +46,7 @@ CREATE TABLE sys_permission (
 
 DROP TABLE IF EXISTS sys_role;
 CREATE TABLE sys_role (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id BIGINT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   sign VARCHAR(50) NOT NULL,
   department_id BIGINT NOT NULL,

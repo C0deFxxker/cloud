@@ -18,6 +18,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-gateway-api</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.47</version>

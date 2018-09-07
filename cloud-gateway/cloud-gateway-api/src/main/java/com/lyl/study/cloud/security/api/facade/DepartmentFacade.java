@@ -25,26 +25,26 @@ public interface DepartmentFacade {
     /**
      * 修改部门
      *
-     * @param departmentEditForm 表单
+     * @param departmentUpdateForm 表单
      * @throws NoSuchEntityException 待修改对象不存在时，抛出此异常
      */
-    void update(DepartmentUpdateForm departmentEditForm) throws NoSuchEntityException;
+    void update(DepartmentUpdateForm departmentUpdateForm) throws NoSuchEntityException;
 
     /**
      * 根据ID删除部门
      *
-     * @param departmentId 部门ID
+     * @param id 部门ID
      * @return 删除记录数
      */
-    int deleteById(Long departmentId);
+    int deleteById(long id);
 
     /**
      * 根据ID获取部门信息
      *
-     * @param departmentId 部门ID
+     * @param id 部门ID
      * @return 若查询成功，返回包含有对应ID部门信息的Result对象；否则，返回描述错误信息的Result对象
      */
-    DepartmentDTO getById(Long departmentId);
+    DepartmentDTO getById(long id);
 
 
     /**
