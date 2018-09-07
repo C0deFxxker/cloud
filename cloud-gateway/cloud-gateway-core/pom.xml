@@ -18,6 +18,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.alibaba.spring.boot</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.lyl.study.cloud</groupId>
             <artifactId>cloud-gateway-api</artifactId>
             <version>${cloud.version}</version>

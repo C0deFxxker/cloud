@@ -20,22 +20,42 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
     /**
      * 查询用户带有的角色
+     *
      * @param userId 用户ID
      * @return 用户带有的角色
      */
     List<Role> selectRolesByUserId(Long userId);
 
     /**
+     * 添加用户角色关联关系
      *
-     * @param userId
-     * @param roleIds
-     * @return
+     * @param userId  用户ID
+     * @param roleIds 角色ID集
+     * @return 插入记录数
      */
     int insertUserRoles(@Param("userId") Long userId, @Param("roleIds") Collection<Long> roleIds);
 
+    /**
+     * 删除用户角色关联关系
+     *
+     * @param userId 用户ID
+     * @return 删除记录数
+     */
     int deleteUserRolesByUserId(Long userId);
 
+    /**
+     * 条件筛选用户列表
+     *
+     * @param conditions 筛选条件
+     * @return 用户列表
+     */
     List<User> selectByConditions(UserListConditions conditions);
 
+    /**
+     * 计算符合筛选条件的用户数量
+     *
+     * @param conditions 筛选条件
+     * @return 符合筛选条件的用户数量
+     */
     int countByConditions(UserListConditions conditions);
 }

@@ -19,13 +19,42 @@ import java.util.List;
  * @since 2018-09-07
  */
 public interface UserService extends IService<User> {
+    /**
+     * 条件筛选用户分页列表
+     *
+     * @param conditions 筛选条件
+     * @return 用户分页列表
+     */
     PageInfo<User> listByConditions(UserListConditions conditions);
 
+    /**
+     * 查询用户带有的角色
+     *
+     * @param userId 用户ID
+     * @return 用户带有的角色
+     */
     List<Role> getRolesByUserId(Long userId);
 
+    /**
+     * 新增用户信息
+     *
+     * @param userSaveForm 表单
+     * @return 新增用户ID
+     */
     long save(UserSaveForm userSaveForm);
 
+    /**
+     * 修改用户信息
+     *
+     * @param userUpdateForm 表单
+     */
     void update(UserUpdateForm userUpdateForm);
 
+    /**
+     * 删除用户信息
+     *
+     * @param id 用户ID
+     * @return 删除记录数
+     */
     int deleteById(long id);
 }
