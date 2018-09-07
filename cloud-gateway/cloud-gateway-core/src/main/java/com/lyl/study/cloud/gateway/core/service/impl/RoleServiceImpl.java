@@ -3,12 +3,13 @@ package com.lyl.study.cloud.gateway.core.service.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
+import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.mapper.RoleMapper;
 import com.lyl.study.cloud.gateway.core.service.RoleService;
-import com.lyl.study.cloud.security.api.dto.request.RoleSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.RoleUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,8 +58,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         baseMapper.updateById(record);
 
         // 处理角色授权项关联关系的修改
-        List<RoleDTO.PermissionItem> permissions = baseMapper.selectPermissionByRoleId(roleId);
-        Set<Long> permIdSet = permissions.stream().map(RoleDTO.PermissionItem::getId).collect(Collectors.toSet());
+        List<PermissionItem> permissions = baseMapper.selectPermissionByRoleId(roleId);
+        Set<Long> permIdSet = permissions.stream().map(PermissionItem::getId).collect(Collectors.toSet());
         HashSet<Long> formPermIdSet = new HashSet<>(form.getPermissions());
         if (!permIdSet.equals(formPermIdSet)) {
             baseMapper.deleteRolePermissionsByRoleId(roleId);
@@ -77,7 +78,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public List<RoleDTO.PermissionItem> getPermissionByRoleId(Long roleId) {
+    public List<PermissionItem> getPermissionByRoleId(Long roleId) {
         return baseMapper.selectPermissionByRoleId(roleId);
     }
 }

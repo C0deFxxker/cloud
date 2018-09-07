@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.security.api;
+package com.lyl.study.cloud.gateway.api;
 
 import com.lyl.study.cloud.base.CommonErrorCode;
 

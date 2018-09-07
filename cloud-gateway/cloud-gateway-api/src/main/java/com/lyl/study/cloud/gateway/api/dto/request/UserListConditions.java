@@ -1,29 +1,28 @@
-package com.lyl.study.cloud.security.api.dto.request;
+package com.lyl.study.cloud.gateway.api.dto.request;
 
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @ToString
 @Accessors(chain = true)
-public class UserSaveForm implements Serializable {
+public class UserListConditions implements Serializable {
+    private Long departmentId;
+    private Long roleId;
     private String username;
-    private String password;
     private String nickname;
     private String mobile;
     private String email;
-    private Date birthday;
+    private Date birthdayStart;
+    private Date birthdayEnd;
     private Boolean sex;
     private String address;
     private Boolean enable;
-    private List<Long> roles = new ArrayList<>();
-    private Long creatorId;
-    private Long ownerId;
-    private Long ownerRoleId;
+    private Integer pageIndex;
+    private Integer pageSize;
+    private Integer offset;
 }

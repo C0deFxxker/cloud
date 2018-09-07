@@ -8,9 +8,9 @@ import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.entity.User;
 import com.lyl.study.cloud.gateway.core.mapper.UserMapper;
 import com.lyl.study.cloud.gateway.core.service.UserService;
-import com.lyl.study.cloud.security.api.dto.request.UserListConditions;
-import com.lyl.study.cloud.security.api.dto.request.UserSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional
     public void update(UserUpdateForm userUpdateForm) {
         Long userId = userUpdateForm.getId();
-        Assert.notNull(userUpdateForm.getId());
+        Assert.notNull(userUpdateForm.getId(), "id cannot be null");
 
         User user = baseMapper.selectById(userId);
         BeanUtils.copyProperties(userUpdateForm, user);

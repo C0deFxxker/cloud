@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.lyl.study.cloud.base.config.SystemCommonConfig,\
+com.lyl.study.cloud.base.config.SequenceConfig,\
+com.lyl.study.cloud.base.config.CacheCommonConfig,\
+com.lyl.study.cloud.base.config.EurekaCommonConfig,\
+com.lyl.study.cloud.base.config.FeignCommonConfig,\
+com.lyl.study.cloud.base.config.MybatisCommonConfig,\
+com.lyl.study.cloud.base.config.WebCommonConfig

@@ -4,9 +4,9 @@ import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.entity.User;
 import com.baomidou.mybatisplus.service.IService;
-import com.lyl.study.cloud.security.api.dto.request.UserListConditions;
-import com.lyl.study.cloud.security.api.dto.request.UserSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
 
 import java.util.List;
 

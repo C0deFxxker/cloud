@@ -3,14 +3,15 @@ package com.lyl.study.cloud.gateway.core.facade.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.core.entity.Department;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.service.DepartmentService;
 import com.lyl.study.cloud.gateway.core.service.RoleService;
-import com.lyl.study.cloud.security.api.dto.request.RoleSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.RoleUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.security.api.facade.RoleFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -54,7 +55,7 @@ public class RoleFacadeImpl implements RoleFacade {
         Department department = departmentService.selectById(role.getDepartmentId());
         dto.setDepartmentName(department.getName());
         // 获取角色关联的授权项
-        List<RoleDTO.PermissionItem> permissions = roleService.getPermissionByRoleId(id);
+        List<PermissionItem> permissions = roleService.getPermissionByRoleId(id);
         dto.setPermissions(permissions);
 
         return dto;

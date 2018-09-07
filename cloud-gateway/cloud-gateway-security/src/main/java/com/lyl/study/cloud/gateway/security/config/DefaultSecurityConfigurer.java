@@ -5,7 +5,7 @@ import com.lyl.study.cloud.gateway.security.DefaultAccessDeniedHandler;
 import com.lyl.study.cloud.gateway.security.JsonAuthenticationEntryPoint;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.filter.UserJwtConcurrentSessionFilter;
-import com.lyl.study.cloud.security.api.facade.UserFacade;
+import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

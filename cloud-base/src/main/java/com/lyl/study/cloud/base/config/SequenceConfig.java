@@ -6,11 +6,14 @@ import com.lyl.study.cloud.base.idworker.RedisIdWorkerRegister;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,21 +28,23 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SequenceConfig {
     private static final Logger logger = LoggerFactory.getLogger(SequenceConfig.class);
 
-    @Bean
-    @ConditionalOnBean(IdWorkerRegister.class)
-    @ConditionalOnMissingBean(Sequence.class)
-    public Sequence sequence(IdWorkerRegister idWorkerRegister) {
-        int serviceId = idWorkerRegister.registerServiceId();
-        long twepoch = idWorkerRegister.getTwepoch();
-        logger.info("使用IdWorkerRegister注册: serviceId={}, twepoch={}", serviceId, twepoch);
-        return new Sequence(serviceId, twepoch);
-    }
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Bean
-    @ConditionalOnMissingBean({IdWorkerRegister.class, Sequence.class})
+    @ConditionalOnMissingBean(Sequence.class)
     public Sequence sequence() {
-        long twepoch = System.currentTimeMillis();
-        return new Sequence(1, twepoch);
+        try {
+            IdWorkerRegister idWorkerRegister = applicationContext.getBean(IdWorkerRegister.class);
+            int serviceId = idWorkerRegister.registerServiceId();
+            long twepoch = idWorkerRegister.getTwepoch();
+            logger.info("使用IdWorkerRegister注册: serviceId={}, twepoch={}", serviceId, twepoch);
+            return new Sequence(serviceId, twepoch);
+        } catch (NoSuchBeanDefinitionException e) {
+            logger.info("找不到IdWorkerRegister，使用本地版本的Sequence");
+            long twepoch = System.currentTimeMillis();
+            return new Sequence(1, twepoch);
+        }
     }
 
     @Configuration

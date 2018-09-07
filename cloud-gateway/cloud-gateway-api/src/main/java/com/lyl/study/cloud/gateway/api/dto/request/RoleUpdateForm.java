@@ -1,41 +1,42 @@
-package com.lyl.study.cloud.security.api.dto.request;
+package com.lyl.study.cloud.gateway.api.dto.request;
 
 import lombok.Data;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * @author liyilin
+ */
 @Data
-@ToString
 @Accessors(chain = true)
-public class DepartmentSaveForm implements Serializable {
+public class RoleUpdateForm implements Serializable {
     /**
-     * 上级部门ID，不允许修改父节点
+     * 主键
      */
     @NotNull
-    private Long parentId;
+    private Long id;
     /**
-     * 部门名称
+     * 角色名称
      */
     @NotBlank
     @Length(max = 50)
     private String name;
     /**
-     * 描述
+     * 是否启用
      */
-    private String description;
+    @NotNull
+    private Boolean enable;
     /**
-     * 排序（默认为0）
+     * 拥有的菜单权限
      */
-    private Integer sort = 0;
-    /**
-     * 创建者ID
-     */
-    private Long creatorId;
+    @NotNull
+    private List<Long> permissions = Collections.emptyList();
     /**
      * 拥有者ID
      */

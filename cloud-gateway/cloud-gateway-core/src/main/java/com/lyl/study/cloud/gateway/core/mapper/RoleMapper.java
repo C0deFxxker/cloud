@@ -1,12 +1,12 @@
 package com.lyl.study.cloud.gateway.core.mapper;
 
+import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param roleId 角色ID
      * @return 指定角色的授权项
      */
-    List<RoleDTO.PermissionItem> selectPermissionByRoleId(Long roleId);
+    List<PermissionItem> selectPermissionByRoleId(Long roleId);
 
     /**
      * 为角色添加授权项

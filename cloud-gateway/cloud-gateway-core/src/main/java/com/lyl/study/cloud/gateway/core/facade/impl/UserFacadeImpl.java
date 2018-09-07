@@ -1,18 +1,19 @@
 package com.lyl.study.cloud.gateway.core.facade.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.entity.User;
 import com.lyl.study.cloud.gateway.core.service.UserService;
-import com.lyl.study.cloud.security.api.dto.request.UserListConditions;
-import com.lyl.study.cloud.security.api.dto.request.UserSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.UserUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.security.api.dto.response.UserDTO;
-import com.lyl.study.cloud.security.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.security.api.facade.UserFacade;
+import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -20,6 +21,7 @@ import org.springframework.util.Assert;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserFacadeImpl implements UserFacade {
     @Autowired
     private UserService userService;

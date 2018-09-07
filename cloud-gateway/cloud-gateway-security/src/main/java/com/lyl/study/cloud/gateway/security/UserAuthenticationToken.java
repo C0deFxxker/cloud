@@ -1,7 +1,7 @@
 package com.lyl.study.cloud.gateway.security;
 
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.security.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

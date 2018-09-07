@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.security.api.dto.response;
+package com.lyl.study.cloud.gateway.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

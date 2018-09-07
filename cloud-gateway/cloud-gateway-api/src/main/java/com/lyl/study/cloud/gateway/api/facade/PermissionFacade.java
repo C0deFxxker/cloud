@@ -1,10 +1,10 @@
-package com.lyl.study.cloud.security.api.facade;
+package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.TreeNode;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.security.api.dto.request.PermissionSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.PermissionUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.PermissionDTO;
+import com.lyl.study.cloud.gateway.api.dto.request.PermissionSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.PermissionUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.PermissionDTO;
 
 import java.util.List;
 

@@ -1,10 +1,11 @@
 package com.lyl.study.cloud.gateway.core.service;
 
+import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.baomidou.mybatisplus.service.IService;
-import com.lyl.study.cloud.security.api.dto.request.RoleSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.RoleUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 
 import java.util.List;
 
@@ -41,5 +42,5 @@ public interface RoleService extends IService<Role> {
      * @param roleId 角色ID
      * @return 指定角色的授权项
      */
-    List<RoleDTO.PermissionItem> getPermissionByRoleId(Long roleId);
+    List<PermissionItem> getPermissionByRoleId(Long roleId);
 }

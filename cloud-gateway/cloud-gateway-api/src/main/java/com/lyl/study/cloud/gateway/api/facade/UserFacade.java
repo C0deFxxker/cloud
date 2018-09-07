@@ -1,12 +1,12 @@
-package com.lyl.study.cloud.security.api.facade;
+package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.PageInfo;
-import com.lyl.study.cloud.security.api.dto.request.UserListConditions;
-import com.lyl.study.cloud.security.api.dto.request.UserSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.UserUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.security.api.dto.response.UserDTO;
-import com.lyl.study.cloud.security.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
+import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 
 import java.rmi.NoSuchObjectException;
 import java.util.List;

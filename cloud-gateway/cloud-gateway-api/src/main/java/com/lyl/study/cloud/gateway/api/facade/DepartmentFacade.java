@@ -1,11 +1,11 @@
-package com.lyl.study.cloud.security.api.facade;
+package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.TreeNode;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.security.api.dto.request.DepartmentSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.DepartmentUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.DepartmentDTO;
+import com.lyl.study.cloud.gateway.api.dto.request.DepartmentSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.DepartmentUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.DepartmentDTO;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.lyl.study.cloud.gateway.security;
 
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.util.HttpServletUtils;
-import com.lyl.study.cloud.security.api.ErrorCode;
+import com.lyl.study.cloud.gateway.api.ErrorCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;

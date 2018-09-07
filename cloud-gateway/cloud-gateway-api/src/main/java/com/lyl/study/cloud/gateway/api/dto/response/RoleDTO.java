@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.security.api.dto.response;
+package com.lyl.study.cloud.gateway.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,13 +27,4 @@ public class RoleDTO implements Serializable {
     private Long ownerId;
     private Date createTime;
     private Date updateTime;
-
-    @Data
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PermissionItem implements Serializable {
-        private Long id;
-        private String sign;
-    }
 }

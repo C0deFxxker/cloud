@@ -3,7 +3,7 @@ package com.lyl.study.cloud.gateway.core.mapper;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.entity.User;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.lyl.study.cloud.security.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;

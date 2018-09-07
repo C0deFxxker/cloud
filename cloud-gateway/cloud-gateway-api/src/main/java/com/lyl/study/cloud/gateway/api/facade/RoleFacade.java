@@ -1,9 +1,9 @@
-package com.lyl.study.cloud.security.api.facade;
+package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.PageInfo;
-import com.lyl.study.cloud.security.api.dto.request.RoleSaveForm;
-import com.lyl.study.cloud.security.api.dto.request.RoleUpdateForm;
-import com.lyl.study.cloud.security.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
+import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 
 public interface RoleFacade {
     /**
