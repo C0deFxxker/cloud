@@ -20,6 +20,7 @@ dubbo:
   application:
     name: cloud-gateway-core
   protocol:
+    id: dubbo
     name: dubbo
 mybatis-plus:
   global-config:

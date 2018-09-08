@@ -27,7 +27,7 @@
         <springboot.version>1.5.15.RELEASE</springboot.version>
         <springcloud.version>Edgware.SR4</springcloud.version>
         <cobertura.version>2.7</cobertura.version>
-        <dubbo-starter.version>0.1.0</dubbo-starter.version>
+        <dubbo-starter.version>0.1.1</dubbo-starter.version>
         <drools.version>7.3.0.Final</drools.version>
         <wechat-sdk.version>3.1.0</wechat-sdk.version>
         <zxing.version>3.3.3</zxing.version>
