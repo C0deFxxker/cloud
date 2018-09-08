@@ -15,5 +15,6 @@
         <module>cloud-gateway-security</module>
         <module>cloud-gateway-api</module>
         <module>cloud-gateway-core</module>
+        <module>cloud-gateway-web</module>
     </modules>
 </project>

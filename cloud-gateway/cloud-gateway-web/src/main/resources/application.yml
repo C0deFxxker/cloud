@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: cloud-gateway-web
+dubbo:
+  protocol:
+    name: dubbo
+  scan:
+    basePackages: com.lyl.study.cloud.gateway.web.controller
+  application:
+    name: cloud-gateway-web
+---
+spring:
+  profiles: dev
+dubbo:
+  registry:
+    address: zookeeper://localhost:2181
+server:
+  port: 8080
+---
+spring:
+  profiles: beta
+#dubbo:
+#  registry:
+#    address: zookeeper://localhost:2181
+#server:
+#  port: 8080

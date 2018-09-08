@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.gateway.core.facade.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 public class RoleFacadeImpl implements RoleFacade {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 

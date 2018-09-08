@@ -73,9 +73,8 @@
         LIMIT ${offset}, ${pageSize}
     </select>
 
-    <select id="countByConditions"
-            parameterType="com.lyl.study.cloud.gateway.api.dto.request.UserListConditions"
-            resultType="java.lang.Long">
+    <select id="countByConditions" parameterType="com.lyl.study.cloud.gateway.api.dto.request.UserListConditions"
+            resultType="java.lang.Integer">
         SELECT
         COUNT(*)
         <include refid="selectByConditionsSql"/>

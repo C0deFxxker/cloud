@@ -34,17 +34,17 @@ public class SequenceConfig {
     @Bean
     @ConditionalOnMissingBean(Sequence.class)
     public Sequence sequence() {
+        int serviceId = 1;
+        long twepoch = System.currentTimeMillis();
         try {
             IdWorkerRegister idWorkerRegister = applicationContext.getBean(IdWorkerRegister.class);
-            int serviceId = idWorkerRegister.registerServiceId();
-            long twepoch = idWorkerRegister.getTwepoch();
+            serviceId = idWorkerRegister.registerServiceId();
+            twepoch = idWorkerRegister.getTwepoch();
             logger.info("使用IdWorkerRegister注册: serviceId={}, twepoch={}", serviceId, twepoch);
-            return new Sequence(serviceId, twepoch);
         } catch (NoSuchBeanDefinitionException e) {
-            logger.info("找不到IdWorkerRegister，使用本地版本的Sequence");
-            long twepoch = System.currentTimeMillis();
-            return new Sequence(1, twepoch);
+            logger.info("找不到IdWorkerRegister，使用本地版本的Sequence: serviceId={}, twepoch={}", serviceId, twepoch);
         }
+        return new Sequence(serviceId, twepoch);
     }
 
     @Configuration

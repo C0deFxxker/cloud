@@ -1,28 +1,8 @@
 spring:
   application:
     name: cloud-gateway-core
-dubbo:
-  protocol:
-    name: dubbo
-  scan:
-    basePackages: com.lyl.study.cloud.gateway.core.facade.impl
-  application:
-    name: cloud-gateway-core
-mybatis-plus:
-  global-config:
-    db-column-underline: true
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: false
-  mapper-locations: classpath:/mapper/*Mapper.xml
----
-spring:
-  profiles: dev
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/cloud?characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 1
@@ -35,10 +15,57 @@ spring:
       test-on-return: false
       test-while-idle: true
 dubbo:
+  scan:
+    basePackages: com.lyl.study.cloud.gateway.core.facade.impl
+  application:
+    name: cloud-gateway-core
+  protocol:
+    name: dubbo
+mybatis-plus:
+  global-config:
+    db-column-underline: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  mapper-locations: classpath:/mapper/*Mapper.xml
+---
+spring:
+  profiles: dev
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/cloud?characterEncoding=utf8
+dubbo:
   registry:
     address: zookeeper://localhost:2181
   protocol:
-    port: 8080
+    host: 192.168.
+    port: 4080
+logging:
+  level:
+    com.lyl.study.cloud: DEBUG
+debug: true
 ---
 spring:
   profiles: beta
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: root
+#    url: jdbc:mysql://localhost:3306/cloud?characterEncoding=utf8
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    druid:
+#      initial-size: 1
+#      max-active: 20
+#      min-idle: 1
+#      max-wait: 60000
+#      validation-query: SELECT 1
+#      validationQueryTimeout: 5
+#      test-on-borrow: false
+#      test-on-return: false
+#      test-while-idle: true
+#dubbo:
+#  registry:
+#    address: zookeeper://localhost:2181
+#  protocol:
+#    port: 8080

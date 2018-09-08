@@ -43,6 +43,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional
     public long save(UserSaveForm userSaveForm) {
+        User record = baseMapper.selectOne(new User().setUsername(userSaveForm.getUsername()));
+        if (record != null) {
+            throw new IllegalArgumentException("用户名已存在");
+        }
+
         User user = new User();
         BeanUtils.copyProperties(userSaveForm, user);
         String encryptedPassword = CryptoUtils.hmacSha1(userSaveForm.getUsername(), userSaveForm.getPassword());
@@ -84,12 +89,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public PageInfo<User> listByConditions(UserListConditions conditions) {
+        Assert.notNull(conditions.getPageIndex(), "pageIndex cannot be null");
+        Assert.notNull(conditions.getPageSize(), "pageSize cannot be null");
+
         PageInfo<User> pageInfo = new PageInfo<>(conditions.getPageIndex(), conditions.getPageSize());
         int offset = (conditions.getPageIndex() - 1) * conditions.getPageIndex();
         int rows = baseMapper.countByConditions(conditions);
         pageInfo.setTotal(rows);
 
         if (rows >= offset) {
+            conditions.setOffset(offset);
             List<User> list = baseMapper.selectByConditions(conditions);
             pageInfo.setRecords(list);
         }

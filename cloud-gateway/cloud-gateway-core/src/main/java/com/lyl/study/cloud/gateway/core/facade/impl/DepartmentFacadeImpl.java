@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.gateway.core.facade.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.TreeNode;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 /**
  * @author liyilin
  */
+@Service
 public class DepartmentFacadeImpl implements DepartmentFacade {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 

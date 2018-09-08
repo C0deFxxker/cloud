@@ -21,6 +21,7 @@ public class MybatisCommonConfig {
 
     @Bean
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(name = "debug", havingValue = "true")
     public PerformanceInterceptor performanceInterceptor() {
         return new PerformanceInterceptor();
     }
