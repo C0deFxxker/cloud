@@ -32,7 +32,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public int deleteById(long id, boolean force) {
+    public int deleteById(long id, boolean force) throws IllegalAccessError {
         // 非强制删除模式
         if (!force) {
             int numOfChild = baseMapper.selectCount(new EntityWrapper<Permission>().eq(Permission.PARENT_ID, id));

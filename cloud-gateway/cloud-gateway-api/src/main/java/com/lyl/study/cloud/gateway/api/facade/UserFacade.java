@@ -1,14 +1,14 @@
 package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.PageInfo;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 public interface UserFacade {
@@ -33,9 +33,9 @@ public interface UserFacade {
      *
      * @param userId 用户ID
      * @return 返回对应ID用户的角色列表
-     * @throws NoSuchObjectException 找不到用户时抛出次异常
+     * @throws NoSuchEntityException 找不到用户时抛出次异常
      */
-    List<RoleDTO> getRolesByUserId(long userId) throws NoSuchObjectException;
+    List<RoleDTO> getRolesByUserId(long userId) throws NoSuchEntityException;
 
     /**
      * 查询用户列表
@@ -49,8 +49,9 @@ public interface UserFacade {
      * 新增用户信息
      *
      * @return 新用户ID
+     * @throws IllegalArgumentException 用户名已存在时，抛出此异常
      */
-    long save(UserSaveForm userSaveForm);
+    long save(UserSaveForm userSaveForm) throws IllegalArgumentException;
 
     /**
      * 修改用户信息

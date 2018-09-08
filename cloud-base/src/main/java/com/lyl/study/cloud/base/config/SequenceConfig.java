@@ -1,6 +1,7 @@
 package com.lyl.study.cloud.base.config;
 
 
+import com.lyl.study.cloud.base.config.annotation.EnableSequence;
 import com.lyl.study.cloud.base.idworker.IdWorkerRegister;
 import com.lyl.study.cloud.base.idworker.RedisIdWorkerRegister;
 import com.lyl.study.cloud.base.idworker.Sequence;
@@ -18,12 +19,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
- * @author liyilin
+ * @author liyilinD
  */
 @Configuration
+@ConditionalOnBean(annotation = EnableSequence.class)
 @AutoConfigureAfter(SystemCommonConfig.class)
 public class SequenceConfig {
     private static final Logger logger = LoggerFactory.getLogger(SequenceConfig.class);

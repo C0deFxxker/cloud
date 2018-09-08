@@ -7,14 +7,14 @@ import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.TreeNodeUtils;
-import com.lyl.study.cloud.gateway.core.entity.Department;
-import com.lyl.study.cloud.gateway.core.entity.Role;
-import com.lyl.study.cloud.gateway.core.service.DepartmentService;
-import com.lyl.study.cloud.gateway.core.service.RoleService;
 import com.lyl.study.cloud.gateway.api.dto.request.DepartmentSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.DepartmentUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.DepartmentDTO;
 import com.lyl.study.cloud.gateway.api.facade.DepartmentFacade;
+import com.lyl.study.cloud.gateway.core.entity.Department;
+import com.lyl.study.cloud.gateway.core.entity.Role;
+import com.lyl.study.cloud.gateway.core.service.DepartmentService;
+import com.lyl.study.cloud.gateway.core.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -118,7 +118,7 @@ public class DepartmentFacadeImpl implements DepartmentFacade {
     }
 
     @Override
-    public List<TreeNode<DepartmentDTO>> listTree(Long id) {
+    public List<TreeNode<DepartmentDTO>> listTree(Long id) throws IllegalArgumentException {
         // TODO 待优化
         List<Department> allDepartment = departmentService.selectList(new EntityWrapper<>());
 

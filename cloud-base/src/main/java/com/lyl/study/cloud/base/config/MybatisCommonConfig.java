@@ -2,11 +2,13 @@ package com.lyl.study.cloud.base.config;
 
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
+import com.lyl.study.cloud.base.config.annotation.EnableSequence;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configurable
 @ConditionalOnClass(name = "com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusAutoConfiguration")
@@ -24,5 +26,10 @@ public class MybatisCommonConfig {
     @ConditionalOnProperty(name = "debug", havingValue = "true")
     public PerformanceInterceptor performanceInterceptor() {
         return new PerformanceInterceptor();
+    }
+
+    @Configuration
+    @EnableSequence
+    public static class EnableSequnceConfigure {
     }
 }

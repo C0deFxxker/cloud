@@ -42,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public long save(UserSaveForm userSaveForm) {
+    public long save(UserSaveForm userSaveForm) throws IllegalArgumentException {
         User record = baseMapper.selectOne(new User().setUsername(userSaveForm.getUsername()));
         if (record != null) {
             throw new IllegalArgumentException("用户名已存在");

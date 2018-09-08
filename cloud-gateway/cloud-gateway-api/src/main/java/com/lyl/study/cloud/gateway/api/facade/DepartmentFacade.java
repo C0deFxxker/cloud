@@ -35,8 +35,9 @@ public interface DepartmentFacade {
      *
      * @param id 部门ID
      * @return 删除记录数
+     * @throws IllegalAccessError 部门下还有子部门或角色时，抛出此异常
      */
-    int deleteById(long id);
+    int deleteById(long id) throws IllegalAccessError;
 
     /**
      * 根据ID获取部门信息
@@ -53,6 +54,7 @@ public interface DepartmentFacade {
      * @param id 根节点ID。若为null，则返回所有树
      * @return 若查询成功，则返回含有部门树列表的Result对象；
      * 若指定的根节点ID对应的部门不存在，则返回的Result对象数据字段中仅含有一个空列表。
+     * @throws IllegalArgumentException 方法调用指定了根结点ID，但建树过程中查询不到根结点
      */
-    List<TreeNode<DepartmentDTO>> listTree(Long id);
+    List<TreeNode<DepartmentDTO>> listTree(Long id) throws IllegalArgumentException;
 }

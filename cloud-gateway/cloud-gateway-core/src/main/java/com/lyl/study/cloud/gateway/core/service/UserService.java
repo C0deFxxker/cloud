@@ -40,8 +40,9 @@ public interface UserService extends IService<User> {
      *
      * @param userSaveForm 表单
      * @return 新增用户ID
+     * @throws IllegalArgumentException 用户名已存在时，抛出此异常
      */
-    long save(UserSaveForm userSaveForm);
+    long save(UserSaveForm userSaveForm) throws IllegalArgumentException;
 
     /**
      * 修改用户信息

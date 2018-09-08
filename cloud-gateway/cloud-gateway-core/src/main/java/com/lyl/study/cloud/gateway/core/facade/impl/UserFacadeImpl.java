@@ -68,7 +68,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public long save(UserSaveForm userSaveForm) {
+    public long save(UserSaveForm userSaveForm) throws IllegalArgumentException {
         return userService.save(userSaveForm);
     }
 

@@ -112,7 +112,7 @@ public class PermissionFacadeImpl implements PermissionFacade {
     }
 
     @Override
-    public int deleteById(long id, boolean force) {
+    public int deleteById(long id, boolean force) throws NoSuchEntityException, IllegalAccessError {
         Permission record = permissionService.selectById(id);
         if (record == null) {
             throw new NoSuchEntityException("找不到ID为" + id + "的授权项");

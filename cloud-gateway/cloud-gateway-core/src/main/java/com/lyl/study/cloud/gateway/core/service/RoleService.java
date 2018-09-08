@@ -1,11 +1,11 @@
 package com.lyl.study.cloud.gateway.core.service;
 
-import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
-import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.baomidou.mybatisplus.service.IService;
+import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
+import com.lyl.study.cloud.gateway.core.entity.Role;
 
 import java.util.List;
 
@@ -19,15 +19,17 @@ public interface RoleService extends IService<Role> {
      *
      * @param roleSaveForm 表单
      * @return 角色ID
+     * @throws NoSuchDependentedEntityException 找不到菜单项
      */
-    long save(RoleSaveForm roleSaveForm);
+    long save(RoleSaveForm roleSaveForm) throws NoSuchDependentedEntityException;
 
     /**
      * 修改角色信息
      *
      * @param roleUpdateForm 表单
+     * @throws NoSuchDependentedEntityException 找不到菜单项
      */
-    void update(RoleUpdateForm roleUpdateForm);
+    void update(RoleUpdateForm roleUpdateForm) throws NoSuchDependentedEntityException;
 
     /**
      * 删除角色（级联删除角色授权项关联关系）

@@ -8,6 +8,8 @@ dubbo:
     basePackages: com.lyl.study.cloud.gateway.web.controller
   application:
     name: cloud-gateway-web
+server:
+  context-path: /sys
 ---
 spring:
   profiles: dev

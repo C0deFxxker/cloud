@@ -20,5 +20,5 @@ public interface PermissionService extends IService<Permission> {
      * @return 删除记录数
      * @throws IllegalAccessError 指定不强制删除的情况下，检查到授权项有子菜单时抛出此异常
      */
-    int deleteById(long id, boolean force);
+    int deleteById(long id, boolean force) throws IllegalAccessError;
 }

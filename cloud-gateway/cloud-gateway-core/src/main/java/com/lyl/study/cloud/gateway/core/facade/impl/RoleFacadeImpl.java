@@ -35,11 +35,13 @@ public class RoleFacadeImpl implements RoleFacade {
 
     @Override
     public long save(RoleSaveForm roleSaveForm) {
+        // TODO 校对授权项是否存在
         return roleService.save(roleSaveForm);
     }
 
     @Override
     public void update(RoleUpdateForm roleUpdateForm) {
+        // TODO 校对授权项是否存在
         roleService.update(roleUpdateForm);
     }
 

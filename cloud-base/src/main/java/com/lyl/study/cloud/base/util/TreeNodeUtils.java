@@ -1,4 +1,3 @@
-
 package com.lyl.study.cloud.base.util;
 
 
@@ -14,41 +13,6 @@ import java.util.function.Function;
  * @author 黎毅麟
  */
 public class TreeNodeUtils {
-    /**
-     * 建树配置类，配置建树时对每个元素部分属性的Getter方法
-     *
-     * @param <T> 泛型类
-     */
-    public static class BuildTreeConfig<T> {
-        private Function<T, Object> idGetter;
-        private Function<T, Object> parentIdGetter;
-        private Function<T, String> labelGetter;
-
-        public Function<T, Object> getIdGetter() {
-            return idGetter;
-        }
-
-        public void setIdGetter(Function<T, Object> idGetter) {
-            this.idGetter = idGetter;
-        }
-
-        public Function<T, Object> getParentIdGetter() {
-            return parentIdGetter;
-        }
-
-        public void setParentIdGetter(Function<T, Object> parentIdGetter) {
-            this.parentIdGetter = parentIdGetter;
-        }
-
-        public Function<T, String> getLabelGetter() {
-            return labelGetter;
-        }
-
-        public void setLabelGetter(Function<T, String> labelGetter) {
-            this.labelGetter = labelGetter;
-        }
-    }
-
     /**
      * 把列表中的元素转换为树节点元素
      *
@@ -113,8 +77,10 @@ public class TreeNodeUtils {
      * @param config   建树配置
      * @param <T>      列表中元素类型
      * @return 建好的树
+     * @throws IllegalArgumentException 方法调用指定了根结点ID，但建树过程中查询不到根结点
      */
-    public static <T> List<TreeNode<T>> buildTree(List<T> beanList, Object rootId, BuildTreeConfig<T> config) {
+    public static <T> List<TreeNode<T>> buildTree(List<T> beanList, Object rootId, BuildTreeConfig<T> config)
+            throws IllegalArgumentException {
         List<TreeNode<T>> rootNodeList = new ArrayList<>();
 
         if (beanList == null || beanList.size() == 0) {
@@ -228,5 +194,40 @@ public class TreeNodeUtils {
     @FunctionalInterface
     public interface TreeWalkerPredicate<T> {
         void visit(TreeNode<T> node, TreeNode<T> parent, int deep);
+    }
+
+    /**
+     * 建树配置类，配置建树时对每个元素部分属性的Getter方法
+     *
+     * @param <T> 泛型类
+     */
+    public static class BuildTreeConfig<T> {
+        private Function<T, Object> idGetter;
+        private Function<T, Object> parentIdGetter;
+        private Function<T, String> labelGetter;
+
+        public Function<T, Object> getIdGetter() {
+            return idGetter;
+        }
+
+        public void setIdGetter(Function<T, Object> idGetter) {
+            this.idGetter = idGetter;
+        }
+
+        public Function<T, Object> getParentIdGetter() {
+            return parentIdGetter;
+        }
+
+        public void setParentIdGetter(Function<T, Object> parentIdGetter) {
+            this.parentIdGetter = parentIdGetter;
+        }
+
+        public Function<T, String> getLabelGetter() {
+            return labelGetter;
+        }
+
+        public void setLabelGetter(Function<T, String> labelGetter) {
+            this.labelGetter = labelGetter;
+        }
     }
 }
