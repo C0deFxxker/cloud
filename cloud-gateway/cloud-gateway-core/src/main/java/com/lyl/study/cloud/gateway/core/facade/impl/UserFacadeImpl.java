@@ -4,9 +4,6 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.core.entity.Role;
-import com.lyl.study.cloud.gateway.core.entity.User;
-import com.lyl.study.cloud.gateway.core.service.UserService;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
@@ -14,17 +11,26 @@ import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
+import com.lyl.study.cloud.gateway.core.entity.Role;
+import com.lyl.study.cloud.gateway.core.entity.User;
+import com.lyl.study.cloud.gateway.core.service.RoleService;
+import com.lyl.study.cloud.gateway.core.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserFacadeImpl implements UserFacade {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public UserDetailDTO getById(long id) {
@@ -69,11 +75,28 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public long save(UserSaveForm userSaveForm) throws IllegalArgumentException {
+        User record = userService.selectOne(new EntityWrapper<User>().eq(User.USERNAME, userSaveForm.getUsername()));
+        if (record != null) {
+            throw new IllegalArgumentException("用户名已存在");
+        }
+
+        List<Long> roles = userSaveForm.getRoles();
+        List<Long> notExistsRoles = getNotExistsRoles(roles);
+        if (!notExistsRoles.isEmpty()) {
+            throw new IllegalArgumentException("用户角色不存在: " + notExistsRoles.toString());
+        }
+
         return userService.save(userSaveForm);
     }
 
     @Override
     public void update(UserUpdateForm userUpdateForm) {
+        List<Long> roles = userUpdateForm.getRoles();
+        List<Long> notExistsRoles = getNotExistsRoles(roles);
+        if (!notExistsRoles.isEmpty()) {
+            throw new IllegalArgumentException("用户角色不存在: " + notExistsRoles.toString());
+        }
+
         userService.update(userUpdateForm);
     }
 
@@ -85,14 +108,26 @@ public class UserFacadeImpl implements UserFacade {
     private UserDetailDTO getUserDetail(User user) {
         Assert.notNull(user, "user cannot be null");
         List<Role> roles = userService.getRolesByUserId(user.getId());
-        List<RoleDTO> dtos = roles.stream().map(entity -> {
-            RoleDTO dto = new RoleDTO();
-            BeanUtils.copyProperties(entity, dto);
-            return dto;
-        }).collect(Collectors.toList());
+        List<RoleDTO> dtos = roles.stream()
+                .filter(Objects::nonNull)
+                .map(entity -> {
+                    RoleDTO dto = new RoleDTO();
+                    BeanUtils.copyProperties(entity, dto);
+                    return dto;
+                }).collect(Collectors.toList());
         UserDetailDTO userDetail = new UserDetailDTO();
         BeanUtils.copyProperties(user, userDetail);
         userDetail.setRoles(dtos);
         return userDetail;
+    }
+
+    private List<Long> getNotExistsRoles(List<Long> roles) {
+        if (roles != null && !roles.isEmpty()) {
+            List<Role> records = roleService.selectList(new EntityWrapper<Role>().in(Role.ID, roles));
+            List<Long> recordIds = records.stream().map(Role::getId).collect(Collectors.toList());
+            return roles.stream().filter(each -> !recordIds.contains(each))
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>(0);
     }
 }

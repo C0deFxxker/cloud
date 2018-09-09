@@ -42,19 +42,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public long save(UserSaveForm userSaveForm) throws IllegalArgumentException {
-        User record = baseMapper.selectOne(new User().setUsername(userSaveForm.getUsername()));
-        if (record != null) {
-            throw new IllegalArgumentException("用户名已存在");
-        }
-
+    public long save(UserSaveForm userSaveForm) {
         User user = new User();
         BeanUtils.copyProperties(userSaveForm, user);
         String encryptedPassword = CryptoUtils.hmacSha1(userSaveForm.getUsername(), userSaveForm.getPassword());
         user.setPassword(encryptedPassword);
         user.setId(sequence.nextId());
         baseMapper.insert(user);
-        baseMapper.insertUserRoles(user.getId(), new HashSet<>(userSaveForm.getRoles()));
+
+        List<Long> roles = userSaveForm.getRoles();
+        if (!roles.isEmpty()) {
+            baseMapper.insertUserRoles(user.getId(), new HashSet<>(roles));
+        }
         return user.getId();
     }
 
@@ -75,7 +74,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Set<Long> formRoleSet = new HashSet<>(userUpdateForm.getRoles());
         if (!recordRoleSet.equals(formRoleSet)) {
             baseMapper.deleteUserRolesByUserId(userId);
-            baseMapper.insertUserRoles(userId, formRoleSet);
+            if (!formRoleSet.isEmpty()) {
+                baseMapper.insertUserRoles(userId, formRoleSet);
+            }
         }
     }
 

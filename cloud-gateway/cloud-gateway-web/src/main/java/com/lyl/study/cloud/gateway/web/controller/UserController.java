@@ -34,6 +34,12 @@ public class UserController {
      */
     @GetMapping("/list")
     public Result<PageInfo<UserDTO>> list(@ModelAttribute UserListConditions conditions) {
+        if (conditions.getPageIndex() == null) {
+            conditions.setPageIndex(1);
+        }
+        if (conditions.getPageSize() == null) {
+            conditions.setPageSize(10);
+        }
         return new Result<>(ErrorCode.OK, "查询成功", userFacade.list(conditions));
     }
 
@@ -47,7 +53,7 @@ public class UserController {
     public Result<UserDetailDTO> getById(@PathVariable("id") long id) {
         UserDetailDTO dto = userFacade.getById(id);
         if (dto != null) {
-            return new Result<>(ErrorCode.OK, "查询成功", null);
+            return new Result<>(ErrorCode.OK, "查询成功", dto);
         } else {
             return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", null);
         }

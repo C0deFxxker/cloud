@@ -1,12 +1,12 @@
 package com.lyl.study.cloud.gateway.core.service;
 
-import com.lyl.study.cloud.base.dto.PageInfo;
-import com.lyl.study.cloud.gateway.core.entity.Role;
-import com.lyl.study.cloud.gateway.core.entity.User;
 import com.baomidou.mybatisplus.service.IService;
+import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.core.entity.Role;
+import com.lyl.study.cloud.gateway.core.entity.User;
 
 import java.util.List;
 
@@ -40,9 +40,8 @@ public interface UserService extends IService<User> {
      *
      * @param userSaveForm 表单
      * @return 新增用户ID
-     * @throws IllegalArgumentException 用户名已存在时，抛出此异常
      */
-    long save(UserSaveForm userSaveForm) throws IllegalArgumentException;
+    long save(UserSaveForm userSaveForm);
 
     /**
      * 修改用户信息

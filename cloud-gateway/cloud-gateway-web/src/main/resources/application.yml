@@ -9,7 +9,7 @@ dubbo:
   application:
     name: cloud-gateway-web
 server:
-  context-path: /sys
+  context-path: /gateway
 ---
 spring:
   profiles: dev
