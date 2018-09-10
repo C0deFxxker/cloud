@@ -11,11 +11,12 @@
 
     <artifactId>cloud-gateway-web</artifactId>
 
-    <dependencies><dependency>
-        <groupId>com.lyl.study.cloud</groupId>
-        <artifactId>cloud-base</artifactId>
-        <version>${cloud.version}</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-base</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.lyl.study.cloud</groupId>
             <artifactId>cloud-base</artifactId>
@@ -28,9 +29,9 @@
         </dependency>
         <!-- Web项目权限认证 -->
         <!--<dependency>-->
-            <!--<groupId>com.lyl.study.cloud</groupId>-->
-            <!--<artifactId>cloud-gateway-security</artifactId>-->
-            <!--<version>${cloud.version}</version>-->
+        <!--<groupId>com.lyl.study.cloud</groupId>-->
+        <!--<artifactId>cloud-gateway-security</artifactId>-->
+        <!--<version>${cloud.version}</version>-->
         <!--</dependency>-->
 
         <!-- web项目 -->
@@ -48,5 +49,6 @@
             <groupId>com.101tec</groupId>
             <artifactId>zkclient</artifactId>
             <version>0.10</version>
-        </dependency></dependencies>
+        </dependency>
+    </dependencies>
 </project>

@@ -12,6 +12,7 @@
         <module>cloud-base</module>
         <module>cloud-gateway</module>
         <module>cloud-cms</module>
+        <module>cloud-wx</module>
     </modules>
 
     <properties>
