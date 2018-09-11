@@ -2,6 +2,7 @@ package com.lyl.study.cloud.gateway.core.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.CryptoUtils;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
@@ -45,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public long save(UserSaveForm userSaveForm) {
         User user = new User();
         BeanUtils.copyProperties(userSaveForm, user);
-        String encryptedPassword = CryptoUtils.hmacSha1(userSaveForm.getUsername(), userSaveForm.getPassword());
+        String encryptedPassword = encryptPassword(userSaveForm.getUsername(), userSaveForm.getPassword());
         user.setPassword(encryptedPassword);
         user.setId(sequence.nextId());
         baseMapper.insert(user);
@@ -106,4 +107,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return pageInfo;
     }
+
+    @Override
+    public void changePassword(String username, String password) {
+        Assert.notNull(username, "username cannot be null");
+        Assert.notNull(password, "password cannot be null");
+        User user = baseMapper.selectOne(new User().setUsername(username));
+
+        if (user == null) {
+            throw new NoSuchEntityException("找不到用户名为" + username + "的用户信息");
+        }
+
+        String encryptedPassword = encryptPassword(username, password);
+        user.setPassword(encryptedPassword);
+        baseMapper.updateById(user);
+    }
+
+    public static String encryptPassword(String username, String rawPassword) {
+        return CryptoUtils.hmacSha1(username, rawPassword);
+    }
+
+//    public static void main(String[] args) {
+//        System.out.println(encryptPassword("administrator", "administrator"));
+//    }
 }

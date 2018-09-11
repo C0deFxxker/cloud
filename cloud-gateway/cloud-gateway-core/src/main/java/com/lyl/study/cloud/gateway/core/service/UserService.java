@@ -2,11 +2,11 @@ package com.lyl.study.cloud.gateway.core.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.entity.User;
 
 import java.util.List;
@@ -59,4 +59,13 @@ public interface UserService extends IService<User> {
      * @return 删除记录数
      */
     int deleteById(long id);
+
+    /**
+     * 修改用户密码
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @throws NoSuchEntityException 找不到用户名对应的用户信息
+     */
+    void changePassword(String username, String password) throws NoSuchEntityException;
 }

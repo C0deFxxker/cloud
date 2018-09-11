@@ -31,7 +31,7 @@ public interface UserFacade {
     /**
      * 获取用户的角色列表
      *
-     * @param userId 用户ID
+     * @param userId     用户ID
      * @param onlyEnable 只筛选启用的角色
      * @return 返回对应ID用户的角色列表
      * @throws NoSuchEntityException 找不到用户时抛出次异常
@@ -65,4 +65,13 @@ public interface UserFacade {
      * @param id 用户ID
      */
     int deleteById(long id);
+
+    /**
+     * 修改用户密码
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @throws NoSuchEntityException 找不到用户名对应的用户信息
+     */
+    void changePassword(String username, String password) throws NoSuchEntityException;
 }

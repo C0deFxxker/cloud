@@ -5,14 +5,13 @@ import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.ErrorCode;
-import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
-import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
-import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.request.*;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +32,7 @@ public class UserController {
      * @param conditions 查询表单
      * @return 用户列表
      */
+    @PreAuthorize("hasAuthority('system:user:read')")
     @GetMapping("/list")
     public Result<PageInfo<UserDTO>> list(@ModelAttribute UserListConditions conditions) {
         if (conditions.getPageIndex() == null) {
@@ -50,6 +50,7 @@ public class UserController {
      * @param id 用户ID
      * @return 返回对应ID的用户信息
      */
+    @PreAuthorize("hasAuthority('system:user:read')")
     @GetMapping("/{id}")
     public Result<UserDetailDTO> getById(@PathVariable("id") long id) {
         UserDetailDTO dto = userFacade.getById(id);
@@ -66,6 +67,7 @@ public class UserController {
      * @param username 用户名
      * @return 返回对应用户名的用户信息
      */
+    @PreAuthorize("hasAuthority('system:user:read')")
     @GetMapping("/getByUsername")
     public Result<UserDetailDTO> getByUsername(@RequestParam String username) {
         UserDetailDTO dto = userFacade.getByUsername(username);
@@ -83,6 +85,7 @@ public class UserController {
      * @param onlyEnable 只筛选启用的角色
      * @return 返回对应ID用户的角色列表
      */
+    @PreAuthorize("hasAuthority('system:user:read')")
     @GetMapping("/roles/{userId}")
     public Result<List<RoleDTO>> getRolesByUserId(@PathVariable("userId") Long userId,
                                                   @RequestParam(value = "enable", defaultValue = "false") boolean onlyEnable) {
@@ -98,6 +101,7 @@ public class UserController {
      *
      * @return 新用户ID
      */
+    @PreAuthorize("hasAuthority('system:user:save')")
     @PostMapping
     public Result<Long> save(@RequestBody @Validated UserSaveForm userSaveForm) {
         try {
@@ -116,6 +120,7 @@ public class UserController {
     /**
      * 修改用户信息
      */
+    @PreAuthorize("hasAuthority('system:user:update')")
     @PutMapping
     public Result update(@RequestBody @Validated UserUpdateForm userUpdateForm) {
         userFacade.update(userUpdateForm);
@@ -127,6 +132,7 @@ public class UserController {
      *
      * @param id 用户ID
      */
+    @PreAuthorize("hasAuthority('system:user:delete')")
     @DeleteMapping("/{id}")
     public Result<Integer> deleteById(@PathVariable("id") Long id) {
         int row = userFacade.deleteById(id);
@@ -135,5 +141,34 @@ public class UserController {
         } else {
             return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", row);
         }
+    }
+
+    /**
+     * 修改用户密码（包括其它用户）
+     *
+     * @param form 表单
+     * @return 响应结果
+     */
+    @PreAuthorize("hasAuthority('system:user:update')")
+    @PostMapping("/changePassword")
+    public Result changePassword(@RequestBody @Validated UserChangePasswordForm form) {
+        String username = form.getUsername();
+        String password = form.getPassword();
+        userFacade.changePassword(username, password);
+        return new Result<>(ErrorCode.OK, "重置密码成功", null);
+    }
+
+    /**
+     * 修改个人密码
+     *
+     * @param form 表单
+     * @return 响应结果
+     */
+    @PostMapping("/changeOwnerPassword")
+    public Result changeOwnerPassword(@RequestBody @Validated UserChangeMyPasswordForm form) {
+        String username = CurrentSessionHolder.getCurrentUser().getUsername();
+        String password = form.getPassword();
+        userFacade.changePassword(username, password);
+        return new Result<>(ErrorCode.OK, "重置密码成功", null);
     }
 }

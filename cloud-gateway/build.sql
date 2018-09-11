@@ -38,8 +38,8 @@ CREATE TABLE sys_permission (
   parent_id BIGINT,
   type TINYINT NOT NULL COMMENT '菜单类型：0-目录，1-页面，2-请求',
   label VARCHAR(50) NOT NULL,
-  sign VARCHAR(50) NOT NULL,
-  icon VARCHAR(255) NOT NULL,
+  sign VARCHAR(50) COMMENT 'type为1时，此处为页面uri；type为2时，此处为后端接口权限标记',
+  icon VARCHAR(255),
   sort TINYINT NOT NULL DEFAULT 0,
   enable BIT(1) NOT NULL,
   creator_id BIGINT,
@@ -79,13 +79,4 @@ CREATE TABLE sys_role_permission (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (role_id, permission_id),
   KEY sys_role_permission_key_permission_id (permission_id)
-)CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS sys_role_department;
-CREATE TABLE sys_role_department (
-  user_id BIGINT NOT NULL,
-  department_id BIGINT NOT NULL,
-  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (user_id, department_id),
-  KEY sys_role_department_key_department_id (department_id)
 )CHARSET=utf8mb4;

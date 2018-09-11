@@ -99,6 +99,11 @@ public class UserFacadeImpl implements UserFacade {
         return userService.deleteById(id);
     }
 
+    @Override
+    public void changePassword(String username, String password) throws NoSuchEntityException {
+        changePassword(username, password);
+    }
+
     private UserDetailDTO getUserDetail(User user) {
         Assert.notNull(user, "user cannot be null");
         List<RoleDTO> roles = userService.getRolesByUserId(user.getId(), true);
