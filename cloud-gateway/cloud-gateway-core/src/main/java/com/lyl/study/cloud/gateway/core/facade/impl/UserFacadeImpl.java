@@ -22,7 +22,6 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,18 +44,13 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public List<RoleDTO> getRolesByUserId(long userId) throws NoSuchEntityException {
+    public List<RoleDTO> getRolesByUserId(long userId, boolean onlyEnable) throws NoSuchEntityException {
         User user = userService.selectById(userId);
         if (user == null) {
             throw new NoSuchEntityException("找不到ID为" + userId + "的用户信息");
         }
 
-        List<Role> roleList = userService.getRolesByUserId(userId);
-        return roleList.stream().map(entity -> {
-            RoleDTO dto = new RoleDTO();
-            BeanUtils.copyProperties(entity, dto);
-            return dto;
-        }).collect(Collectors.toList());
+        return userService.getRolesByUserId(userId, onlyEnable);
     }
 
     @Override
@@ -107,17 +101,10 @@ public class UserFacadeImpl implements UserFacade {
 
     private UserDetailDTO getUserDetail(User user) {
         Assert.notNull(user, "user cannot be null");
-        List<Role> roles = userService.getRolesByUserId(user.getId());
-        List<RoleDTO> dtos = roles.stream()
-                .filter(Objects::nonNull)
-                .map(entity -> {
-                    RoleDTO dto = new RoleDTO();
-                    BeanUtils.copyProperties(entity, dto);
-                    return dto;
-                }).collect(Collectors.toList());
+        List<RoleDTO> roles = userService.getRolesByUserId(user.getId(), true);
         UserDetailDTO userDetail = new UserDetailDTO();
         BeanUtils.copyProperties(user, userDetail);
-        userDetail.setRoles(dtos);
+        userDetail.setRoles(roles);
         return userDetail;
     }
 

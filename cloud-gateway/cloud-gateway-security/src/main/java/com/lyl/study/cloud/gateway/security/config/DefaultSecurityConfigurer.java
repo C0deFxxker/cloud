@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.gateway.security.config;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyl.study.cloud.gateway.security.DefaultAccessDeniedHandler;
 import com.lyl.study.cloud.gateway.security.JsonAuthenticationEntryPoint;
@@ -8,6 +9,7 @@ import com.lyl.study.cloud.gateway.security.filter.UserJwtConcurrentSessionFilte
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -32,14 +34,15 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     protected String[] permitUrls = new String[0];
 
-    @Value("${cloud.security.session-age:7200}")
-    protected Integer sessionAge;
     @Value("${cloud.security.token.cookie-name:token}")
     protected String tokenCookieName;
-    @Value("${cloud.security.token.cookie-path:'/'}")
+    @Value("${cloud.security.token.cookie-path:/}")
     protected String tokenCookiePath;
     @Value("${cloud.security.secret}")
     protected String jwtSecret;
+
+    @Reference
+    private UserFacade userFacade;
 
     @Value("${cloud.security.permit-urls:''}")
     public void setPermitUrls(String permitUrlString) {
@@ -74,7 +77,6 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
     public JwtSigner jwtSigner(ObjectMapper objectMapper) {
         JwtSigner jwtSigner = new JwtSigner();
         jwtSigner.setSecret(jwtSecret);
-        jwtSigner.setExpire(sessionAge);
         jwtSigner.setObjectMapper(objectMapper);
         return jwtSigner;
     }
@@ -83,8 +85,10 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
      * 会话识别过滤器
      */
     @Bean
-    public UserJwtConcurrentSessionFilter jwtConcurrentSessionFilter(JwtSigner jwtSigner, UserFacade userFacade) {
+    public UserJwtConcurrentSessionFilter jwtConcurrentSessionFilter(JwtSigner jwtSigner) {
         UserJwtConcurrentSessionFilter filter = new UserJwtConcurrentSessionFilter(jwtSigner);
+        filter.setCookieName(tokenCookieName);
+        filter.setCookiePath(tokenCookiePath);
         filter.setUserFacade(userFacade);
         return filter;
     }

@@ -4,20 +4,31 @@ spring:
 dubbo:
   protocol:
     name: dubbo
-  scan:
-    basePackages: com.lyl.study.cloud.gateway.web.controller
   application:
     name: cloud-gateway-web
 server:
   context-path: /gateway
+cloud:
+  gateway:
+    loginUrl: /session/login
+    logoutUrl: /session/logout
 ---
 spring:
   profiles: dev
 dubbo:
   registry:
     address: zookeeper://localhost:2181
+  protocol:
+    host: 10.73.
 server:
   port: 8080
+cloud:
+  security:
+    sessionAge: 7200
+    secret: SECRET
+logging:
+  level:
+    com.lyl.study.cloud: DEBUG
 ---
 spring:
   profiles: beta

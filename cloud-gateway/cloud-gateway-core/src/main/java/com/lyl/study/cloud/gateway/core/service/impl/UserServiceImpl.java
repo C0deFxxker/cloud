@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.CryptoUtils;
-import com.lyl.study.cloud.gateway.core.entity.Role;
-import com.lyl.study.cloud.gateway.core.entity.User;
-import com.lyl.study.cloud.gateway.core.mapper.UserMapper;
-import com.lyl.study.cloud.gateway.core.service.UserService;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.core.entity.User;
+import com.lyl.study.cloud.gateway.core.mapper.UserMapper;
+import com.lyl.study.cloud.gateway.core.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +36,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private Sequence sequence;
 
     @Override
-    public List<Role> getRolesByUserId(Long userId) {
-        return baseMapper.selectRolesByUserId(userId);
+    public List<RoleDTO> getRolesByUserId(Long userId, boolean onlyEnable) {
+        return baseMapper.selectRolesByUserId(userId, onlyEnable);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
         // 修改用户角色关联关系
-        List<Role> roles = baseMapper.selectRolesByUserId(userId);
-        Set<Long> recordRoleSet = roles.stream().map(Role::getId).collect(Collectors.toSet());
+        List<RoleDTO> roles = baseMapper.selectRolesByUserId(userId, false);
+        Set<Long> recordRoleSet = roles.stream().map(RoleDTO::getId).collect(Collectors.toSet());
         Set<Long> formRoleSet = new HashSet<>(userUpdateForm.getRoles());
         if (!recordRoleSet.equals(formRoleSet)) {
             baseMapper.deleteUserRolesByUserId(userId);

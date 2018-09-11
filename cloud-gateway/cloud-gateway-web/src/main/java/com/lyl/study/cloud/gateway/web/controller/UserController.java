@@ -78,13 +78,15 @@ public class UserController {
     /**
      * 获取用户的角色列表
      *
-     * @param userId 用户ID
+     * @param userId     用户ID
+     * @param onlyEnable 只筛选启用的角色
      * @return 返回对应ID用户的角色列表
      */
     @GetMapping("/roles/{userId}")
-    public Result<List<RoleDTO>> getRolesByUserId(@PathVariable("userId") Long userId) {
+    public Result<List<RoleDTO>> getRolesByUserId(@PathVariable("userId") Long userId,
+                                                  @RequestParam(value = "enable", defaultValue = "false") boolean onlyEnable) {
         try {
-            return new Result<>(ErrorCode.OK, "查询成功", userFacade.getRolesByUserId(userId));
+            return new Result<>(ErrorCode.OK, "查询成功", userFacade.getRolesByUserId(userId, onlyEnable));
         } catch (NoSuchEntityException e) {
             return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);
         }

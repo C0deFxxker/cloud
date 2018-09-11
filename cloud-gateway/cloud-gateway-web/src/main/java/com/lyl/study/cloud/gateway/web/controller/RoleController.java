@@ -4,13 +4,14 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
-import com.lyl.study.cloud.gateway.api.ErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import static com.lyl.study.cloud.gateway.api.ErrorCode.*;
 
 @RestController
 @RequestMapping("/role")
@@ -27,9 +28,9 @@ public class RoleController {
     @PostMapping
     public Result<Long> save(@RequestBody @Validated RoleSaveForm roleSaveForm) {
         try {
-            return new Result<>(ErrorCode.OK, "新增成功", roleFacade.save(roleSaveForm));
+            return new Result<>(OK, "新增成功", roleFacade.save(roleSaveForm));
         } catch (NoSuchDependentedEntityException e) {
-            return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);
+            return new Result<>(NOT_FOUND, e.getMessage(), null);
         }
     }
 
@@ -42,9 +43,9 @@ public class RoleController {
     public Result update(RoleUpdateForm roleUpdateForm) {
         try {
             roleFacade.update(roleUpdateForm);
-            return new Result<>(ErrorCode.OK, "修改成功", null);
+            return new Result<>(OK, "修改成功", null);
         } catch (NoSuchDependentedEntityException e) {
-            return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);
+            return new Result<>(NOT_FOUND, e.getMessage(), null);
         }
     }
 
@@ -57,9 +58,9 @@ public class RoleController {
     public Result<Integer> deleteById(@PathVariable("id") Long id) {
         int rows = roleFacade.deleteById(id);
         if (rows > 0) {
-            return new Result<>(ErrorCode.OK, "删除成功", rows);
+            return new Result<>(OK, "删除成功", rows);
         } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的角色信息", rows);
+            return new Result<>(NOT_FOUND, "找不到ID为" + id + "的角色信息", rows);
         }
     }
 
@@ -73,9 +74,9 @@ public class RoleController {
     public Result<RoleDTO> getById(@PathVariable("id") Long id) {
         RoleDTO dto = roleFacade.getById(id);
         if (dto != null) {
-            return new Result<>(ErrorCode.OK, "查询成功", dto);
+            return new Result<>(OK, "查询成功", dto);
         } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的角色信息", null);
+            return new Result<>(NOT_FOUND, "找不到ID为" + id + "的角色信息", null);
         }
     }
 
@@ -91,6 +92,6 @@ public class RoleController {
     public Result<PageInfo<RoleDTO>> list(Long departmentId,
                                           @RequestParam(name = "pageIndex", defaultValue = "1") Integer pageIndex,
                                           @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-        return new Result<>(ErrorCode.OK, "查询成功", roleFacade.list(departmentId, pageIndex, pageSize));
+        return new Result<>(OK, "查询成功", roleFacade.list(departmentId, pageIndex, pageSize));
     }
 }

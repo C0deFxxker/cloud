@@ -15,7 +15,7 @@ CREATE TABLE sys_user (
   owner_role_id BIGINT,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
-);
+)CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS sys_department;
 CREATE TABLE sys_department (
@@ -30,7 +30,7 @@ CREATE TABLE sys_department (
   owner_role_id BIGINT,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
-);
+)CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS sys_permission;
 CREATE TABLE sys_permission (
@@ -47,7 +47,7 @@ CREATE TABLE sys_permission (
   owner_role_id BIGINT,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
-);
+)CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS sys_role;
 CREATE TABLE sys_role (
@@ -61,7 +61,7 @@ CREATE TABLE sys_role (
   owner_role_id BIGINT,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
-);
+)CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS sys_user_role;
 CREATE TABLE sys_user_role (
@@ -70,7 +70,7 @@ CREATE TABLE sys_user_role (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, role_id),
   KEY sys_user_role_key_role_id (role_id)
-);
+)CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS sys_role_permission;
 CREATE TABLE sys_role_permission (
@@ -79,7 +79,7 @@ CREATE TABLE sys_role_permission (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (role_id, permission_id),
   KEY sys_role_permission_key_permission_id (permission_id)
-);
+)CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS sys_role_department;
 CREATE TABLE sys_role_department (
@@ -88,4 +88,4 @@ CREATE TABLE sys_role_department (
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, department_id),
   KEY sys_role_department_key_department_id (department_id)
-);
+)CHARSET=utf8mb4;

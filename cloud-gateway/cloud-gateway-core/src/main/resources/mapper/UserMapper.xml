@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyl.study.cloud.gateway.core.mapper.UserMapper">
-    <select id="selectRolesByUserId" resultType="com.lyl.study.cloud.gateway.core.entity.Role">
-        SELECT b.* FROM sys_user_role a
+    <select id="selectRolesByUserId" resultType="com.lyl.study.cloud.gateway.api.dto.response.RoleDTO">
+        SELECT
+        b.*,
+        d.name AS department_name
+        FROM sys_user_role a
         LEFT JOIN sys_role b ON a.role_id = b.id
+        LEFT JOIN sys_department d ON b.department_id=d.id
         WHERE a.user_id=#{userId}
+        <if test="onlyEnable == true">
+            AND b.enable=1
+            AND d.enable=1
+        </if>
     </select>
 
     <insert id="insertUserRoles">

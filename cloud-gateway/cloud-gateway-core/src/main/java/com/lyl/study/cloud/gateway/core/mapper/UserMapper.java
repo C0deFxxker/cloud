@@ -1,9 +1,9 @@
 package com.lyl.study.cloud.gateway.core.mapper;
 
-import com.lyl.study.cloud.gateway.core.entity.Role;
-import com.lyl.study.cloud.gateway.core.entity.User;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.core.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -22,9 +22,10 @@ public interface UserMapper extends BaseMapper<User> {
      * 查询用户带有的角色
      *
      * @param userId 用户ID
+     * @param onlyEnable 只筛选正在启用的角色
      * @return 用户带有的角色
      */
-    List<Role> selectRolesByUserId(Long userId);
+    List<RoleDTO> selectRolesByUserId(@Param("userId") Long userId, @Param("onlyEnable") boolean onlyEnable);
 
     /**
      * 添加用户角色关联关系

@@ -44,7 +44,7 @@ dubbo:
   registry:
     address: zookeeper://localhost:2181
   protocol:
-    host: 192.168.
+    host: 10.73
     port: 4080
 
 logging:

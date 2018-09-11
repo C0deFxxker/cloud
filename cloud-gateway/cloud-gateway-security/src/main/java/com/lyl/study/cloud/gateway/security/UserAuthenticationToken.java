@@ -2,22 +2,37 @@ package com.lyl.study.cloud.gateway.security;
 
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @author liyilin
  */
-public class UserAuthenticationToken extends UsernamePasswordAuthenticationToken {
+public class UserAuthenticationToken extends AbstractAuthenticationToken {
     private RoleDTO currentRole;
 
     public UserAuthenticationToken(UserDetailDTO user, RoleDTO currentRole) {
-        super(user.getUsername(), user.getPassword(), resolveGrantedAuthorities(currentRole));
+        super(resolveGrantedAuthorities(currentRole));
+        Assert.notNull(user, "user cannot be null.");
         setDetails(user);
         this.currentRole = currentRole;
+        setAuthenticated(false);
+    }
+
+    @Override
+    public Object getCredentials() {
+        return ((UserDetailDTO) getDetails()).getPassword();
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return ((UserDetailDTO) getDetails()).getUsername();
     }
 
     public RoleDTO getCurrentRole() {
@@ -25,8 +40,12 @@ public class UserAuthenticationToken extends UsernamePasswordAuthenticationToken
     }
 
     private static List<SimpleGrantedAuthority> resolveGrantedAuthorities(RoleDTO roleDTO) {
-        return roleDTO.getPermissions().stream().
-                map(entity -> new SimpleGrantedAuthority(entity.getSign()))
-                .collect(Collectors.toList());
+        if (roleDTO != null) {
+            return roleDTO.getPermissions().stream().
+                    map(entity -> new SimpleGrantedAuthority(entity.getSign()))
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>(0);
+        }
     }
 }

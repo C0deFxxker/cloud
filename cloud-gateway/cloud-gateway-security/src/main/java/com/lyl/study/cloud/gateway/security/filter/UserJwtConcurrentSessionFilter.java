@@ -1,17 +1,21 @@
 package com.lyl.study.cloud.gateway.security.filter;
 
+import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
+import com.lyl.study.cloud.base.util.HttpServletUtils;
+import com.lyl.study.cloud.gateway.api.ErrorCode;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import com.lyl.study.cloud.gateway.security.JwtClaims;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;
 import com.lyl.study.cloud.gateway.security.exception.InvalidJwtException;
 import com.lyl.study.cloud.gateway.security.exception.InvalidRoleException;
-import com.lyl.study.cloud.gateway.security.exception.JwtExpireException;
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.gateway.api.facade.UserFacade;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -23,9 +27,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * 基于JWT的会话用户识别过滤器
@@ -43,6 +48,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
     private String cookiePath = null;
     // JWT签名工具
     private JwtSigner jwtSigner;
+    // 用户查询服务
     private UserFacade userFacade;
 
     public UserJwtConcurrentSessionFilter(JwtSigner jwtSigner) {
@@ -70,6 +76,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         if (!StringUtils.isEmpty(token)) {
             try {
                 JwtClaims claims = jwtSigner.deserializeToken(token, JwtClaims.class);
+
                 assertJwtClaimsValid(claims);
 
                 UserDetailDTO user = resolveUser(claims);
@@ -80,8 +87,25 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
                 UserAuthenticationToken authenticationToken = new UserAuthenticationToken(user, currentRole);
                 authenticationToken.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            } catch (ExpiredJwtException e) {
+                logger.error("会话超时: " + token);
+                Result<?> result = new Result<>(ErrorCode.EXPIRED_SESSION, "会话超时", null);
+                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+                return;
+            } catch (InvalidJwtException e) {
+                logger.error(e.toString());
+                Result<?> result = new Result<>(ErrorCode.INVALD_JWT, "无效Token", null);
+                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+                return;
+            } catch (InvalidRoleException e) {
+                Result<?> result = new Result<>(ErrorCode.INVALD_ROLE, e.getMessage(), null);
+                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+                return;
             } catch (Exception e) {
-                logger.error(e.getClass() + ": " + e.getMessage());
+                logger.error(e.toString());
+                Result<?> result = new Result<>(ErrorCode.INTERNAL_ERROR, "内部错误", e.getMessage());
+                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+                return;
             }
         }
 
@@ -95,7 +119,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         Cookie[] cookies = httpServletRequest.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(cookieName)) {
+                if (Objects.equals(cookie.getName(), cookieName)) {
                     return cookie.getValue();
                 }
             }
@@ -110,14 +134,8 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         boolean invalid = (jwtClaims.getUserId() == null
                 || jwtClaims.getCurrentRoleId() == null
                 || jwtClaims.getLoginTime() == null);
-
         if (invalid) {
-            throw new InvalidJwtException("Jwt Claims invalid.");
-        }
-
-        long now = System.currentTimeMillis();
-        if (now - jwtClaims.getLoginTime() >= sessionAge * 1000L) {
-            throw new JwtExpireException("Jwt Expired.");
+            throw new InvalidJwtException("Jwt Claims invalid, [userId, currentRoleId, loginTime, ");
         }
     }
 
@@ -131,7 +149,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         }
         UserDetailDTO user = userFacade.getById(userId);
         if (user == null) {
-            throw new NoSuchEntityException("Cannot find User[ID=" + userId + "]");
+            throw new NoSuchEntityException("找不到ID为" + userId + "的用户");
         }
         return user;
     }
@@ -142,13 +160,10 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
     protected RoleDTO resolveCurrentRole(JwtClaims jwtClaims, UserDetailDTO user) throws InvalidRoleException {
         Long currentRoleId = jwtClaims.getCurrentRoleId();
         List<RoleDTO> roles = user.getRoles();
-        Optional<RoleDTO> optional = roles.stream()
+        return roles.stream()
                 .filter(entity -> entity.getId().equals(currentRoleId))
-                .findFirst();
-        if (!optional.isPresent()) {
-            throw new InvalidRoleException("Invalid current role.");
-        }
-        return optional.get();
+                .findFirst()
+                .orElseThrow(() -> new InvalidRoleException("当前角色无效"));
     }
 
     public String getCookieName() {

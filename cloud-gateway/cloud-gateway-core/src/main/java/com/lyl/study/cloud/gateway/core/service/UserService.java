@@ -5,6 +5,7 @@ import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.entity.User;
 
@@ -30,10 +31,11 @@ public interface UserService extends IService<User> {
     /**
      * 查询用户带有的角色
      *
-     * @param userId 用户ID
+     * @param userId     用户ID
+     * @param onlyEnable 只筛选启用的角色
      * @return 用户带有的角色
      */
-    List<Role> getRolesByUserId(Long userId);
+    List<RoleDTO> getRolesByUserId(Long userId, boolean onlyEnable);
 
     /**
      * 新增用户信息

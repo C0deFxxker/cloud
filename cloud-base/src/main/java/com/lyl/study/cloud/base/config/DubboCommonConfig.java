@@ -1,13 +1,19 @@
 package com.lyl.study.cloud.base.config;
 
 import com.alibaba.boot.dubbo.autoconfigure.DubboAutoConfiguration;
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.config.*;
+import com.alibaba.dubbo.config.spring.ReferenceBean;
 import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -33,7 +39,7 @@ import static com.alibaba.boot.dubbo.util.DubboUtils.MULTIPLE_CONFIG_PROPERTY_NA
 @Configuration
 @ConditionalOnProperty(prefix = DUBBO_PREFIX, name = "enabled", matchIfMissing = true, havingValue = "true")
 @ConditionalOnClass(AbstractConfig.class)
-@AutoConfigureAfter(DubboAutoConfiguration.class)
+@AutoConfigureBefore(DubboAutoConfiguration.class)
 public class DubboCommonConfig {
 
     /**
@@ -51,15 +57,45 @@ public class DubboCommonConfig {
     /**
      * 让Dubbo框架配置更简单，并且加入了服务注册IP的正则表达式匹配功能
      */
-    public static class SingleDubboConfigServiceBeanAware implements BeanPostProcessor {
+    public static class SingleDubboConfigServiceBeanAware implements BeanPostProcessor, InitializingBean {
         protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+        @Autowired
         private SingleDubboConfigBindingProperties singleDubboConfig;
 
         private Set<String> networkInterfaceAddressSet = new HashSet<>();
 
         public SingleDubboConfigServiceBeanAware() {
             initNetworkInterfaceAddressSet();
+        }
+
+        @Override
+        public void afterPropertiesSet() throws Exception {
+            // 程序运行参数具有最大优先级
+            String registryIp = System.getProperty(Constants.DUBBO_IP_TO_REGISTRY);
+
+            // 然后是配置文件
+            if (registryIp == null
+                    && singleDubboConfig.getProtocol() != null
+                    && singleDubboConfig.getProtocol().getHost() != null) {
+                registryIp = resolveProtocolHost(singleDubboConfig.getProtocol().getHost());
+            }
+
+            // 最后是环境变量
+            if (registryIp == null) {
+                registryIp = System.getenv(Constants.DUBBO_IP_TO_REGISTRY);
+            }
+
+            // 如果上述都没有确定注册IP，则随便使用一个本机IP
+            if (registryIp == null) {
+                registryIp = NetUtils.getLocalHost();
+            }
+
+            if (registryIp != null) {
+                logger.info("选取作为服务提供者的默认注册IP: {}", registryIp);
+                System.setProperty(Constants.DUBBO_IP_TO_REGISTRY, registryIp);
+                singleDubboConfig.getProtocol().setHost(registryIp);
+            }
         }
 
         @Override
@@ -74,14 +110,6 @@ public class DubboCommonConfig {
                 }
                 // 某些属性在@Service注解上没有给出，这里填充默认值
                 polulateDefaultField(serviceBean);
-            } else if (bean instanceof SingleDubboConfigBindingProperties) {
-                singleDubboConfig = (SingleDubboConfigBindingProperties) bean;
-
-                if (singleDubboConfig.getProtocol() != null && singleDubboConfig.getProtocol().getHost() != null) {
-                    String host = resolveProtocolHost(singleDubboConfig.getProtocol().getHost());
-                    logger.info("选取作为服务提供者的默认注册IP: {}", host);
-                    singleDubboConfig.getProtocol().setHost(host);
-                }
             }
             return bean;
         }

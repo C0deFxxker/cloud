@@ -32,10 +32,11 @@ public interface UserFacade {
      * 获取用户的角色列表
      *
      * @param userId 用户ID
+     * @param onlyEnable 只筛选启用的角色
      * @return 返回对应ID用户的角色列表
      * @throws NoSuchEntityException 找不到用户时抛出次异常
      */
-    List<RoleDTO> getRolesByUserId(long userId) throws NoSuchEntityException;
+    List<RoleDTO> getRolesByUserId(long userId, boolean onlyEnable) throws NoSuchEntityException;
 
     /**
      * 查询用户列表
