@@ -7,7 +7,9 @@ import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
+import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,12 @@ public class RoleController {
     @PostMapping
     public Result<Long> save(@RequestBody @Validated RoleSaveForm roleSaveForm) {
         try {
+            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+            roleSaveForm.setCreatorId(user.getId());
+            roleSaveForm.setOwnerId(user.getId());
+            roleSaveForm.setOwnerRoleId(currentRole.getId());
+
             return new Result<>(OK, "新增成功", roleFacade.save(roleSaveForm));
         } catch (NoSuchDependentedEntityException e) {
             return new Result<>(NOT_FOUND, e.getMessage(), null);

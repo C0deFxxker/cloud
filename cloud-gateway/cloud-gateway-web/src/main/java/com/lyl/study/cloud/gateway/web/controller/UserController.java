@@ -12,6 +12,7 @@ import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
+import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -100,6 +101,12 @@ public class UserController {
     @PostMapping
     public Result<Long> save(@RequestBody @Validated UserSaveForm userSaveForm) {
         try {
+            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+            userSaveForm.setCreatorId(user.getId());
+            userSaveForm.setOwnerId(user.getId());
+            userSaveForm.setOwnerRoleId(currentRole.getId());
+
             return new Result<>(ErrorCode.OK, "新增成功", userFacade.save(userSaveForm));
         } catch (IllegalArgumentException e) {
             return new Result<>(ErrorCode.BAD_REQUEST, "用户名已存在", null);

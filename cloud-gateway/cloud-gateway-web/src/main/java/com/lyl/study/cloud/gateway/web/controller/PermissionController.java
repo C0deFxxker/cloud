@@ -8,7 +8,10 @@ import com.lyl.study.cloud.gateway.api.ErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.PermissionSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.PermissionUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.PermissionDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.PermissionFacade;
+import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +35,12 @@ public class PermissionController {
     @PostMapping
     public Result<Long> save(@RequestBody @Validated PermissionSaveForm permissionSaveForm) {
         try {
+            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+            permissionSaveForm.setCreatorId(user.getId());
+            permissionSaveForm.setOwnerId(user.getId());
+            permissionSaveForm.setOwnerRoleId(currentRole.getId());
+
             return new Result<>(ErrorCode.OK, "新增成功", permissionFacade.save(permissionSaveForm));
         } catch (NoSuchEntityException e) {
             return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + permissionSaveForm.getParentId() + "的授权项", null);

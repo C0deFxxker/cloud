@@ -8,4 +8,5 @@ public class ErrorCode extends CommonErrorCode {
     public static int EXPIRED_SESSION = 1003;
     public static int INVALD_JWT = 1004;
     public static int INVALD_ROLE = 1005;
+    public static int USERNAME_NOT_FOUND = 1006;
 }

@@ -2,7 +2,6 @@ package com.lyl.study.cloud.gateway.security;
 
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.util.HttpServletUtils;
-import com.lyl.study.cloud.gateway.api.ErrorCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -16,33 +15,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.lyl.study.cloud.gateway.api.ErrorCode.*;
+
+/**
+ * @author liyilin
+ */
 public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException exception) throws IOException, ServletException {
         if (exception instanceof InternalAuthenticationServiceException) {
             HttpServletUtils.writeJson(200,
-                    new Result<>(ErrorCode.INTERNAL_ERROR, exception.getMessage(), null),
+                    new Result<>(INTERNAL_ERROR, exception.getMessage(), null),
                     response);
         } else if (exception instanceof UsernameNotFoundException) {
             HttpServletUtils.writeJson(200,
-                    new Result<>(ErrorCode.NOT_FOUND, exception.getMessage(), null),
+                    new Result<>(USERNAME_NOT_FOUND, exception.getMessage(), null),
                     response);
         } else if (exception instanceof BadCredentialsException) {
             HttpServletUtils.writeJson(200,
-                    new Result<>(ErrorCode.BAD_CREDENTIALS, exception.getMessage(), null),
+                    new Result<>(BAD_CREDENTIALS, exception.getMessage(), null),
                     response);
         } else if (exception instanceof DisabledException) {
             HttpServletUtils.writeJson(200,
-                    new Result<>(ErrorCode.ACCOUNT_DISABLED, exception.getMessage(), null),
+                    new Result<>(ACCOUNT_DISABLED, exception.getMessage(), null),
                     response);
         } else if (exception instanceof InsufficientAuthenticationException) {
             HttpServletUtils.writeJson(200,
-                    new Result<>(ErrorCode.FORBIDDEN, exception.getMessage(), request.getRequestURI()),
+                    new Result<>(FORBIDDEN, exception.getMessage(), request.getRequestURI()),
                     response);
         } else {
             HttpServletUtils.writeJson(200,
-                    new Result<>(ErrorCode.INTERNAL_ERROR, exception.getMessage(), null),
+                    new Result<>(INTERNAL_ERROR, exception.getMessage(), null),
                     response);
         }
     }

@@ -9,7 +9,10 @@ import com.lyl.study.cloud.gateway.api.ErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.DepartmentSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.DepartmentUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.DepartmentDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.DepartmentFacade;
+import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +37,12 @@ public class DepartmentController {
     @PostMapping
     public Result<Long> save(@RequestBody @Validated DepartmentSaveForm departmentSaveForm) {
         try {
+            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+            departmentSaveForm.setCreatorId(user.getId());
+            departmentSaveForm.setOwnerId(user.getId());
+            departmentSaveForm.setOwnerRoleId(currentRole.getId());
+
             return new Result<>(ErrorCode.OK, "新增成功", departmentFacade.save(departmentSaveForm));
         } catch (NoSuchDependentedEntityException e) {
             return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);

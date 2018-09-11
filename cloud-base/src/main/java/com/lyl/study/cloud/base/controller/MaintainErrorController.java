@@ -1,7 +1,7 @@
 package com.lyl.study.cloud.base.controller;
 
+import com.lyl.study.cloud.base.CommonErrorCode;
 import com.lyl.study.cloud.base.dto.Result;
-import com.lyl.study.cloud.base.util.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -21,8 +21,9 @@ public class MaintainErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";
 
     @RequestMapping(value = ERROR_PATH)
-    public String handleError(HttpServletRequest request) {
+    public Result<?> handleError(HttpServletRequest request) {
         int code = Integer.parseInt(request.getAttribute("javax.servlet.error.status_code").toString());
+
         String message = request.getAttribute("javax.servlet.error.message").toString();
         String data = request.getAttribute("javax.servlet.error.request_uri").toString();
 
@@ -59,11 +60,22 @@ public class MaintainErrorController implements ErrorController {
                     attribute = ((NestedServletException) attribute).getCause();
                 }
                 throwable = (Throwable) attribute;
+
+                if (throwable instanceof IllegalArgumentException) {
+                    code = CommonErrorCode.BAD_REQUEST;
+                    data = null;
+                }
+
                 message = throwable.getMessage();
             }
         }
 
-        return JsonUtils.toJson(new Result<>(code, message, data));
+        Result<String> result = new Result<>(code, message, data);
+        if (logger.isDebugEnabled()) {
+            logger.debug(result.toString());
+        }
+
+        return result;
     }
 
     @Override

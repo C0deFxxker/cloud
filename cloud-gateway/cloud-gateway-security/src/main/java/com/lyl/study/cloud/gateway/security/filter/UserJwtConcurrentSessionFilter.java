@@ -88,16 +88,23 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
                 authenticationToken.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } catch (ExpiredJwtException e) {
-                logger.error("会话超时: " + token);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("会话超时: " + token);
+                }
                 Result<?> result = new Result<>(ErrorCode.EXPIRED_SESSION, "会话超时", null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (InvalidJwtException e) {
-                logger.error(e.toString());
+                if (logger.isDebugEnabled()) {
+                    logger.debug(e.toString());
+                }
                 Result<?> result = new Result<>(ErrorCode.INVALD_JWT, "无效Token", null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (InvalidRoleException e) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug(e.toString());
+                }
                 Result<?> result = new Result<>(ErrorCode.INVALD_ROLE, e.getMessage(), null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;

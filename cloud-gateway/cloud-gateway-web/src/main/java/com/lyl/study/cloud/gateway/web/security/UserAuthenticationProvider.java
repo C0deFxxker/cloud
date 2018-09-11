@@ -5,6 +5,7 @@ import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,6 +40,10 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
         if (!user.getPassword().equals(token.getCredentials())) {
             throw new BadCredentialsException("密码不正确");
+        }
+
+        if (!user.getEnable()) {
+            throw new DisabledException("用户已被冻结");
         }
 
         ((UserAuthenticationToken) authentication).setDetails(user);
