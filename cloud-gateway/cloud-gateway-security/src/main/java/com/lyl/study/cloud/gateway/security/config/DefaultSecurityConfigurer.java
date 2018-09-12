@@ -8,6 +8,7 @@ import com.lyl.study.cloud.gateway.security.JsonAuthenticationEntryPoint;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.filter.UserJwtConcurrentSessionFilter;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
+import io.jsonwebtoken.lang.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,9 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public UserJwtConcurrentSessionFilter jwtConcurrentSessionFilter(JwtSigner jwtSigner) {
+        Assert.notNull(userFacade, "userFacade不能为空，请检查Dubbo服务是否启动并确保服务提供方已成功注册服务");
+        Assert.notNull(roleFacade, "roleFacade不能为空，请检查Dubbo服务是否启动并确保服务提供方已成功注册服务");
+
         UserJwtConcurrentSessionFilter filter = new UserJwtConcurrentSessionFilter(jwtSigner);
         filter.setCookieName(tokenCookieName);
         filter.setCookiePath(tokenCookiePath);

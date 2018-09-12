@@ -16,12 +16,16 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @AutoConfigureBefore(name = "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration")
 public class SystemCommonConfig {
-//    @Bean
-//    @ConditionalOnClass(name = "org.springframework.web.client.RestTemplate")
-//    @LoadBalanced
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
+
+    @Configuration
+    @ConditionalOnClass(name = "org.springframework.web.client.RestTemplate")
+    static class RestTemplateConfig {
+        @Bean
+        @ConditionalOnMissingBean
+        public RestTemplate restTemplate() {
+            return new RestTemplate();
+        }
+    }
 
     @Bean
     @ConditionalOnMissingBean
