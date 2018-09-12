@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.gateway.core.test;
+package com.lyl.study.cloud.cms.test;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -55,10 +55,10 @@ public class CodeGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
-        strategy.setTablePrefix("sys_");// 此处可以修改为您的表前缀
+        strategy.setTablePrefix("cms_");// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setDbColumnUnderline(true);
-        strategy.setInclude("sys_user");
+        strategy.setInclude("cms_resource_entity");
 //        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_organization");
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setInclude(tableNames); // 需要生成的表
@@ -86,8 +86,7 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.lyl.study.cloud.gateway.core");
-        pc.setController("controller");
+        pc.setParent("com.lyl.study.cloud.cms.core");
         pc.setEntity("entity");
         pc.setMapper("mapper");
         pc.setService("service");

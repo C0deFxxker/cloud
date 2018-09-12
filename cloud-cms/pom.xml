@@ -10,24 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cloud-cms</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.lyl.study.cloud</groupId>
-            <artifactId>cloud-base</artifactId>
-            <version>${cloud.version}</version>
-        </dependency>
-        <!-- Web项目权限认证 -->
-        <dependency>
-            <groupId>com.lyl.study.cloud</groupId>
-            <artifactId>cloud-gateway-security</artifactId>
-            <version>${cloud.version}</version>
-        </dependency>
-
-        <!-- web项目 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
+    <packaging>pom</packaging>
+    <modules>
+        <module>cloud-cms-api</module>
+        <module>cloud-cms-core</module>
+        <module>cloud-cms-web</module>
+    </modules>
 </project>

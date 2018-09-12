@@ -19,7 +19,7 @@ dubbo:
   registry:
     address: zookeeper://localhost:2181
   protocol:
-    host: 10.73.
+    host: 192.168.
 server:
   port: 8080
 cloud:
