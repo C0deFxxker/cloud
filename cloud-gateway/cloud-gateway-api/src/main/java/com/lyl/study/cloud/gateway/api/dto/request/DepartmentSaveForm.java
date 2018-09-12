@@ -14,9 +14,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class DepartmentSaveForm implements Serializable {
     /**
-     * 上级部门ID，不允许修改父节点
+     * 上级部门ID
      */
-    @NotNull
     private Long parentId;
     /**
      * 部门名称

@@ -9,13 +9,16 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Configurable
@@ -25,6 +28,21 @@ import java.util.List;
 @AutoConfigureAfter(name = "com.lyl.study.cloud.base.config.SystemCommonConfig")
 @ConditionalOnClass(name = "org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter")
 public class WebCommonConfig {
+    /**
+     * Get请求时间戳转换时间类型
+     *
+     * @return 时间戳类型转换器
+     */
+    @Bean
+    public Converter<String, Date> convertDateTime() {
+        return new Converter<String, Date>() {
+            @Override
+            public Date convert(String source) {
+                return new Date(Long.parseLong(source));
+            }
+        };
+    }
+
     @Configuration
     @ConditionalOnBean(ObjectMapper.class)
     static class WebMvcConfig extends WebMvcConfigurerAdapter {

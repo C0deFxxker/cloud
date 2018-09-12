@@ -6,6 +6,7 @@ import com.lyl.study.cloud.base.util.HttpServletUtils;
 import com.lyl.study.cloud.gateway.api.ErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import com.lyl.study.cloud.gateway.security.JwtClaims;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
@@ -48,8 +49,10 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
     private String cookiePath = null;
     // JWT签名工具
     private JwtSigner jwtSigner;
-    // 用户查询服务
+    // 用户管理服务
     private UserFacade userFacade;
+    // 角色管理服务
+    private RoleFacade roleFacade;
 
     public UserJwtConcurrentSessionFilter(JwtSigner jwtSigner) {
         this.jwtSigner = jwtSigner;
@@ -58,6 +61,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
     @Override
     public void afterPropertiesSet() throws ServletException {
         Assert.notNull(userFacade, "userFacade cannot be null");
+        Assert.notNull(roleFacade, "roleFacade cannot be null");
         Assert.notNull(jwtSigner, "jwtSigner cannot be null");
         Assert.hasText(cookieName, "cookieName cannot be blank text or null");
 
@@ -76,6 +80,10 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         if (!StringUtils.isEmpty(token)) {
             try {
                 JwtClaims claims = jwtSigner.deserializeToken(token, JwtClaims.class);
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("JWT内容: {}", claims);
+                }
 
                 assertJwtClaimsValid(claims);
 
@@ -106,6 +114,13 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
                     logger.debug(e.toString());
                 }
                 Result<?> result = new Result<>(ErrorCode.INVALD_ROLE, e.getMessage(), null);
+                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+                return;
+            } catch (NoSuchEntityException e) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug(e.toString());
+                }
+                Result<?> result = new Result<>(ErrorCode.EXPIRED_SESSION, e.getMessage(), null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (Exception e) {
@@ -156,8 +171,9 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         }
         UserDetailDTO user = userFacade.getById(userId);
         if (user == null) {
-            throw new NoSuchEntityException("找不到ID为" + userId + "的用户");
+            throw new NoSuchEntityException("找不到当前登录的用户信息，请重新登录");
         }
+        user.setPassword(null);
         return user;
     }
 
@@ -168,8 +184,11 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         Long currentRoleId = jwtClaims.getCurrentRoleId();
         List<RoleDTO> roles = user.getRoles();
         return roles.stream()
+                // 筛选Token中指定的角色
                 .filter(entity -> entity.getId().equals(currentRoleId))
                 .findFirst()
+                // 数据库中查询对应的菜单
+                .map(entity -> roleFacade.getById(entity.getId()))
                 .orElseThrow(() -> new InvalidRoleException("当前角色无效"));
     }
 
@@ -205,6 +224,14 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
 
     public void setUserFacade(UserFacade userFacade) {
         this.userFacade = userFacade;
+    }
+
+    public RoleFacade getRoleFacade() {
+        return roleFacade;
+    }
+
+    public void setRoleFacade(RoleFacade roleFacade) {
+        this.roleFacade = roleFacade;
     }
 
     public int getSessionAge() {

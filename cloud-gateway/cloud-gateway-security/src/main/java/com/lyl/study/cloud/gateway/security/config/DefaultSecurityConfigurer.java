@@ -2,6 +2,7 @@ package com.lyl.study.cloud.gateway.security.config;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.security.DefaultAccessDeniedHandler;
 import com.lyl.study.cloud.gateway.security.JsonAuthenticationEntryPoint;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
@@ -43,6 +44,8 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Reference
     private UserFacade userFacade;
+    @Reference
+    private RoleFacade roleFacade;
 
     @Value("${cloud.security.permit-urls:''}")
     public void setPermitUrls(String permitUrlString) {
@@ -90,6 +93,7 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
         filter.setCookieName(tokenCookieName);
         filter.setCookiePath(tokenCookiePath);
         filter.setUserFacade(userFacade);
+        filter.setRoleFacade(roleFacade);
         return filter;
     }
 

@@ -149,13 +149,13 @@ public class DepartmentFacadeImpl implements DepartmentFacade {
                 Optional<Department> parentOptional = allDepartment.stream()
                         .filter(entity -> entity.getId().equals(parentId))
                         .findFirst();
-                parentOptional.ifPresent(parent -> root.getData().setParentName(parent.getName()));
+                parentOptional.ifPresent(parent -> root.getDetail().setParentName(parent.getName()));
             }
 
             // 非根节点parentName赋值
             TreeNodeUtils.bfsWalker(root, (node, parent, deep) -> {
                 if (parent != null) {
-                    node.getData().setParentName(parent.getLabel());
+                    node.getDetail().setParentName(parent.getLabel());
                 }
             });
         }

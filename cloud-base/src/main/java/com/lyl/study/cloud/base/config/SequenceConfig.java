@@ -35,7 +35,7 @@ public class SequenceConfig {
     @ConditionalOnMissingBean(Sequence.class)
     public Sequence sequence() {
         int serviceId = 1;
-        long twepoch = System.currentTimeMillis();
+        long twepoch = 1514736000000L;  // 2018-01-01 00:00:00
         try {
             IdWorkerRegister idWorkerRegister = applicationContext.getBean(IdWorkerRegister.class);
             serviceId = idWorkerRegister.registerServiceId();

@@ -73,11 +73,15 @@ public class DepartmentController {
      */
     @DeleteMapping("/{id}")
     public Result<Integer> deleteById(@PathVariable("id") Long id) throws IllegalAccessError {
-        int rows = departmentFacade.deleteById(id);
-        if (rows > 0) {
-            return new Result<>(ErrorCode.OK, "删除成功", rows);
-        } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的部门", null);
+        try {
+            int rows = departmentFacade.deleteById(id);
+            if (rows > 0) {
+                return new Result<>(ErrorCode.OK, "删除成功", rows);
+            } else {
+                return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的部门", null);
+            }
+        } catch (IllegalAccessError e) {
+            return new Result<>(ErrorCode.DEPARTMENT_DELETE_FAILED, e.getMessage(), null);
         }
     }
 

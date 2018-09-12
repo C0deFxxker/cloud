@@ -33,7 +33,7 @@ public class TreeNodeUtils {
             node.setId(idExtractor.apply(each));
             node.setParentId(parentIdExtractor.apply(each));
             node.setLabel(labelExtractor.apply(each));
-            node.setData(each);
+            node.setDetail(each);
             treeNodeList.add(node);
         }
 

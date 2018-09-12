@@ -34,10 +34,6 @@ public class RoleSaveForm implements Serializable {
     @NotNull
     private Long departmentId;
     /**
-     * 是否管理员
-     */
-    private Boolean administrator;
-    /**
      * 是否启用
      */
     @NotNull

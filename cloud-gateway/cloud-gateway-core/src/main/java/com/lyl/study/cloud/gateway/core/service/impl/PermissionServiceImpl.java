@@ -8,6 +8,7 @@ import com.lyl.study.cloud.gateway.core.entity.Permission;
 import com.lyl.study.cloud.gateway.core.mapper.PermissionMapper;
 import com.lyl.study.cloud.gateway.core.service.PermissionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
+    @Transactional
     public int deleteById(long id, boolean force) throws IllegalAccessError {
         // 非强制删除模式
         if (!force) {

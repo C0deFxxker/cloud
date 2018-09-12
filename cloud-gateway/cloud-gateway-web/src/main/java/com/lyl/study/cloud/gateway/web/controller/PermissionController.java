@@ -104,6 +104,7 @@ public class PermissionController {
      *
      * @return 菜单树信息
      */
+    @GetMapping("/tree")
     public Result<List<TreeNode<PermissionDTO>>> tree() {
         return new Result<>(ErrorCode.OK, "查询成功", permissionFacade.tree());
     }

@@ -30,7 +30,7 @@ public class TreeNode<T> implements Serializable {
     /**
      * 节点内容
      */
-    private T data;
+    private T detail;
 
     /**
      * 子节点
@@ -43,7 +43,7 @@ public class TreeNode<T> implements Serializable {
                 "id=" + id +
                 ", label='" + label + '\'' +
                 ", parentId=" + parentId +
-                ", data=" + data +
+                ", detail=" + detail +
                 ", children=" + children +
                 '}';
     }

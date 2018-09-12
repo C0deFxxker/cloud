@@ -11,7 +11,7 @@ import java.util.Date;
 public class PermissionDTO implements Serializable {
     private long id;
     private Long parentId;
-    private Short type;
+    private Integer type;
     private String label;
     private String sign;
     private String icon;

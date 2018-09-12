@@ -40,8 +40,8 @@ final public class CryptoUtils {
 	}
 
 	/**
-	 * 使用key, 对 data 进行 hmacSha1 运算，返回值是 base64 编码的字符串，即结果是 base64(hmacSha1(key, data))
-	 * key, data 都是使用UTF-8编码
+	 * 使用key, 对 detail 进行 hmacSha1 运算，返回值是 base64 编码的字符串，即结果是 base64(hmacSha1(key, detail))
+	 * key, detail 都是使用UTF-8编码
 	 * @param key 密钥，长度<=64字节
 	 * @param data 要生成mac的数据
 	 * @return

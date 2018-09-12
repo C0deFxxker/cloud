@@ -9,4 +9,6 @@ public class ErrorCode extends CommonErrorCode {
     public static int INVALD_JWT = 1004;
     public static int INVALD_ROLE = 1005;
     public static int USERNAME_NOT_FOUND = 1006;
+
+    public static int DEPARTMENT_DELETE_FAILED = 1101;
 }

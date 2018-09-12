@@ -1,6 +1,7 @@
 package com.lyl.study.cloud.gateway.core.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.google.common.base.Charsets;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
@@ -124,10 +125,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     public static String encryptPassword(String username, String rawPassword) {
-        return CryptoUtils.hmacSha1(username, rawPassword);
+        String hmacSha1 = CryptoUtils.hmacSha1(username, rawPassword);
+        return  CryptoUtils.md5String(hmacSha1.getBytes(Charsets.UTF_8));
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(encryptPassword("administrator", "administrator"));
-//    }
+    public static void main(String[] args) {
+        System.out.println(encryptPassword("administrator", "administrator"));
+        System.out.println(encryptPassword("boss123", "boss123"));
+        System.out.println(encryptPassword("liudehua", "liudehua"));
+        System.out.println(encryptPassword("zhangxueyou", "zhangxueyou"));
+        System.out.println(encryptPassword("zhangjingxuan", "zhangjingxuan"));
+        System.out.println(encryptPassword("chenbaiyu", "chenbaiyu"));
+        System.out.println(encryptPassword("chenhuilin", "chenhuilin"));
+        System.out.println(encryptPassword("zhangdada", "zhangdada"));
+    }
 }

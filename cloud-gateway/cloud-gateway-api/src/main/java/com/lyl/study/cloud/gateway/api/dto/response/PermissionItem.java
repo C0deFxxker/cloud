@@ -14,4 +14,5 @@ import java.io.Serializable;
 public class PermissionItem implements Serializable {
     private Long id;
     private String sign;
+    private Integer type;
 }

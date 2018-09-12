@@ -23,8 +23,8 @@ public class RoleDTO implements Serializable {
     private Boolean enable;
     private List<PermissionItem> permissions = new ArrayList<>();
     private Long creatorId;
-    private Long ownRoleId;
     private Long ownerId;
+    private Long ownerRoleId;
     private Date createTime;
     private Date updateTime;
 }

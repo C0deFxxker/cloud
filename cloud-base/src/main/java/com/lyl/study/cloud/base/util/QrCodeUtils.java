@@ -178,7 +178,7 @@ public class QrCodeUtils {
 
 //    public static void main(String[] args) throws Exception {
 //        BufferedImage image = QrCodeUtils.createImage("https://www.baidu.com/");
-//        File file = new File("/Users/liyilin/dev/workspace/java/meicloud/scrm-project/scrm-parent/data.jpg");
+//        File file = new File("/Users/liyilin/dev/workspace/java/meicloud/scrm-project/scrm-parent/detail.jpg");
 //        ImageIO.write(image, "jpg", file);
 //        String content = QrCodeUtils.decode(file);
 //        System.out.println("解码内容：" + content);

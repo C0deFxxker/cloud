@@ -33,13 +33,6 @@ public class PermissionUpdateForm implements Serializable {
     @Length(max = 255)
     private String sign;
     /**
-     * 类型   0：目录   1：菜单   2：按钮/请求
-     */
-    @NotNull
-    @Min(value = 0, message = "菜单类型只能是 0：目录, 1：菜单, 2：按钮/请求")
-    @Max(value = 2, message = "菜单类型只能是 0：目录, 1：菜单, 2：按钮/请求")
-    private Integer type;
-    /**
      * 菜单图标
      */
     @Length(max = 255)

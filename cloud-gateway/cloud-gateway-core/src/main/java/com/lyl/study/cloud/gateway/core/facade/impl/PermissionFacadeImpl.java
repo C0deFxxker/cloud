@@ -96,8 +96,7 @@ public class PermissionFacadeImpl implements PermissionFacade {
         Assert.notNull(id, "菜单ID不能为空");
         Permission record = permissionService.selectById(permissionUpdateForm.getId());
         BeanUtils.copyProperties(permissionUpdateForm, record);
-
-        permissionService.updateById(record);
+        permissionService.updateAllColumnById(record);
     }
 
     @Override

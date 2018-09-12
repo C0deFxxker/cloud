@@ -4,6 +4,7 @@ import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +33,7 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param permissions 授权项ID集
      * @return 成功添加行数
      */
-    int insertRolePermissions(Long roleId, Collection<Long> permissions);
+    int insertRolePermissions(@Param("roleId") Long roleId, @Param("permissions") Collection<Long> permissions);
 
     /**
      * 删除角色的全部授权项

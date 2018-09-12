@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,9 @@ public class UserAuthenticationToken extends AbstractAuthenticationToken {
 
     private static List<SimpleGrantedAuthority> resolveGrantedAuthorities(RoleDTO roleDTO) {
         if (roleDTO != null) {
-            return roleDTO.getPermissions().stream().
-                    map(entity -> new SimpleGrantedAuthority(entity.getSign()))
+            return roleDTO.getPermissions().stream()
+                    .filter(entity -> entity.getType() == 2 && !StringUtils.isEmpty(entity.getSign()))
+                    .map(entity -> new SimpleGrantedAuthority(entity.getSign()))
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>(0);

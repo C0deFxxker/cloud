@@ -18,10 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,16 +50,19 @@ public class RoleFacadeImpl implements RoleFacade {
     @Override
     public RoleDTO getById(long id) {
         Role role = roleService.selectById(id);
-        RoleDTO dto = new RoleDTO();
-        BeanUtils.copyProperties(role, dto);
-        // 获取部门名称
-        Department department = departmentService.selectById(role.getDepartmentId());
-        dto.setDepartmentName(department.getName());
-        // 获取角色关联的授权项
-        List<PermissionItem> permissions = roleService.getPermissionByRoleId(id);
-        dto.setPermissions(permissions);
-
-        return dto;
+        if (role != null) {
+            RoleDTO dto = new RoleDTO();
+            BeanUtils.copyProperties(role, dto);
+            // 获取部门名称
+            Department department = departmentService.selectById(role.getDepartmentId());
+            dto.setDepartmentName(department.getName());
+            // 获取角色关联的授权项
+            List<PermissionItem> permissions = roleService.getPermissionByRoleId(id);
+            dto.setPermissions(permissions);
+            return dto;
+        } else {
+            return null;
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -98,10 +98,14 @@ public class RoleFacadeImpl implements RoleFacade {
      * @return 部门ID与部门名称映射
      */
     private Map<Long, String> batchGetDepartmentNames(List<Role> records) {
-        Set<Long> departmentIdSet = records.stream().map(Role::getDepartmentId).collect(Collectors.toSet());
-        Map<Long, String> departmentIdNameMap = new HashMap<>(departmentIdSet.size());
-        List<Department> departments = departmentService.selectBatchIds(departmentIdSet);
-        departments.forEach(entity -> departmentIdNameMap.put(entity.getId(), entity.getName()));
-        return departmentIdNameMap;
+        if (!records.isEmpty()) {
+            Set<Long> departmentIdSet = records.stream().map(Role::getDepartmentId).collect(Collectors.toSet());
+            Map<Long, String> departmentIdNameMap = new HashMap<>(departmentIdSet.size());
+            List<Department> departments = departmentService.selectBatchIds(departmentIdSet);
+            departments.forEach(entity -> departmentIdNameMap.put(entity.getId(), entity.getName()));
+            return departmentIdNameMap;
+        } else {
+            return Collections.emptyMap();
+        }
     }
 }

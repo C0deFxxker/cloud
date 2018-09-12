@@ -59,6 +59,8 @@ public class UserFacadeImpl implements UserFacade {
         List<UserDTO> dtoList = pageInfo.getRecords().stream().map(entity -> {
             UserDTO dto = new UserDTO();
             BeanUtils.copyProperties(entity, dto);
+            // 列表不能展示密码
+            dto.setPassword(null);
             return dto;
         }).collect(Collectors.toList());
         PageInfo<UserDTO> dtoPage = new PageInfo<>();
@@ -101,7 +103,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void changePassword(String username, String password) throws NoSuchEntityException {
-        changePassword(username, password);
+        userService.changePassword(username, password);
     }
 
     private UserDetailDTO getUserDetail(User user) {

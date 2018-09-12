@@ -3,7 +3,7 @@
 <mapper namespace="com.lyl.study.cloud.gateway.core.mapper.RoleMapper">
     <select id="selectPermissionByRoleId" parameterType="java.lang.Long"
             resultType="com.lyl.study.cloud.gateway.api.dto.response.PermissionItem">
-        SELECT id, sign FROM sys_role_permission rp
+        SELECT id, sign, type FROM sys_role_permission rp
         LEFT JOIN sys_permission p ON rp.permission_id = p.id
         WHERE rp.role_id = #{roleId}
     </select>

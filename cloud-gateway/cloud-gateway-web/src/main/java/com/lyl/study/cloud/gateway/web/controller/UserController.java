@@ -55,6 +55,7 @@ public class UserController {
     public Result<UserDetailDTO> getById(@PathVariable("id") long id) {
         UserDetailDTO dto = userFacade.getById(id);
         if (dto != null) {
+            dto.setPassword(null);
             return new Result<>(ErrorCode.OK, "查询成功", dto);
         } else {
             return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", null);
@@ -72,6 +73,7 @@ public class UserController {
     public Result<UserDetailDTO> getByUsername(@RequestParam String username) {
         UserDetailDTO dto = userFacade.getByUsername(username);
         if (dto != null) {
+            dto.setPassword(null);
             return new Result<>(ErrorCode.OK, "查询成功", dto);
         } else {
             return new Result<>(ErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息", null);
@@ -113,7 +115,7 @@ public class UserController {
 
             return new Result<>(ErrorCode.OK, "新增成功", userFacade.save(userSaveForm));
         } catch (IllegalArgumentException e) {
-            return new Result<>(ErrorCode.BAD_REQUEST, "用户名已存在", null);
+            return new Result<>(ErrorCode.BAD_REQUEST, e.getMessage(), null);
         }
     }
 

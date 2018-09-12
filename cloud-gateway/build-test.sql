@@ -54,14 +54,14 @@ INSERT INTO sys_permission(id, parent_id, type, label, sign, icon, sort, enable)
 
 TRUNCATE TABLE sys_user;
 INSERT INTO sys_user(id, username, password, nickname, mobile, email, birthday, sex, address, enable) VALUES
-(1, 'administrator', 'administrator', '超管', '13611111111', 'asdfsdaf@163.com', NULL, NULL, NULL, 1),
-(2, 'boss123', 'boss123', '大老板', '13611111112', NULL, NULL, 1, NULL, 1),
-(3, 'liudehua', 'liudehua', '刘德华', '13611111113', 'XSDFSD@qq.com', NULL, 1, NULL, 1),
-(4, 'zhangxueyou', 'zhangxueyou', '张学友', '13611111114', NULL, NULL, NULL, '顺德北滘美的总部', 1),
-(5, 'zhangjingxuan', 'zhangjingxuan', '张敬轩', '13611111115', NULL, '1989-03-01', NULL, '顺德北滘美的总部', 1),
-(6, 'chenbaiyu', 'chenbaiyu', '陈柏宇', '13611111116', NULL, '1988-03-01', 1, '顺德北滘美的总部', 1),
-(7, 'chenhuilin', 'chenhuilin', '陈慧琳', '13611111116', NULL, '1982-12-31', 0, '广东广州圆大厦', 1),
-(8, 'zhangdada', 'zhangdada', '张大大', '13611111116', NULL, '1982-01-01', 1, '广东广州圆大厦', 1);
+(1, 'administrator', '2c2266d825c3af2409016d971529391a', '超管', '13611111111', 'asdfsdaf@163.com', NULL, NULL, NULL, 1),
+(2, 'boss123', '300ea247b1e20ca391c2672d26df58ca', '大老板', '13611111112', NULL, NULL, 1, NULL, 1),
+(3, 'liudehua', '8bda7a159c71d2e2bd7a0f2e34a76fed', '刘德华', '13611111113', 'XSDFSD@qq.com', NULL, 1, NULL, 1),
+(4, 'zhangxueyou', '8c795a819d307216607f4d8144b8447b', '张学友', '13611111114', NULL, NULL, NULL, '顺德北滘美的总部', 1),
+(5, 'zhangjingxuan', '405249ced2da65b952605aeeb7fff11e', '张敬轩', '13611111115', NULL, '1989-03-01', NULL, '顺德北滘美的总部', 1),
+(6, 'chenbaiyu', 'a43a767ad212f835fe9e09ea3a1613ad', '陈柏宇', '13611111116', NULL, '1988-03-01', 1, '顺德北滘美的总部', 1),
+(7, 'chenhuilin', '9c10d02e6c974d4182e62041ea0dab3f', '陈慧琳', '13611111116', NULL, '1982-12-31', 0, '广东广州圆大厦', 1),
+(8, 'zhangdada', 'ffb3aa32352eb1ba9ce0f87da1515a9e', '张大大', '13611111116', NULL, '1982-01-01', 1, '广东广州圆大厦', 1);
 
 TRUNCATE TABLE sys_role_permission;
 INSERT INTO sys_role_permission(role_id, permission_id) VALUES

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,15 @@ public class MaintainErrorController implements ErrorController {
                     BindingResult bindingResult = ((MethodArgumentNotValidException) error).getBindingResult();
                     List<ObjectError> allErrors = bindingResult.getAllErrors();
                     for (ObjectError eachError : allErrors) {
-                        Object o = eachError.getArguments()[0];
-                        String msg = eachError.getDefaultMessage();
-                        msgBuilder.append(o.toString()).append(msg).append(",");
+                        if (eachError instanceof FieldError) {
+                            String field = ((FieldError) eachError).getField();
+                            String msg = eachError.getDefaultMessage();
+                            msgBuilder.append(field).append(msg).append(",");
+                        } else {
+                            Object o = eachError.getArguments()[0];
+                            String msg = eachError.getDefaultMessage();
+                            msgBuilder.append(o.toString()).append(msg).append(",");
+                        }
                     }
                     if (msgBuilder.length() > 0) {
                         msgBuilder.deleteCharAt(msgBuilder.length() - 1);
