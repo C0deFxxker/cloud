@@ -13,7 +13,7 @@ import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.lyl.study.cloud.gateway.api.ErrorCode.*;
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.*;
 
 @RestController
 @RequestMapping("/role")

@@ -5,7 +5,7 @@ import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.dto.TreeNode;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.api.ErrorCode;
+import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.OrganizationSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.OrganizationUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.OrganizationDTO;
@@ -43,9 +43,9 @@ public class OrganizationController {
             organizationSaveForm.setOwnerId(user.getId());
             organizationSaveForm.setOwnerRoleId(currentRole.getId());
 
-            return new Result<>(ErrorCode.OK, "新增成功", organizationFacade.save(organizationSaveForm));
+            return new Result<>(GatewayErrorCode.OK, "新增成功", organizationFacade.save(organizationSaveForm));
         } catch (NoSuchDependentedEntityException e) {
-            return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, e.getMessage(), null);
         }
     }
 
@@ -59,9 +59,9 @@ public class OrganizationController {
     public Result update(@RequestBody @Validated OrganizationUpdateForm organizationUpdateForm) {
         try {
             organizationFacade.update(organizationUpdateForm);
-            return new Result<>(ErrorCode.OK, "修改成功", null);
+            return new Result<>(GatewayErrorCode.OK, "修改成功", null);
         } catch (NoSuchEntityException e) {
-            return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, e.getMessage(), null);
         }
     }
 
@@ -76,12 +76,12 @@ public class OrganizationController {
         try {
             int rows = organizationFacade.deleteById(id);
             if (rows > 0) {
-                return new Result<>(ErrorCode.OK, "删除成功", rows);
+                return new Result<>(GatewayErrorCode.OK, "删除成功", rows);
             } else {
-                return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的组织", null);
+                return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的组织", null);
             }
         } catch (IllegalAccessError e) {
-            return new Result<>(ErrorCode.DEPARTMENT_DELETE_FAILED, e.getMessage(), null);
+            return new Result<>(GatewayErrorCode.DEPARTMENT_DELETE_FAILED, e.getMessage(), null);
         }
     }
 
@@ -95,9 +95,9 @@ public class OrganizationController {
     public Result<OrganizationDTO> getById(@PathVariable("id") Long id) {
         OrganizationDTO dto = organizationFacade.getById(id);
         if (dto != null) {
-            return new Result<>(ErrorCode.OK, "查询成功", dto);
+            return new Result<>(GatewayErrorCode.OK, "查询成功", dto);
         } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的组织", null);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的组织", null);
         }
     }
 
@@ -112,9 +112,9 @@ public class OrganizationController {
     @GetMapping("/tree")
     public Result<List<TreeNode<OrganizationDTO>>> listTree(Long id) {
         try {
-            return new Result<>(ErrorCode.OK, "查询成功", organizationFacade.listTree(id));
+            return new Result<>(GatewayErrorCode.OK, "查询成功", organizationFacade.listTree(id));
         } catch (IllegalArgumentException e) {
-            return new Result<>(ErrorCode.BAD_REQUEST, "找不到ID为" + id + "的组织", null);
+            return new Result<>(GatewayErrorCode.BAD_REQUEST, "找不到ID为" + id + "的组织", null);
         }
     }
 }

@@ -11,6 +11,7 @@
     <modules>
         <module>cloud-base</module>
         <module>cloud-gateway</module>
+        <module>cloud-cms</module>
     </modules>
 
     <properties>
@@ -19,7 +20,7 @@
         <java.version>1.8</java.version>
         <lombok.version>1.16.16</lombok.version>
         <mybatisplus-starter.version>2.1.9</mybatisplus-starter.version>
-        <mysql.version>5.1.43</mysql.version>
+        <mysql.version>5.1.47</mysql.version>
         <h2db.version>1.4.196</h2db.version>
         <groovy.version>2.3.11</groovy.version>
         <druid-starter.version>1.1.6</druid-starter.version>

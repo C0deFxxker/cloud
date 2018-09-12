@@ -3,7 +3,7 @@ package com.lyl.study.cloud.gateway.security.filter;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.util.HttpServletUtils;
-import com.lyl.study.cloud.gateway.api.ErrorCode;
+import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
@@ -99,33 +99,33 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
                 if (logger.isDebugEnabled()) {
                     logger.debug("会话超时: " + token);
                 }
-                Result<?> result = new Result<>(ErrorCode.EXPIRED_SESSION, "会话超时", null);
+                Result<?> result = new Result<>(GatewayErrorCode.EXPIRED_SESSION, "会话超时", null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (InvalidJwtException e) {
                 if (logger.isDebugEnabled()) {
                     logger.debug(e.toString());
                 }
-                Result<?> result = new Result<>(ErrorCode.INVALD_JWT, "无效Token", null);
+                Result<?> result = new Result<>(GatewayErrorCode.INVALD_JWT, "无效Token", null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (InvalidRoleException e) {
                 if (logger.isDebugEnabled()) {
                     logger.debug(e.toString());
                 }
-                Result<?> result = new Result<>(ErrorCode.INVALD_ROLE, e.getMessage(), null);
+                Result<?> result = new Result<>(GatewayErrorCode.INVALD_ROLE, e.getMessage(), null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (NoSuchEntityException e) {
                 if (logger.isDebugEnabled()) {
                     logger.debug(e.toString());
                 }
-                Result<?> result = new Result<>(ErrorCode.EXPIRED_SESSION, e.getMessage(), null);
+                Result<?> result = new Result<>(GatewayErrorCode.EXPIRED_SESSION, e.getMessage(), null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (Exception e) {
                 logger.error(e.toString());
-                Result<?> result = new Result<>(ErrorCode.INTERNAL_ERROR, "内部错误", e.getMessage());
+                Result<?> result = new Result<>(GatewayErrorCode.INTERNAL_ERROR, "内部错误", e.getMessage());
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             }

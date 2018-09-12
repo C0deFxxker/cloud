@@ -3,20 +3,18 @@ package com.lyl.study.cloud.gateway.security.config;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
+import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import com.lyl.study.cloud.gateway.security.DefaultAccessDeniedHandler;
 import com.lyl.study.cloud.gateway.security.JsonAuthenticationEntryPoint;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.filter.UserJwtConcurrentSessionFilter;
-import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import io.jsonwebtoken.lang.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +24,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 
-@Order(5)
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

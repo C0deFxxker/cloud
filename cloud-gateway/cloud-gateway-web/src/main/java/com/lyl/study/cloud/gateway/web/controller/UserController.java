@@ -4,7 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.api.ErrorCode;
+import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.*;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
@@ -41,7 +41,7 @@ public class UserController {
         if (conditions.getPageSize() == null) {
             conditions.setPageSize(10);
         }
-        return new Result<>(ErrorCode.OK, "查询成功", userFacade.list(conditions));
+        return new Result<>(GatewayErrorCode.OK, "查询成功", userFacade.list(conditions));
     }
 
     /**
@@ -56,9 +56,9 @@ public class UserController {
         UserDetailDTO dto = userFacade.getById(id);
         if (dto != null) {
             dto.setPassword(null);
-            return new Result<>(ErrorCode.OK, "查询成功", dto);
+            return new Result<>(GatewayErrorCode.OK, "查询成功", dto);
         } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", null);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", null);
         }
     }
 
@@ -74,9 +74,9 @@ public class UserController {
         UserDetailDTO dto = userFacade.getByUsername(username);
         if (dto != null) {
             dto.setPassword(null);
-            return new Result<>(ErrorCode.OK, "查询成功", dto);
+            return new Result<>(GatewayErrorCode.OK, "查询成功", dto);
         } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息", null);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息", null);
         }
     }
 
@@ -92,9 +92,9 @@ public class UserController {
     public Result<List<RoleDTO>> getRolesByUserId(@PathVariable("userId") Long userId,
                                                   @RequestParam(value = "enable", defaultValue = "false") boolean onlyEnable) {
         try {
-            return new Result<>(ErrorCode.OK, "查询成功", userFacade.getRolesByUserId(userId, onlyEnable));
+            return new Result<>(GatewayErrorCode.OK, "查询成功", userFacade.getRolesByUserId(userId, onlyEnable));
         } catch (NoSuchEntityException e) {
-            return new Result<>(ErrorCode.NOT_FOUND, e.getMessage(), null);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, e.getMessage(), null);
         }
     }
 
@@ -113,9 +113,9 @@ public class UserController {
             userSaveForm.setOwnerId(user.getId());
             userSaveForm.setOwnerRoleId(currentRole.getId());
 
-            return new Result<>(ErrorCode.OK, "新增成功", userFacade.save(userSaveForm));
+            return new Result<>(GatewayErrorCode.OK, "新增成功", userFacade.save(userSaveForm));
         } catch (IllegalArgumentException e) {
-            return new Result<>(ErrorCode.BAD_REQUEST, e.getMessage(), null);
+            return new Result<>(GatewayErrorCode.BAD_REQUEST, e.getMessage(), null);
         }
     }
 
@@ -126,7 +126,7 @@ public class UserController {
     @PutMapping
     public Result update(@RequestBody @Validated UserUpdateForm userUpdateForm) {
         userFacade.update(userUpdateForm);
-        return new Result<>(ErrorCode.OK, "修改成功", null);
+        return new Result<>(GatewayErrorCode.OK, "修改成功", null);
     }
 
     /**
@@ -139,9 +139,9 @@ public class UserController {
     public Result<Integer> deleteById(@PathVariable("id") Long id) {
         int row = userFacade.deleteById(id);
         if (row > 0) {
-            return new Result<>(ErrorCode.OK, "删除成功", row);
+            return new Result<>(GatewayErrorCode.OK, "删除成功", row);
         } else {
-            return new Result<>(ErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", row);
+            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", row);
         }
     }
 
@@ -157,7 +157,7 @@ public class UserController {
         String username = form.getUsername();
         String password = form.getPassword();
         userFacade.changePassword(username, password);
-        return new Result<>(ErrorCode.OK, "重置密码成功", null);
+        return new Result<>(GatewayErrorCode.OK, "重置密码成功", null);
     }
 
     /**
@@ -171,6 +171,6 @@ public class UserController {
         String username = CurrentSessionHolder.getCurrentUser().getUsername();
         String password = form.getPassword();
         userFacade.changePassword(username, password);
-        return new Result<>(ErrorCode.OK, "重置密码成功", null);
+        return new Result<>(GatewayErrorCode.OK, "重置密码成功", null);
     }
 }

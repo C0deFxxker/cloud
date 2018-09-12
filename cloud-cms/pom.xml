@@ -3,23 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cloud-gateway</artifactId>
+        <artifactId>cloud-parent</artifactId>
         <groupId>com.lyl.study.cloud</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-gateway-web</artifactId>
+    <artifactId>cloud-cms</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.lyl.study.cloud</groupId>
             <artifactId>cloud-base</artifactId>
-            <version>${cloud.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.lyl.study.cloud</groupId>
-            <artifactId>cloud-gateway-api</artifactId>
             <version>${cloud.version}</version>
         </dependency>
         <!-- Web项目权限认证 -->

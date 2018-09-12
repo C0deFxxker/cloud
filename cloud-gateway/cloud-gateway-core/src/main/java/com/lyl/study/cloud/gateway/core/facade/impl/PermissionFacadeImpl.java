@@ -26,6 +26,10 @@ import java.util.stream.Collectors;
 public class PermissionFacadeImpl implements PermissionFacade {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private static final int PERMISSION_TYPE_CATALOG = 0;
+    private static final int PERMISSION_TYPE_PAGE = 1;
+    private static final int PERMISSION_TYPE_REQUEST = 2;
+
     private final TreeNodeUtils.BuildTreeConfig<PermissionDTO> config;
 
     public PermissionFacadeImpl() {
@@ -74,15 +78,15 @@ public class PermissionFacadeImpl implements PermissionFacade {
      * @return
      */
     private boolean checkPermissionType(int currentType, Integer parentType) {
-        if (currentType == 0) {
+        if (currentType == PERMISSION_TYPE_CATALOG) {
             // 目录的父级可以为空或是一个目录
-            return parentType == null || parentType == 0;
-        } else if (currentType == 1) {
+            return parentType == null || parentType == PERMISSION_TYPE_CATALOG;
+        } else if (currentType == PERMISSION_TYPE_PAGE) {
             // 页面的父级可以为空或是一个目录
-            return parentType == null || parentType == 0;
-        } else if (currentType == 2) {
+            return parentType == null || parentType == PERMISSION_TYPE_CATALOG;
+        } else if (currentType == PERMISSION_TYPE_REQUEST) {
             // 请求权限的父级只能是目录或页面
-            return parentType != null && parentType != 2;
+            return parentType != null && parentType != PERMISSION_TYPE_REQUEST;
         } else {
             throw new IllegalArgumentException("Permission type no support.");
         }

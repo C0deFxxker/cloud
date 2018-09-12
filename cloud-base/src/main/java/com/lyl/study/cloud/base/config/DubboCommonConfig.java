@@ -94,6 +94,9 @@ public class DubboCommonConfig {
             if (registryIp != null) {
                 logger.info("选取作为服务提供者的默认注册IP: {}", registryIp);
                 System.setProperty(Constants.DUBBO_IP_TO_REGISTRY, registryIp);
+                if (singleDubboConfig.getProtocol() == null) {
+                    singleDubboConfig.setProtocol(new ProtocolConfig("dubbo"));
+                }
                 singleDubboConfig.getProtocol().setHost(registryIp);
             }
         }
