@@ -48,7 +48,7 @@ public class RoleController {
      * @param roleUpdateForm 表单
      */
     @PutMapping
-    public Result update(RoleUpdateForm roleUpdateForm) {
+    public Result update(@RequestBody @Validated RoleUpdateForm roleUpdateForm) {
         try {
             roleFacade.update(roleUpdateForm);
             return new Result<>(OK, "修改成功", null);
@@ -91,15 +91,15 @@ public class RoleController {
     /**
      * 角色列表查询（这里不会展示每个角色的授权项）
      *
-     * @param departmentId 筛选部门（可选）
-     * @param pageIndex    页码
-     * @param pageSize     页面大小
+     * @param organizationId 筛选组织（可选）
+     * @param pageIndex      页码
+     * @param pageSize       页面大小
      * @return 角色信息列表
      */
     @GetMapping("/list")
-    public Result<PageInfo<RoleDTO>> list(Long departmentId,
+    public Result<PageInfo<RoleDTO>> list(Long organizationId,
                                           @RequestParam(name = "pageIndex", defaultValue = "1") Integer pageIndex,
                                           @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-        return new Result<>(OK, "查询成功", roleFacade.list(departmentId, pageIndex, pageSize));
+        return new Result<>(OK, "查询成功", roleFacade.list(organizationId, pageIndex, pageSize));
     }
 }

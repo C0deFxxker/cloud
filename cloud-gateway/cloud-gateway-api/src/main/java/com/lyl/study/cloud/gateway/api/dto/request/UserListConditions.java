@@ -11,7 +11,7 @@ import java.util.Date;
 @ToString
 @Accessors(chain = true)
 public class UserListConditions implements Serializable {
-    private Long departmentId;
+    private Long organizationId;
     private Long roleId;
     private String username;
     private String nickname;

@@ -1,5 +1,5 @@
-TRUNCATE TABLE sys_department;
-INSERT INTO sys_department(id, parent_id, name, description, enable, sort) VALUES
+TRUNCATE TABLE sys_organization;
+INSERT INTO sys_organization(id, parent_id, name, description, enable, sort) VALUES
 (1, NULL, '总公司', NULL, 1, 0),
 (2, 1, '人事部', NULL, 1, 0),
 (3, 1, '研发部', NULL, 1, 0),
@@ -7,7 +7,7 @@ INSERT INTO sys_department(id, parent_id, name, description, enable, sort) VALUE
 (5, 3, '前端', NULL, 1, 0);
 
 TRUNCATE TABLE sys_role;
-INSERT INTO sys_role(id, name, sign, department_id, enable) VALUES
+INSERT INTO sys_role(id, name, sign, organization_id, enable) VALUES
 (1, '超级管理员', 'root', 1, 1),
 (2, '大老板', 'boss', 1, 1),
 (3, '人事部经理', 'hr-manager', 2, 1),
@@ -22,7 +22,7 @@ TRUNCATE TABLE sys_permission;
 INSERT INTO sys_permission(id, parent_id, type, label, sign, icon, sort, enable) VALUES
 (1, NULL, 1, '首页', '/dashboard', NULL, 0, 1),
 (2, NULL, 0, '系统管理', NULL, NULL, 0, 1),
-(3, 2, 1, '部门管理', '/department', NULL, 0, 1),
+(3, 2, 1, '组织管理', '/organization', NULL, 0, 1),
 (4, 2, 1, '菜单管理', '/menu', NULL, 2, 1),
 (5, 2, 1, '角色管理', '/role', NULL, 1, 1),
 (6, 2, 1, '用户管理', '/user', NULL, 3, 1),
@@ -39,10 +39,10 @@ INSERT INTO sys_permission(id, parent_id, type, label, sign, icon, sort, enable)
 (17, 6, 2, '用户新增', 'system:user:save', NULL, 0, 1),
 (18, 6, 2, '用户修改', 'system:user:update', NULL, 0, 1),
 (19, 6, 2, '用户删除', 'system:user:delete', NULL, 0, 1),
-(20, 3, 2, '部门查询', 'system:user:read', NULL, 0, 1),
-(21, 3, 2, '部门新增', 'system:user:save', NULL, 0, 1),
-(22, 3, 2, '部门修改', 'system:user:update', NULL, 0, 1),
-(23, 3, 2, '部门删除', 'system:user:delete', NULL, 0, 1),
+(20, 3, 2, '组织查询', 'system:user:read', NULL, 0, 1),
+(21, 3, 2, '组织新增', 'system:user:save', NULL, 0, 1),
+(22, 3, 2, '组织修改', 'system:user:update', NULL, 0, 1),
+(23, 3, 2, '组织删除', 'system:user:delete', NULL, 0, 1),
 (24, 5, 2, '菜单查询', 'system:user:read', NULL, 0, 1),
 (25, 5, 2, '菜单新增', 'system:user:save', NULL, 0, 1),
 (26, 5, 2, '菜单修改', 'system:user:update', NULL, 0, 1),
@@ -54,7 +54,7 @@ INSERT INTO sys_permission(id, parent_id, type, label, sign, icon, sort, enable)
 
 TRUNCATE TABLE sys_user;
 INSERT INTO sys_user(id, username, password, nickname, mobile, email, birthday, sex, address, enable) VALUES
-(1, 'administrator', '2c2266d825c3af2409016d971529391a', '超管', '13611111111', 'asdfsdaf@163.com', NULL, NULL, NULL, 1),
+(1, 'administrator', '2c2266d825c3af2409016d971529391a', '超管', '13611111111', 'asdfsdaf@163.com', '2018-09-03', NULL, NULL, 1),
 (2, 'boss123', '300ea247b1e20ca391c2672d26df58ca', '大老板', '13611111112', NULL, NULL, 1, NULL, 1),
 (3, 'liudehua', '8bda7a159c71d2e2bd7a0f2e34a76fed', '刘德华', '13611111113', 'XSDFSD@qq.com', NULL, 1, NULL, 1),
 (4, 'zhangxueyou', '8c795a819d307216607f4d8144b8447b', '张学友', '13611111114', NULL, NULL, NULL, '顺德北滘美的总部', 1),

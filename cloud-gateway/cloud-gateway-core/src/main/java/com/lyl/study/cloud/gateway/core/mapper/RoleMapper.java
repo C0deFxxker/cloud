@@ -42,4 +42,12 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @return 成功删除行数
      */
     int deleteRolePermissionsByRoleId(Long roleId);
+
+    /**
+     * 删除用户角色关联关系
+     *
+     * @param roleId 角色ID
+     * @return 删除记录数
+     */
+    int deleteUserRolesByRoleId(Long roleId);
 }

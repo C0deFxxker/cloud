@@ -22,8 +22,8 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@TableName("sys_department")
-public class Department implements Serializable {
+@TableName("sys_organization")
+public class Organization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

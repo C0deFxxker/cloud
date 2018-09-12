@@ -10,21 +10,21 @@ import java.util.Date;
 @Data
 @ToString
 @Accessors(chain = true)
-public class DepartmentDTO implements Serializable {
+public class OrganizationDTO implements Serializable {
     /**
      * 主键
      */
     private Long id;
     /**
-     * 上级部门ID，一级部门为空
+     * 上级组织ID，一级组织为空
      */
     private Long parentId;
     /**
-     * 父部门名称
+     * 父组织名称
      */
     private String parentName;
     /**
-     * 部门名称
+     * 组织名称
      */
     private String name;
     /**

@@ -1,6 +1,6 @@
 package com.lyl.study.cloud.gateway.core.service;
 
-import com.lyl.study.cloud.gateway.core.entity.Department;
+import com.lyl.study.cloud.gateway.core.entity.Organization;
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.service.IService;
  * @author liyilin
  * @since 2018-09-07
  */
-public interface DepartmentService extends IService<Department> {
+public interface OrganizationService extends IService<Organization> {
 
 }

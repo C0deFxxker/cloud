@@ -1,6 +1,6 @@
 package com.lyl.study.cloud.gateway.core.mapper;
 
-import com.lyl.study.cloud.gateway.core.entity.Department;
+import com.lyl.study.cloud.gateway.core.entity.Organization;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author liyilin
  * @since 2018-09-07
  */
-public interface DepartmentMapper extends BaseMapper<Department> {
+public interface OrganizationMapper extends BaseMapper<Organization> {
 
 }

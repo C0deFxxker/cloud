@@ -12,14 +12,13 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class DepartmentUpdateForm implements Serializable {
+public class OrganizationSaveForm implements Serializable {
     /**
-     * 主键，修改时才用到
+     * 上级组织ID
      */
-    @NotNull
-    private Long id;
+    private Long parentId;
     /**
-     * 部门名称
+     * 组织名称
      */
     @NotBlank
     @Length(max = 50)
@@ -28,5 +27,20 @@ public class DepartmentUpdateForm implements Serializable {
      * 描述
      */
     private String description;
-
+    /**
+     * 排序（默认为0）
+     */
+    private Integer sort = 0;
+    /**
+     * 创建者ID
+     */
+    private Long creatorId;
+    /**
+     * 拥有者ID
+     */
+    private Long ownerId;
+    /**
+     * 拥有者角色ID
+     */
+    private Long ownerRoleId;
 }

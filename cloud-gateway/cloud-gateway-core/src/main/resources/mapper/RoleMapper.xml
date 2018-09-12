@@ -18,4 +18,8 @@
     <delete id="deleteRolePermissionsByRoleId" parameterType="java.lang.Long">
         DELETE FROM sys_role_permission WHERE role_id = #{roleId}
     </delete>
+
+    <delete id="deleteUserRolesByRoleId" parameterType="java.lang.Long">
+        DELETE FROM sys_user_role WHERE role_id = #{id}
+    </delete>
 </mapper>

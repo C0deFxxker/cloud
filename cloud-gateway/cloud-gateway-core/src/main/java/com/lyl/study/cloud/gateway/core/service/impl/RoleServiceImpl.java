@@ -55,6 +55,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
 
         BeanUtils.copyProperties(form, record);
+        record.setCreateTime(null);
+        record.setUpdateTime(null);
         baseMapper.updateById(record);
 
         // 处理角色授权项关联关系的修改
@@ -74,6 +76,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         int rows = baseMapper.deleteById(id);
         // 删除角色授权关联关系
         baseMapper.deleteRolePermissionsByRoleId(id);
+        // 删除用户角色关联关系
+        baseMapper.deleteUserRolesByRoleId(id);
         return rows;
     }
 

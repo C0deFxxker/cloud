@@ -39,10 +39,10 @@ public interface RoleFacade {
     /**
      * 角色列表查询（这里不会展示每个角色的授权项）
      *
-     * @param departmentId 筛选部门（可选）
+     * @param organizationId 筛选组织（可选）
      * @param pageIndex    页码
      * @param pageSize     页面大小
      * @return 角色信息列表
      */
-    PageInfo<RoleDTO> list(Long departmentId, Integer pageIndex, Integer pageSize);
+    PageInfo<RoleDTO> list(Long organizationId, Integer pageIndex, Integer pageSize);
 }

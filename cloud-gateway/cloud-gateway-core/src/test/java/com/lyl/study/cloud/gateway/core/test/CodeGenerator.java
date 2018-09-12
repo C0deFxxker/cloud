@@ -59,7 +59,7 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setDbColumnUnderline(true);
         strategy.setInclude("sys_user");
-//        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_department");
+//        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_organization");
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setInclude(tableNames); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表

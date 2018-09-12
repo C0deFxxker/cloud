@@ -33,7 +33,7 @@ public class Role implements Serializable {
     private Long id;
     private String name;
     private String sign;
-    private Long departmentId;
+    private Long organizationId;
     private Boolean enable;
     private Long creatorId;
     private Long ownerId;
@@ -48,7 +48,7 @@ public class Role implements Serializable {
 
     public static final String SIGN = "sign";
 
-    public static final String DEPARTMENT_ID = "department_id";
+    public static final String DEPARTMENT_ID = "organization_id";
 
     public static final String ENABLE = "enable";
 

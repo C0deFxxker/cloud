@@ -29,10 +29,10 @@ public class RoleSaveForm implements Serializable {
     @Length(max = 50)
     private String sign;
     /**
-     * 所属部门ID
+     * 所属组织ID
      */
     @NotNull
-    private Long departmentId;
+    private Long organizationId;
     /**
      * 是否启用
      */

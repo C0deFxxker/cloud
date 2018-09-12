@@ -67,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         User user = baseMapper.selectById(userId);
         BeanUtils.copyProperties(userUpdateForm, user);
+        user.setUpdateTime(null);
         baseMapper.updateById(user);
 
 

@@ -9,9 +9,9 @@ import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
-import com.lyl.study.cloud.gateway.core.entity.Department;
+import com.lyl.study.cloud.gateway.core.entity.Organization;
 import com.lyl.study.cloud.gateway.core.entity.Role;
-import com.lyl.study.cloud.gateway.core.service.DepartmentService;
+import com.lyl.study.cloud.gateway.core.service.OrganizationService;
 import com.lyl.study.cloud.gateway.core.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class RoleFacadeImpl implements RoleFacade {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private DepartmentService departmentService;
+    private OrganizationService organizationService;
 
     @Override
     public long save(RoleSaveForm roleSaveForm) {
@@ -53,9 +53,9 @@ public class RoleFacadeImpl implements RoleFacade {
         if (role != null) {
             RoleDTO dto = new RoleDTO();
             BeanUtils.copyProperties(role, dto);
-            // 获取部门名称
-            Department department = departmentService.selectById(role.getDepartmentId());
-            dto.setDepartmentName(department.getName());
+            // 获取组织名称
+            Organization organization = organizationService.selectById(role.getOrganizationId());
+            dto.setOrganizationName(organization.getName());
             // 获取角色关联的授权项
             List<PermissionItem> permissions = roleService.getPermissionByRoleId(id);
             dto.setPermissions(permissions);
@@ -67,24 +67,24 @@ public class RoleFacadeImpl implements RoleFacade {
 
     @SuppressWarnings("unchecked")
     @Override
-    public PageInfo<RoleDTO> list(Long departmentId, Integer pageIndex, Integer pageSize) {
+    public PageInfo<RoleDTO> list(Long organizationId, Integer pageIndex, Integer pageSize) {
         EntityWrapper<Role> wrapper = new EntityWrapper<>();
-        if (departmentId != null) {
-            wrapper.eq(Role.DEPARTMENT_ID, departmentId);
+        if (organizationId != null) {
+            wrapper.eq(Role.DEPARTMENT_ID, organizationId);
         }
         Page<Role> page = new Page<>(pageIndex, pageSize);
         page = roleService.selectPage(page, wrapper);
 
         List<Role> records = page.getRecords();
-        // 批量获取部门名称
-        Map<Long, String> departmentIdNameMap = batchGetDepartmentNames(records);
+        // 批量获取组织名称
+        Map<Long, String> organizationIdNameMap = batchGetOrganizationNames(records);
         // 转DTO
         List<RoleDTO> dtoList = records.stream()
                 .map(entity -> {
                     RoleDTO dto = new RoleDTO();
                     BeanUtils.copyProperties(entity, dto);
-                    String deptName = departmentIdNameMap.get(dto.getDepartmentId());
-                    dto.setDepartmentName(deptName);
+                    String deptName = organizationIdNameMap.get(dto.getOrganizationId());
+                    dto.setOrganizationName(deptName);
                     return dto;
                 }).collect(Collectors.toList());
 
@@ -92,18 +92,18 @@ public class RoleFacadeImpl implements RoleFacade {
     }
 
     /**
-     * 批量获取角色列表对应的部门名称
+     * 批量获取角色列表对应的组织名称
      *
      * @param records 角色列表
-     * @return 部门ID与部门名称映射
+     * @return 组织ID与组织名称映射
      */
-    private Map<Long, String> batchGetDepartmentNames(List<Role> records) {
+    private Map<Long, String> batchGetOrganizationNames(List<Role> records) {
         if (!records.isEmpty()) {
-            Set<Long> departmentIdSet = records.stream().map(Role::getDepartmentId).collect(Collectors.toSet());
-            Map<Long, String> departmentIdNameMap = new HashMap<>(departmentIdSet.size());
-            List<Department> departments = departmentService.selectBatchIds(departmentIdSet);
-            departments.forEach(entity -> departmentIdNameMap.put(entity.getId(), entity.getName()));
-            return departmentIdNameMap;
+            Set<Long> organizationIdSet = records.stream().map(Role::getOrganizationId).collect(Collectors.toSet());
+            Map<Long, String> organizationIdNameMap = new HashMap<>(organizationIdSet.size());
+            List<Organization> organizations = organizationService.selectBatchIds(organizationIdSet);
+            organizations.forEach(entity -> organizationIdNameMap.put(entity.getId(), entity.getName()));
+            return organizationIdNameMap;
         } else {
             return Collections.emptyMap();
         }

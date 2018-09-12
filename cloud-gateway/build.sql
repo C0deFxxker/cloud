@@ -17,8 +17,8 @@ CREATE TABLE sys_user (
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
 )CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS sys_department;
-CREATE TABLE sys_department (
+DROP TABLE IF EXISTS sys_organization;
+CREATE TABLE sys_organization (
   id BIGINT PRIMARY KEY,
   parent_id BIGINT,
   name VARCHAR(50) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE sys_role (
   id BIGINT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   sign VARCHAR(50) NOT NULL,
-  department_id BIGINT NOT NULL,
+  organization_id BIGINT NOT NULL,
   enable BIT(1) NOT NULL,
   creator_id BIGINT,
   owner_id BIGINT,

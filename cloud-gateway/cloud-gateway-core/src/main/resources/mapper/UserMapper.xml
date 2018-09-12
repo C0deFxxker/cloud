@@ -4,10 +4,10 @@
     <select id="selectRolesByUserId" resultType="com.lyl.study.cloud.gateway.api.dto.response.RoleDTO">
         SELECT
         b.*,
-        d.name AS department_name
+        d.name AS organization_name
         FROM sys_user_role a
         LEFT JOIN sys_role b ON a.role_id = b.id
-        LEFT JOIN sys_department d ON b.department_id=d.id
+        LEFT JOIN sys_organization d ON b.organization_id=d.id
         WHERE a.user_id=#{userId}
         <if test="onlyEnable == true">
             AND b.enable=1
@@ -28,9 +28,9 @@
 
     <sql id="selectByConditionsSql">
         FROM sys_user a
-        <if test="departmentId != null or roleId != null">
+        <if test="organizationId != null or roleId != null">
             INNER JOIN sys_user_role b ON a.id = b.user_id
-            <if test="departmentId != null">
+            <if test="organizationId != null">
                 INNER JOIN sys_role r ON b.role_id=r.id
             </if>
         </if>
@@ -38,8 +38,8 @@
             <if test="roleId != null">
                 AND b.role_id = #{roleId}
             </if>
-            <if test="departmentId != null">
-                AND r.department_id = #{departmentId}
+            <if test="organizationId != null">
+                AND r.organization_id = #{organizationId}
             </if>
             <if test="username != null">
                 AND a.username LIKE CONCAT('%', #{username}, '%')

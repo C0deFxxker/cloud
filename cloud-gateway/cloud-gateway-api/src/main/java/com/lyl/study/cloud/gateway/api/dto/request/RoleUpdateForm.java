@@ -28,6 +28,12 @@ public class RoleUpdateForm implements Serializable {
     @Length(max = 50)
     private String name;
     /**
+     * 角色标识
+     */
+    @NotBlank
+    @Length(max = 50)
+    private String sign;
+    /**
      * 是否启用
      */
     @NotNull
