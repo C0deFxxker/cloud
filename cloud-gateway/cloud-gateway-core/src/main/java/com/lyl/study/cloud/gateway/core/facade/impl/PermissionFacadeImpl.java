@@ -3,16 +3,18 @@ package com.lyl.study.cloud.gateway.core.facade.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.TreeNode;
+import com.lyl.study.cloud.base.exception.IllegalOperationException;
+import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.TreeNodeUtils;
-import com.lyl.study.cloud.gateway.core.entity.Permission;
-import com.lyl.study.cloud.gateway.core.service.PermissionService;
 import com.lyl.study.cloud.gateway.api.dto.request.PermissionSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.PermissionUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.PermissionDTO;
 import com.lyl.study.cloud.gateway.api.facade.PermissionFacade;
+import com.lyl.study.cloud.gateway.core.entity.Permission;
+import com.lyl.study.cloud.gateway.core.service.PermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -21,6 +23,9 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.BAD_REQUEST;
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
 
 @Service
 public class PermissionFacadeImpl implements PermissionFacade {
@@ -45,22 +50,22 @@ public class PermissionFacadeImpl implements PermissionFacade {
     private Sequence sequence;
 
     @Override
-    public long save(PermissionSaveForm permissionSaveForm) throws NoSuchDependentedEntityException, IllegalArgumentException {
+    public long save(PermissionSaveForm permissionSaveForm) throws NoSuchDependentedEntityException, InvalidArgumentException {
         logger.info("新增授权项：" + permissionSaveForm);
         Integer parentType = null;
 
-        // 判断父菜单是否存在
+        // 判断父授权项是否存在
         Long parentId = permissionSaveForm.getParentId();
         if (parentId != null) {
             Permission parent = permissionService.selectById(parentId);
             if (parent == null) {
-                throw new NoSuchDependentedEntityException("找不到ID为" + parentId + "的父授权项");
+                throw new NoSuchDependentedEntityException(NOT_FOUND, "找不到ID为" + parentId + "的父授权项");
             }
             parentType = parent.getType();
         }
 
         if (!checkPermissionType(permissionSaveForm.getType(), parentType)) {
-            throw new IllegalArgumentException("非法权限类型");
+            throw new InvalidArgumentException(BAD_REQUEST, "非法权限类型");
         }
 
         Permission record = new Permission();
@@ -73,8 +78,8 @@ public class PermissionFacadeImpl implements PermissionFacade {
     /**
      * 校验权限类型是否合法
      *
-     * @param currentType 当前菜单权限类型
-     * @param parentType  父级菜单权限类型
+     * @param currentType 当前授权项权限类型
+     * @param parentType  父级授权项权限类型
      * @return
      */
     private boolean checkPermissionType(int currentType, Integer parentType) {
@@ -88,7 +93,7 @@ public class PermissionFacadeImpl implements PermissionFacade {
             // 请求权限的父级只能是目录或页面
             return parentType != null && parentType != PERMISSION_TYPE_REQUEST;
         } else {
-            throw new IllegalArgumentException("Permission type no support.");
+            return false;
         }
     }
 
@@ -97,8 +102,11 @@ public class PermissionFacadeImpl implements PermissionFacade {
         logger.info("修改授权项：" + permissionUpdateForm);
 
         Long id = permissionUpdateForm.getId();
-        Assert.notNull(id, "菜单ID不能为空");
+        Assert.notNull(id, "授权项ID不能为空");
         Permission record = permissionService.selectById(permissionUpdateForm.getId());
+        if (record == null) {
+            throw new NoSuchEntityException(NOT_FOUND, "找不到ID为" + id + "的授权项");
+        }
         BeanUtils.copyProperties(permissionUpdateForm, record);
         record.setUpdateTime(null);
         permissionService.updateById(record);
@@ -116,10 +124,10 @@ public class PermissionFacadeImpl implements PermissionFacade {
     }
 
     @Override
-    public int deleteById(long id, boolean force) throws NoSuchEntityException, IllegalAccessError {
+    public int deleteById(long id, boolean force) throws NoSuchEntityException, IllegalOperationException {
         Permission record = permissionService.selectById(id);
         if (record == null) {
-            throw new NoSuchEntityException("找不到ID为" + id + "的授权项");
+            throw new NoSuchEntityException(NOT_FOUND, "找不到ID为" + id + "的授权项");
         }
 
         return permissionService.deleteById(id, force);
@@ -128,7 +136,9 @@ public class PermissionFacadeImpl implements PermissionFacade {
     @SuppressWarnings("unchecked")
     @Override
     public List<TreeNode<PermissionDTO>> tree() {
-        List<Permission> allPermission = permissionService.selectList(new EntityWrapper<>());
+        List<Permission> allPermission = permissionService.selectList(
+                new EntityWrapper<Permission>().orderBy(Permission.SORT, true)
+        );
         List<PermissionDTO> dtoList = allPermission.stream().map(entity -> {
             PermissionDTO dto = new PermissionDTO();
             BeanUtils.copyProperties(entity, dto);

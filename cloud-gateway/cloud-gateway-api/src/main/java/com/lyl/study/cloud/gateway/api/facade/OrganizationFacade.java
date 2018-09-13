@@ -1,6 +1,7 @@
 package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.TreeNode;
+import com.lyl.study.cloud.base.exception.IllegalOperationException;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.OrganizationSaveForm;
@@ -35,9 +36,10 @@ public interface OrganizationFacade {
      *
      * @param id 组织ID
      * @return 删除记录数
-     * @throws IllegalAccessError 组织下还有子组织或角色时，抛出此异常
+     * @throws IllegalOperationException 组织下还有子组织或角色时，抛出此异常
+     * @throws NoSuchEntityException     找不到组织
      */
-    int deleteById(long id) throws IllegalAccessError;
+    void deleteById(long id) throws NoSuchEntityException, IllegalOperationException;
 
     /**
      * 根据ID获取组织信息
@@ -54,7 +56,7 @@ public interface OrganizationFacade {
      * @param id 根节点ID。若为null，则返回所有树
      * @return 若查询成功，则返回含有组织树列表的Result对象；
      * 若指定的根节点ID对应的组织不存在，则返回的Result对象数据字段中仅含有一个空列表。
-     * @throws IllegalArgumentException 方法调用指定了根结点ID，但建树过程中查询不到根结点
+     * @throws NoSuchEntityException 方法调用指定了根结点ID，但建树过程中查询不到根结点
      */
-    List<TreeNode<OrganizationDTO>> listTree(Long id) throws IllegalArgumentException;
+    List<TreeNode<OrganizationDTO>> listTree(Long id) throws NoSuchEntityException;
 }

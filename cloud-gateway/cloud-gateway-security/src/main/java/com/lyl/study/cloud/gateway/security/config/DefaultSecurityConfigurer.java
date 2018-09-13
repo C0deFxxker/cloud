@@ -56,7 +56,7 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        UserJwtConcurrentSessionFilter filter = getApplicationContext().getBean(UserJwtConcurrentSessionFilter.class);
+        JwtSigner jwtSigner = getApplicationContext().getBean(JwtSigner.class);
 
         http
                 .exceptionHandling()
@@ -67,7 +67,7 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(permitUrls).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterAt(filter, ConcurrentSessionFilter.class)
+                .addFilterAt(jwtConcurrentSessionFilter(jwtSigner), ConcurrentSessionFilter.class)
                 .csrf().disable();
     }
 
@@ -84,8 +84,9 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     /**
      * 会话识别过滤器
+     * 不添加@Bean，否则会被同时加到SpringApplicationFilterChain与SpringSecurityFilterChain导致该Filter被重复调用
      */
-    @Bean
+//    @Bean
     public UserJwtConcurrentSessionFilter jwtConcurrentSessionFilter(JwtSigner jwtSigner) {
         Assert.notNull(userFacade, "userFacade不能为空，请检查Dubbo服务是否启动并确保服务提供方已成功注册服务");
         Assert.notNull(roleFacade, "roleFacade不能为空，请检查Dubbo服务是否启动并确保服务提供方已成功注册服务");

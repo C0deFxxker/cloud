@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.idworker.Sequence;
-import com.lyl.study.cloud.base.util.JsonUtils;
 import com.lyl.study.cloud.cms.api.CmsConstants;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntityListConditions;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntitySaveForm;
@@ -32,6 +31,8 @@ public class ResourceEntityFacadeImpl implements ResourceEntityFacade {
     public PageInfo<ResourceEntityDTO> list(ResourceEntityListConditions conditions) {
         Assert.notNull(conditions.getPageIndex(), "pageIndex cannot be null");
         Assert.notNull(conditions.getPageSize(), "pageSize cannot be null");
+
+        // 处理筛选条件
         EntityWrapper<ResourceEntity> wrapper = new EntityWrapper<>();
         if (conditions.getMediaType() != null) {
             String mediaTypeValue = CmsConstants.getMediaTypeByIdx(conditions.getMediaType());
@@ -40,6 +41,7 @@ public class ResourceEntityFacadeImpl implements ResourceEntityFacade {
             }
             wrapper.like(ResourceEntity.MEDIATYPE, mediaTypeValue, SqlLike.RIGHT);
         }
+        wrapper.orderBy(ResourceEntity.ID, false);
 
         Page<ResourceEntity> page = new Page<>(conditions.getPageIndex(), conditions.getPageSize());
         page = resourceEntityService.selectPage(page, wrapper);

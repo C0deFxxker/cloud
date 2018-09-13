@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotations.Version;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**

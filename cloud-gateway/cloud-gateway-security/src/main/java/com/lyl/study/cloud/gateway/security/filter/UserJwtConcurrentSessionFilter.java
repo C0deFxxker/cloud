@@ -171,7 +171,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
         }
         UserDetailDTO user = userFacade.getById(userId);
         if (user == null) {
-            throw new NoSuchEntityException("找不到当前登录的用户信息，请重新登录");
+            throw new NoSuchEntityException(GatewayErrorCode.NOT_FOUND, "找不到当前登录的用户信息，请重新登录");
         }
         user.setPassword(null);
         return user;

@@ -63,8 +63,9 @@ public interface UserFacade {
      * 根据ID删除用户信息
      *
      * @param id 用户ID
+     * @throws NoSuchEntityException 找不到用户
      */
-    int deleteById(long id);
+    void deleteById(long id) throws NoSuchEntityException;
 
     /**
      * 修改用户密码

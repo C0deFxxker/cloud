@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
@@ -37,14 +38,14 @@ public class RoleFacadeImpl implements RoleFacade {
     }
 
     @Override
-    public void update(RoleUpdateForm roleUpdateForm) {
+    public void update(RoleUpdateForm roleUpdateForm) throws NoSuchEntityException {
         // TODO 校对授权项是否存在
         roleService.update(roleUpdateForm);
     }
 
     @Override
-    public int deleteById(long id) {
-        return roleService.deleteById(id);
+    public void deleteById(long id) {
+        roleService.deleteById(id);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class RoleFacadeImpl implements RoleFacade {
         if (organizationId != null) {
             wrapper.eq(Role.DEPARTMENT_ID, organizationId);
         }
+        wrapper.orderBy(Role.ID, false);
         Page<Role> page = new Page<>(pageIndex, pageSize);
         page = roleService.selectPage(page, wrapper);
 

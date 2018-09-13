@@ -3,7 +3,6 @@ package com.lyl.study.cloud.gateway.web.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
-import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
@@ -13,7 +12,8 @@ import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.*;
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.OK;
 
 @RestController
 @RequestMapping("/role")
@@ -29,17 +29,13 @@ public class RoleController {
      */
     @PostMapping
     public Result<Long> save(@RequestBody @Validated RoleSaveForm roleSaveForm) {
-        try {
-            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
-            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
-            roleSaveForm.setCreatorId(user.getId());
-            roleSaveForm.setOwnerId(user.getId());
-            roleSaveForm.setOwnerRoleId(currentRole.getId());
+        UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+        RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+        roleSaveForm.setCreatorId(user.getId());
+        roleSaveForm.setOwnerId(user.getId());
+        roleSaveForm.setOwnerRoleId(currentRole.getId());
 
-            return new Result<>(OK, "新增成功", roleFacade.save(roleSaveForm));
-        } catch (NoSuchDependentedEntityException e) {
-            return new Result<>(NOT_FOUND, e.getMessage(), null);
-        }
+        return new Result<>(OK, "新增成功", roleFacade.save(roleSaveForm));
     }
 
     /**
@@ -49,12 +45,8 @@ public class RoleController {
      */
     @PutMapping
     public Result update(@RequestBody @Validated RoleUpdateForm roleUpdateForm) {
-        try {
-            roleFacade.update(roleUpdateForm);
-            return new Result<>(OK, "修改成功", null);
-        } catch (NoSuchDependentedEntityException e) {
-            return new Result<>(NOT_FOUND, e.getMessage(), null);
-        }
+        roleFacade.update(roleUpdateForm);
+        return new Result<>(OK, "修改成功", null);
     }
 
     /**
@@ -63,13 +55,9 @@ public class RoleController {
      * @param id 角色ID
      */
     @DeleteMapping("/{id}")
-    public Result<Integer> deleteById(@PathVariable("id") Long id) {
-        int rows = roleFacade.deleteById(id);
-        if (rows > 0) {
-            return new Result<>(OK, "删除成功", rows);
-        } else {
-            return new Result<>(NOT_FOUND, "找不到ID为" + id + "的角色信息", rows);
-        }
+    public Result deleteById(@PathVariable("id") Long id) {
+        roleFacade.deleteById(id);
+        return new Result<>(OK, "删除成功", null);
     }
 
     /**

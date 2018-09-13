@@ -3,8 +3,6 @@ package com.lyl.study.cloud.gateway.web.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
-import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.*;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
@@ -16,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.lyl.study.cloud.base.CommonErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.base.CommonErrorCode.OK;
 
 /**
  * @author liyilin
@@ -41,7 +42,7 @@ public class UserController {
         if (conditions.getPageSize() == null) {
             conditions.setPageSize(10);
         }
-        return new Result<>(GatewayErrorCode.OK, "查询成功", userFacade.list(conditions));
+        return new Result<>(OK, "查询成功", userFacade.list(conditions));
     }
 
     /**
@@ -56,9 +57,9 @@ public class UserController {
         UserDetailDTO dto = userFacade.getById(id);
         if (dto != null) {
             dto.setPassword(null);
-            return new Result<>(GatewayErrorCode.OK, "查询成功", dto);
+            return new Result<>(OK, "查询成功", dto);
         } else {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", null);
+            return new Result<>(NOT_FOUND, "找不到ID为" + id + "的用户信息", null);
         }
     }
 
@@ -74,9 +75,9 @@ public class UserController {
         UserDetailDTO dto = userFacade.getByUsername(username);
         if (dto != null) {
             dto.setPassword(null);
-            return new Result<>(GatewayErrorCode.OK, "查询成功", dto);
+            return new Result<>(OK, "查询成功", dto);
         } else {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息", null);
+            return new Result<>(NOT_FOUND, "找不到用户名为" + username + "的用户信息", null);
         }
     }
 
@@ -91,11 +92,7 @@ public class UserController {
     @GetMapping("/roles/{userId}")
     public Result<List<RoleDTO>> getRolesByUserId(@PathVariable("userId") Long userId,
                                                   @RequestParam(value = "enable", defaultValue = "false") boolean onlyEnable) {
-        try {
-            return new Result<>(GatewayErrorCode.OK, "查询成功", userFacade.getRolesByUserId(userId, onlyEnable));
-        } catch (NoSuchEntityException e) {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, e.getMessage(), null);
-        }
+        return new Result<>(OK, "查询成功", userFacade.getRolesByUserId(userId, onlyEnable));
     }
 
     /**
@@ -106,17 +103,13 @@ public class UserController {
     @PreAuthorize("hasAuthority('system:user:save')")
     @PostMapping
     public Result<Long> save(@RequestBody @Validated UserSaveForm userSaveForm) {
-        try {
-            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
-            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
-            userSaveForm.setCreatorId(user.getId());
-            userSaveForm.setOwnerId(user.getId());
-            userSaveForm.setOwnerRoleId(currentRole.getId());
+        UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+        RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+        userSaveForm.setCreatorId(user.getId());
+        userSaveForm.setOwnerId(user.getId());
+        userSaveForm.setOwnerRoleId(currentRole.getId());
 
-            return new Result<>(GatewayErrorCode.OK, "新增成功", userFacade.save(userSaveForm));
-        } catch (IllegalArgumentException e) {
-            return new Result<>(GatewayErrorCode.BAD_REQUEST, e.getMessage(), null);
-        }
+        return new Result<>(OK, "新增成功", userFacade.save(userSaveForm));
     }
 
     /**
@@ -126,7 +119,7 @@ public class UserController {
     @PutMapping
     public Result update(@RequestBody @Validated UserUpdateForm userUpdateForm) {
         userFacade.update(userUpdateForm);
-        return new Result<>(GatewayErrorCode.OK, "修改成功", null);
+        return new Result<>(OK, "修改成功", null);
     }
 
     /**
@@ -137,12 +130,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('system:user:delete')")
     @DeleteMapping("/{id}")
     public Result<Integer> deleteById(@PathVariable("id") Long id) {
-        int row = userFacade.deleteById(id);
-        if (row > 0) {
-            return new Result<>(GatewayErrorCode.OK, "删除成功", row);
-        } else {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的用户信息", row);
-        }
+        userFacade.deleteById(id);
+        return new Result<>(OK, "删除成功", null);
     }
 
     /**
@@ -157,7 +146,7 @@ public class UserController {
         String username = form.getUsername();
         String password = form.getPassword();
         userFacade.changePassword(username, password);
-        return new Result<>(GatewayErrorCode.OK, "重置密码成功", null);
+        return new Result<>(OK, "重置密码成功", null);
     }
 
     /**
@@ -171,6 +160,6 @@ public class UserController {
         String username = CurrentSessionHolder.getCurrentUser().getUsername();
         String password = form.getPassword();
         userFacade.changePassword(username, password);
-        return new Result<>(GatewayErrorCode.OK, "重置密码成功", null);
+        return new Result<>(OK, "重置密码成功", null);
     }
 }

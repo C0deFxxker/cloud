@@ -23,13 +23,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 import static com.lyl.study.cloud.cms.api.CmsErrorCode.*;
 
 @RestController
 @RequestMapping("/resourceEntity")
 public class ResourceEntityController implements InitializingBean {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final MediaType MEDIA_TYPE_IMAGE = MediaType.parseMediaType("image/*");
     private final MediaType MEDIA_TYPE_AUDIO = MediaType.parseMediaType("audio/*");
@@ -179,8 +180,7 @@ public class ResourceEntityController implements InitializingBean {
         String suffix = getFileNameSuffix(originalFilename);
 
         for (int i = 0; i < 10; i++) {
-            String filename = System.currentTimeMillis()
-                    + String.format("%04d", new Random().nextInt(10000)) + suffix;
+            String filename = UUID.randomUUID().toString().replace("-", "") + suffix;
 
             try {
                 Path filepath = uploadPath.resolve(Paths.get(filename));

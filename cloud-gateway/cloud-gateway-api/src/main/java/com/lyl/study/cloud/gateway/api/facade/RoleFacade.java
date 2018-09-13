@@ -1,6 +1,7 @@
 package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
@@ -18,15 +19,16 @@ public interface RoleFacade {
      * 修改角色信息
      *
      * @param roleUpdateForm 表单
+     * @throws NoSuchEntityException 找不到角色
      */
-    void update(RoleUpdateForm roleUpdateForm);
+    void update(RoleUpdateForm roleUpdateForm) throws NoSuchEntityException;
 
     /**
      * 删除角色（级联删除角色授权项关联关系）
      *
      * @param id 角色ID
      */
-    int deleteById(long id);
+    void deleteById(long id) throws NoSuchEntityException;
 
     /**
      * 根据ID获取角色信息
@@ -40,8 +42,8 @@ public interface RoleFacade {
      * 角色列表查询（这里不会展示每个角色的授权项）
      *
      * @param organizationId 筛选组织（可选）
-     * @param pageIndex    页码
-     * @param pageSize     页面大小
+     * @param pageIndex      页码
+     * @param pageSize       页面大小
      * @return 角色信息列表
      */
     PageInfo<RoleDTO> list(Long organizationId, Integer pageIndex, Integer pageSize);

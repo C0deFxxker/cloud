@@ -6,6 +6,7 @@ import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.CryptoUtils;
+import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
@@ -85,10 +86,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional
-    public int deleteById(long id) {
+    public void deleteById(long id) throws NoSuchEntityException {
         int rows = baseMapper.deleteById(id);
-        baseMapper.deleteUserRolesByUserId(id);
-        return rows;
+        if (rows > 0) {
+            baseMapper.deleteUserRolesByUserId(id);
+        } else {
+            throw new NoSuchEntityException("找不到ID为" + id + "的用户");
+        }
     }
 
     @Override
@@ -117,7 +121,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = baseMapper.selectOne(new User().setUsername(username));
 
         if (user == null) {
-            throw new NoSuchEntityException("找不到用户名为" + username + "的用户信息");
+            throw new NoSuchEntityException(GatewayErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息");
         }
 
         String encryptedPassword = encryptPassword(username, password);
@@ -127,7 +131,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     public static String encryptPassword(String username, String rawPassword) {
         String hmacSha1 = CryptoUtils.hmacSha1(username, rawPassword);
-        return  CryptoUtils.md5String(hmacSha1.getBytes(Charsets.UTF_8));
+        return CryptoUtils.md5String(hmacSha1.getBytes(Charsets.UTF_8));
     }
 
     public static void main(String[] args) {

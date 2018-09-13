@@ -57,8 +57,9 @@ public interface UserService extends IService<User> {
      *
      * @param id 用户ID
      * @return 删除记录数
+     * @throws NoSuchEntityException 找不到用户
      */
-    int deleteById(long id);
+    void deleteById(long id) throws NoSuchEntityException;
 
     /**
      * 修改用户密码

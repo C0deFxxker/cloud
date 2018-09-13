@@ -1,22 +1,21 @@
 package com.lyl.study.cloud.base.exception;
 
+import org.springframework.boot.logging.LogLevel;
+
 public class NoSuchDependentedEntityException extends NoSuchEntityException {
-    public NoSuchDependentedEntityException() {
+    public NoSuchDependentedEntityException(String msg) {
+        super(msg);
     }
 
-    public NoSuchDependentedEntityException(String message) {
-        super(message);
+    public NoSuchDependentedEntityException(String msg, LogLevel logLevel) {
+        super(msg, logLevel);
     }
 
-    public NoSuchDependentedEntityException(String message, Throwable cause) {
-        super(message, cause);
+    public NoSuchDependentedEntityException(int code, String msg) {
+        super(code, msg);
     }
 
-    public NoSuchDependentedEntityException(Throwable cause) {
-        super(cause);
-    }
-
-    public NoSuchDependentedEntityException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public NoSuchDependentedEntityException(int code, String msg, LogLevel logLevel) {
+        super(code, msg, logLevel);
     }
 }

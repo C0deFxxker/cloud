@@ -1,6 +1,8 @@
 package com.lyl.study.cloud.gateway.api.facade;
 
 import com.lyl.study.cloud.base.dto.TreeNode;
+import com.lyl.study.cloud.base.exception.IllegalOperationException;
+import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.gateway.api.dto.request.PermissionSaveForm;
@@ -16,9 +18,9 @@ public interface PermissionFacade {
      * @param permissionSaveForm 表单
      * @return 授权项ID
      * @throws NoSuchEntityException    找不到父授权项
-     * @throws IllegalArgumentException 非法授权项类型
+     * @throws InvalidArgumentException 非法授权项类型
      */
-    long save(PermissionSaveForm permissionSaveForm) throws NoSuchDependentedEntityException, IllegalArgumentException;
+    long save(PermissionSaveForm permissionSaveForm) throws NoSuchDependentedEntityException, InvalidArgumentException;
 
     /**
      * 修改授权项
@@ -41,10 +43,10 @@ public interface PermissionFacade {
      * @param id    授权项ID
      * @param force 是否强制删除：如果是，则连同子授权项一并删除；否则，检查到该授权项有子授权项时，抛出异常
      * @return 删除记录数
-     * @throws NoSuchEntityException 找不到要删除的菜单项
-     * @throws IllegalAccessError 指定不强制删除的情况下，检查到授权项有子菜单时抛出此异常
+     * @throws NoSuchEntityException     找不到要删除的菜单项
+     * @throws IllegalOperationException 指定不强制删除的情况下，检查到授权项有子菜单时抛出此异常
      */
-    int deleteById(long id, boolean force) throws NoSuchEntityException, IllegalAccessError;
+    int deleteById(long id, boolean force) throws NoSuchEntityException, IllegalOperationException;
 
     /**
      * 展示整个菜单树

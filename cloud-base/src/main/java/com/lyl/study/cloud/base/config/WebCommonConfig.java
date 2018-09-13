@@ -2,6 +2,7 @@ package com.lyl.study.cloud.base.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyl.study.cloud.base.controller.MaintainErrorController;
+import com.lyl.study.cloud.base.exception.handler.CommonExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @Configurable
 @ConditionalOnWebApplication
-@Import(MaintainErrorController.class)
+@Import({MaintainErrorController.class, CommonExceptionHandler.class})
 @AutoConfigureBefore(name = "org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration")
 @AutoConfigureAfter(name = "com.lyl.study.cloud.base.config.SystemCommonConfig")
 @ConditionalOnClass(name = "org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter")

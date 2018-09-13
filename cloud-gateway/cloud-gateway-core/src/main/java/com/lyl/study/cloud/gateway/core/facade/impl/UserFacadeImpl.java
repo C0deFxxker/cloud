@@ -3,7 +3,9 @@ package com.lyl.study.cloud.gateway.core.facade.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
+import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.lyl.study.cloud.base.CommonErrorCode.BAD_REQUEST;
 
 @Service
 public class UserFacadeImpl implements UserFacade {
@@ -47,7 +51,7 @@ public class UserFacadeImpl implements UserFacade {
     public List<RoleDTO> getRolesByUserId(long userId, boolean onlyEnable) throws NoSuchEntityException {
         User user = userService.selectById(userId);
         if (user == null) {
-            throw new NoSuchEntityException("找不到ID为" + userId + "的用户信息");
+            throw new NoSuchEntityException(GatewayErrorCode.NOT_FOUND, "找不到ID为" + userId + "的用户信息");
         }
 
         return userService.getRolesByUserId(userId, onlyEnable);
@@ -73,13 +77,13 @@ public class UserFacadeImpl implements UserFacade {
     public long save(UserSaveForm userSaveForm) throws IllegalArgumentException {
         User record = userService.selectOne(new EntityWrapper<User>().eq(User.USERNAME, userSaveForm.getUsername()));
         if (record != null) {
-            throw new IllegalArgumentException("用户名已存在");
+            throw new InvalidArgumentException(BAD_REQUEST, "用户名已存在");
         }
 
         List<Long> roles = userSaveForm.getRoles();
         List<Long> notExistsRoles = getNotExistsRoles(roles);
         if (!notExistsRoles.isEmpty()) {
-            throw new IllegalArgumentException("用户角色不存在: " + notExistsRoles.toString());
+            throw new InvalidArgumentException(BAD_REQUEST, "用户角色不存在: " + notExistsRoles.toString());
         }
 
         return userService.save(userSaveForm);
@@ -90,15 +94,15 @@ public class UserFacadeImpl implements UserFacade {
         List<Long> roles = userUpdateForm.getRoles();
         List<Long> notExistsRoles = getNotExistsRoles(roles);
         if (!notExistsRoles.isEmpty()) {
-            throw new IllegalArgumentException("用户角色不存在: " + notExistsRoles.toString());
+            throw new InvalidArgumentException(BAD_REQUEST, "用户角色不存在: " + notExistsRoles.toString());
         }
 
         userService.update(userUpdateForm);
     }
 
     @Override
-    public int deleteById(long id) {
-        return userService.deleteById(id);
+    public void deleteById(long id) throws NoSuchEntityException {
+        userService.deleteById(id);
     }
 
     @Override

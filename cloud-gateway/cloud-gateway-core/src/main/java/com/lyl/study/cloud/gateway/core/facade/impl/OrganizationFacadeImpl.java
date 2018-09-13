@@ -3,6 +3,7 @@ package com.lyl.study.cloud.gateway.core.facade.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.TreeNode;
+import com.lyl.study.cloud.base.exception.IllegalOperationException;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
@@ -24,6 +25,9 @@ import org.springframework.util.Assert;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.DEPARTMENT_DELETE_FAILED;
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
 
 /**
  * @author liyilin
@@ -55,7 +59,7 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
         // 判断父组织是否存在
         Long parentId = organizationSaveForm.getParentId();
         if (parentId != null && organizationService.selectById(parentId) == null) {
-            throw new NoSuchDependentedEntityException("找不到ID为" + parentId + "的父组织");
+            throw new NoSuchDependentedEntityException(NOT_FOUND, "找不到ID为" + parentId + "的父组织");
         }
 
         Organization organization = new Organization();
@@ -75,7 +79,7 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
         Assert.notNull(id, "组织ID不能为空");
         Organization record = organizationService.selectById(id);
         if (record == null) {
-            throw new NoSuchEntityException("找不到ID为" + id + "的组织");
+            throw new NoSuchEntityException(NOT_FOUND, "找不到ID为" + id + "的组织");
         }
 
         BeanUtils.copyProperties(organizationUpdateForm, record);
@@ -84,20 +88,22 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
     }
 
     @Override
-    public int deleteById(long id) {
+    public void deleteById(long id) throws NoSuchEntityException, IllegalOperationException {
         logger.info("删除组织: id={}", id);
 
         int numOfChild = organizationService.selectCount(new EntityWrapper<Organization>().eq(Organization.PARENT_ID, id));
         if (numOfChild > 0) {
-            throw new IllegalAccessError("该组织下还有子组织，不能删除");
+            throw new IllegalOperationException(DEPARTMENT_DELETE_FAILED, "该组织下还有子组织，不能删除");
         }
 
         int numOfRole = roleService.selectCount(new EntityWrapper<Role>().eq(Role.DEPARTMENT_ID, id));
         if (numOfRole > 0) {
-            throw new IllegalAccessError("该组织下还有角色，不能删除");
+            throw new IllegalOperationException(DEPARTMENT_DELETE_FAILED, "该组织下还有角色，不能删除");
         }
 
-        return organizationService.deleteById(id) ? 1 : 0;
+        if (!organizationService.deleteById(id)) {
+            throw new NoSuchEntityException("找不到ID为" + id + "的组织信息");
+        }
     }
 
     @Override
@@ -119,9 +125,16 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
     }
 
     @Override
-    public List<TreeNode<OrganizationDTO>> listTree(Long id) throws IllegalArgumentException {
+    public List<TreeNode<OrganizationDTO>> listTree(Long id) throws NoSuchEntityException {
+        Organization record = organizationService.selectById(id);
+        if (record == null) {
+            throw new NoSuchEntityException("找不到ID为" + id + "的组织信息");
+        }
+
         // TODO 待优化
-        List<Organization> allOrganization = organizationService.selectList(new EntityWrapper<>());
+        List<Organization> allOrganization = organizationService.selectList(
+                new EntityWrapper<Organization>().orderBy(Organization.SORT, true)
+        );
 
         // 转成DTO
         List<OrganizationDTO> dtoList = allOrganization.stream().map(entity -> {
@@ -139,7 +152,7 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
     /**
      * 批量设置ParentName属性（无DB连接）
      *
-     * @param treeNodes     组织树
+     * @param treeNodes       组织树
      * @param allOrganization 所有组织
      */
     private void wireParentName(List<TreeNode<OrganizationDTO>> treeNodes, List<Organization> allOrganization) {

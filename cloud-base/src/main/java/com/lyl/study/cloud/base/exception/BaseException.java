@@ -1,15 +1,26 @@
 package com.lyl.study.cloud.base.exception;
 
 import com.lyl.study.cloud.base.dto.Result;
+import org.springframework.boot.logging.LogLevel;
+import org.springframework.util.ReflectionUtils;
 
-public abstract class BaseException extends RuntimeException {
+import java.lang.reflect.Field;
+
+public class BaseException extends RuntimeException {
+    private static final String MSG_FIELD = "detailMessage";
+
     private int code;
-    private String msg;
+    private LogLevel logLevel = LogLevel.ERROR;
 
     public BaseException(int code, String msg) {
-        super("[" + code + "]" + msg);
+        super(msg);
         this.code = code;
-        this.msg = msg;
+    }
+
+    public BaseException(int code, String msg, LogLevel logLevel) {
+        super(msg);
+        this.code = code;
+        this.logLevel = logLevel;
     }
 
     public int getCode() {
@@ -17,14 +28,24 @@ public abstract class BaseException extends RuntimeException {
     }
 
     public String getMsg() {
-        return msg;
+        return this.getMessage();
     }
 
-    protected void setMsg(String msg) {
-        this.msg = msg;
+    public void setMsg(String msg) {
+        Field field = ReflectionUtils.findField(this.getClass(), MSG_FIELD, String.class);
+        field.setAccessible(true);
+        ReflectionUtils.setField(field, this, msg);
+    }
+
+    public LogLevel getLogLevel() {
+        return logLevel;
+    }
+
+    public void setLogLevel(LogLevel logLevel) {
+        this.logLevel = logLevel;
     }
 
     public <T> Result<T> toResult() {
-        return new Result<>(code, msg, null);
+        return new Result<>(code, getMsg(), null);
     }
 }

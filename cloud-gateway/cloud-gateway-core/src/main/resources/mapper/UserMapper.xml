@@ -77,7 +77,7 @@
         SELECT
         a.*
         <include refid="selectByConditionsSql"/>
-        ORDER BY a.create_time
+        ORDER BY a.id DESC
         LIMIT ${offset}, ${pageSize}
     </select>
 

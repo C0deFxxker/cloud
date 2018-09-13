@@ -1,22 +1,22 @@
 package com.lyl.study.cloud.base.exception;
 
-public class NoSuchEntityException extends RuntimeException {
-    public NoSuchEntityException() {
+import com.lyl.study.cloud.base.CommonErrorCode;
+import org.springframework.boot.logging.LogLevel;
+
+public class NoSuchEntityException extends BaseException {
+    public NoSuchEntityException(String msg) {
+        super(CommonErrorCode.NOT_FOUND, msg);
     }
 
-    public NoSuchEntityException(String message) {
-        super(message);
+    public NoSuchEntityException(String msg, LogLevel logLevel) {
+        super(CommonErrorCode.NOT_FOUND, msg, logLevel);
     }
 
-    public NoSuchEntityException(String message, Throwable cause) {
-        super(message, cause);
+    public NoSuchEntityException(int code, String msg) {
+        super(code, msg);
     }
 
-    public NoSuchEntityException(Throwable cause) {
-        super(cause);
-    }
-
-    public NoSuchEntityException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public NoSuchEntityException(int code, String msg, LogLevel logLevel) {
+        super(code, msg, logLevel);
     }
 }

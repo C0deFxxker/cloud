@@ -5,7 +5,6 @@ import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.dto.TreeNode;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.OrganizationSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.OrganizationUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.OrganizationDTO;
@@ -17,6 +16,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.OK;
 
 /**
  * @author liyilin
@@ -36,17 +38,13 @@ public class OrganizationController {
      */
     @PostMapping
     public Result<Long> save(@RequestBody @Validated OrganizationSaveForm organizationSaveForm) {
-        try {
-            UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
-            RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
-            organizationSaveForm.setCreatorId(user.getId());
-            organizationSaveForm.setOwnerId(user.getId());
-            organizationSaveForm.setOwnerRoleId(currentRole.getId());
+        UserDetailDTO user = CurrentSessionHolder.getCurrentUser();
+        RoleDTO currentRole = CurrentSessionHolder.getCurrentRole();
+        organizationSaveForm.setCreatorId(user.getId());
+        organizationSaveForm.setOwnerId(user.getId());
+        organizationSaveForm.setOwnerRoleId(currentRole.getId());
 
-            return new Result<>(GatewayErrorCode.OK, "新增成功", organizationFacade.save(organizationSaveForm));
-        } catch (NoSuchDependentedEntityException e) {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, e.getMessage(), null);
-        }
+        return new Result<>(OK, "新增成功", organizationFacade.save(organizationSaveForm));
     }
 
     /**
@@ -57,12 +55,8 @@ public class OrganizationController {
      */
     @PutMapping
     public Result update(@RequestBody @Validated OrganizationUpdateForm organizationUpdateForm) {
-        try {
-            organizationFacade.update(organizationUpdateForm);
-            return new Result<>(GatewayErrorCode.OK, "修改成功", null);
-        } catch (NoSuchEntityException e) {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, e.getMessage(), null);
-        }
+        organizationFacade.update(organizationUpdateForm);
+        return new Result<>(OK, "修改成功", null);
     }
 
     /**
@@ -72,17 +66,9 @@ public class OrganizationController {
      * @return 删除记录数
      */
     @DeleteMapping("/{id}")
-    public Result<Integer> deleteById(@PathVariable("id") Long id) throws IllegalAccessError {
-        try {
-            int rows = organizationFacade.deleteById(id);
-            if (rows > 0) {
-                return new Result<>(GatewayErrorCode.OK, "删除成功", rows);
-            } else {
-                return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的组织", null);
-            }
-        } catch (IllegalAccessError e) {
-            return new Result<>(GatewayErrorCode.DEPARTMENT_DELETE_FAILED, e.getMessage(), null);
-        }
+    public Result deleteById(@PathVariable("id") Long id) throws IllegalAccessError {
+        organizationFacade.deleteById(id);
+        return new Result<>(OK, "删除成功", null);
     }
 
     /**
@@ -95,9 +81,9 @@ public class OrganizationController {
     public Result<OrganizationDTO> getById(@PathVariable("id") Long id) {
         OrganizationDTO dto = organizationFacade.getById(id);
         if (dto != null) {
-            return new Result<>(GatewayErrorCode.OK, "查询成功", dto);
+            return new Result<>(OK, "查询成功", dto);
         } else {
-            return new Result<>(GatewayErrorCode.NOT_FOUND, "找不到ID为" + id + "的组织", null);
+            return new Result<>(NOT_FOUND, "找不到ID为" + id + "的组织", null);
         }
     }
 
@@ -111,10 +97,6 @@ public class OrganizationController {
      */
     @GetMapping("/tree")
     public Result<List<TreeNode<OrganizationDTO>>> listTree(Long id) {
-        try {
-            return new Result<>(GatewayErrorCode.OK, "查询成功", organizationFacade.listTree(id));
-        } catch (IllegalArgumentException e) {
-            return new Result<>(GatewayErrorCode.BAD_REQUEST, "找不到ID为" + id + "的组织", null);
-        }
+        return new Result<>(OK, "查询成功", organizationFacade.listTree(id));
     }
 }

@@ -58,7 +58,7 @@ public class CodeGenerator {
         strategy.setTablePrefix("cms_");// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setDbColumnUnderline(true);
-        strategy.setInclude("cms_resource_entity");
+        strategy.setInclude("cms_resource_entity", "cms_resource_article", "cms_article_message");
 //        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_organization");
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setInclude(tableNames); // 需要生成的表
