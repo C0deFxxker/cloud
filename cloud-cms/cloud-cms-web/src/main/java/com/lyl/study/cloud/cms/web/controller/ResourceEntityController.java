@@ -1,7 +1,6 @@
 package com.lyl.study.cloud.cms.web.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.lyl.study.cloud.base.Random;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntityListConditions;
@@ -179,18 +178,18 @@ public class ResourceEntityController implements InitializingBean {
         String originalFilename = multipartFile.getOriginalFilename();
         String suffix = getFileNameSuffix(originalFilename);
 
+        Exception error = null;
         for (int i = 0; i < 10; i++) {
             String filename = UUID.randomUUID().toString().replace("-", "") + suffix;
-
             try {
                 Path filepath = uploadPath.resolve(Paths.get(filename));
                 Files.createFile(filepath);
                 return filepath;
             } catch (Exception e) {
-                e.printStackTrace();
+                error = e;
             }
         }
-        throw new RuntimeException("上传文件失败");
+        throw new RuntimeException("上传文件失败: " + error.getMessage());
     }
 
     private String getFileNameSuffix(String filename) {

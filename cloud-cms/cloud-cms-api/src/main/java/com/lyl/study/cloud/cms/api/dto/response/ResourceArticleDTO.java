@@ -44,10 +44,6 @@ public class ResourceArticleDTO implements Serializable {
      */
     private String surfaceUrl;
     /**
-     * 逻辑删除字段
-     */
-    private Boolean deleted;
-    /**
      * 创建者id
      */
     private Long creatorId;

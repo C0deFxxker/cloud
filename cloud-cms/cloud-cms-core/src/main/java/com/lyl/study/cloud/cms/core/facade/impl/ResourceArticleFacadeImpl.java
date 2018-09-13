@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceArticleListConditions;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceArticleSaveForm;
@@ -39,16 +40,24 @@ public class ResourceArticleFacadeImpl implements ResourceArticleFacade {
     }
 
     @Override
-    public void update(ResourceArticleUpdateForm form) {
+    public void update(ResourceArticleUpdateForm form) throws NoSuchEntityException {
         ResourceArticle record = baseService.selectById(form.getId());
+        if (record == null) {
+            throw new NoSuchEntityException("找不到ID为" + form.getId() + "的图文");
+        }
         BeanUtils.copyProperties(form, record);
         record.setUpdateTime(null);
         baseService.updateById(record);
     }
 
     @Override
-    public int deleteById(long id) {
-        return baseService.deleteById(id) ? 1 : 0;
+    public void deleteById(long id) throws NoSuchEntityException {
+        // 使用了MyatisPlus的逻辑删除，不能直接通过deleteById方法的返回值判断实体是否存在
+        ResourceArticle record = baseService.selectById(id);
+        if (record == null) {
+            throw new NoSuchEntityException("找不到ID为" + id + "的图文");
+        }
+        baseService.deleteById(id);
     }
 
     @Override
