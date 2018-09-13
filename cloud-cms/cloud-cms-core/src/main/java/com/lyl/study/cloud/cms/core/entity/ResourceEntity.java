@@ -1,6 +1,7 @@
 package com.lyl.study.cloud.cms.core.entity;
 
 import java.util.Date;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -18,20 +19,23 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author liyilin
- * @since 2018-09-12
+ * @since 2018-09-13
  */
 @Data
 @Accessors(chain = true)
 @TableName("cms_resource_entity")
 public class ResourceEntity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @TableId(value = "id", type = IdType.INPUT)
     private Long id;
-    private String contentType;
+    @TableField("mediaType")
+    private String mediaType;
     private String url;
     private String filepath;
     private String originalFilename;
-    private String properties;
+    private Long size;
     private Long creatorId;
     private Long ownerId;
     private Long ownerRoleId;
@@ -41,7 +45,7 @@ public class ResourceEntity implements Serializable {
 
     public static final String ID = "id";
 
-    public static final String CONTENT_TYPE = "content_type";
+    public static final String MEDIATYPE = "mediaType";
 
     public static final String URL = "url";
 
@@ -49,7 +53,7 @@ public class ResourceEntity implements Serializable {
 
     public static final String ORIGINAL_FILENAME = "original_filename";
 
-    public static final String PROPERTIES = "properties";
+    public static final String SIZE = "size";
 
     public static final String CREATOR_ID = "creator_id";
 

@@ -11,4 +11,6 @@ public interface ResourceEntityFacade {
     long save(ResourceEntitySaveForm form);
 
     int deleteById(long id);
+
+    ResourceEntityDTO getById(long id);
 }

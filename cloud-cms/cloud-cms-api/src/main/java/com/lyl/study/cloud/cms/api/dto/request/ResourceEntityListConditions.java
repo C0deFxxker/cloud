@@ -10,7 +10,7 @@ import java.io.Serializable;
 @ToString
 @Accessors(chain = true)
 public class ResourceEntityListConditions implements Serializable {
-    private String mediaType;
-    private Integer pageIndex;
-    private Integer pageSize;
+    private Integer mediaType;
+    private Integer pageIndex = 1;
+    private Integer pageSize = 10;
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author liyilin
- * @since 2018-09-12
+ * @since 2018-09-13
  */
 @Service
 public class ResourceEntityServiceImpl extends ServiceImpl<ResourceEntityMapper, ResourceEntity> implements ResourceEntityService {

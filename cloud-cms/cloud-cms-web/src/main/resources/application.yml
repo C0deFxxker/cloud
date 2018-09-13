@@ -2,6 +2,7 @@ spring:
   application:
     name: cloud-cms
 dubbo:
+  scan:
   protocol:
     name: dubbo
   application:
@@ -13,13 +14,16 @@ dubbo:
   registry:
     address: zookeeper://localhost:2181
   protocol:
-    host: 192.168.
+    host: 10.73.
 server:
   port: 8081
 cloud:
   resources:
     uploadPath: file:upload-tmp/
     urlPrefix: /cms/static/
+    maxImageSize: 5MB
+    maxAudioSize: 20MB
+    maxVideoSize: ${spring.http.multipart.max-file-size}
   security:
     permit-urls: /static/**
     sessionAge: 7200
@@ -32,6 +36,9 @@ spring:
     static-locations: ${cloud.resources.uploadPath}
   mvc:
     static-path-pattern: /static/**
+  http:
+    multipart:
+      max-file-size: 100MB
 ---
 spring:
   profiles: beta

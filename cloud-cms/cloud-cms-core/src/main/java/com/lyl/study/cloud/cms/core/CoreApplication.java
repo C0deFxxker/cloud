@@ -9,11 +9,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 @MapperScan("com.lyl.study.cloud.cms.core.mapper")
-public class CmsCoreApplication {
-    private static final Logger logger = LoggerFactory.getLogger(CmsCoreApplication.class);
+public class CoreApplication {
+    private static final Logger logger = LoggerFactory.getLogger(CoreApplication.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(CmsCoreApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(CoreApplication.class, args);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("启动shutdownHook对程序进行关闭...");

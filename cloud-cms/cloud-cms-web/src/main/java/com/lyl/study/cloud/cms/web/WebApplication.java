@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties(UploadProperties.class)
-public class CmsWebApplication {
+public class WebApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CmsWebApplication.class, args);
+        SpringApplication.run(WebApplication.class, args);
     }
 }

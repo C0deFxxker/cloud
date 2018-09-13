@@ -12,11 +12,10 @@ import java.util.Date;
 @Accessors(chain = true)
 public class ResourceEntityDTO implements Serializable {
     private Long id;
-    private String contentType;
+    private String mediaType;
     private String url;
     private String filepath;
     private String originalFilename;
-    private String properties;
     private Long creatorId;
     private Long ownerId;
     private Long ownerRoleId;

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * </p>
  *
  * @author liyilin
- * @since 2018-09-12
+ * @since 2018-09-13
  */
 public interface ResourceEntityMapper extends BaseMapper<ResourceEntity> {
 

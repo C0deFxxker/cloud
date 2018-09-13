@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.service.IService;
  * </p>
  *
  * @author liyilin
- * @since 2018-09-12
+ * @since 2018-09-13
  */
 public interface ResourceEntityService extends IService<ResourceEntity> {
 

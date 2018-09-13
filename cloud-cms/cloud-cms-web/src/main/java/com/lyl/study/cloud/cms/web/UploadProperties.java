@@ -1,11 +1,14 @@
 package com.lyl.study.cloud.cms.web;
 
+import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
+@ToString
 @ConfigurationProperties(prefix = "cloud.resources")
 public class UploadProperties {
     private Path uploadPath;
@@ -39,6 +42,7 @@ public class UploadProperties {
         this.maxVideoSize = transformToByteSize(maxVideoSize);
     }
 
+    @Value("${spring.http.multipart.max-file-size}")
     public void setMaxFileSize(String maxFileSize) {
         this.maxFileSize = transformToByteSize(maxFileSize);
     }
@@ -79,7 +83,7 @@ public class UploadProperties {
             sizeStr = sizeStr.substring(0, sizeStr.length() - 1);
         }
 
-        long size = Long.parseLong(sizeStr);
+        long size = parseLong(sizeStr);
         String unit = sizeStr.substring(String.valueOf(size).length());
         if (unit.equals("g")) {
             size *= 1024L * 1024L * 1024L;
@@ -89,5 +93,23 @@ public class UploadProperties {
             size *= 1024L;
         }
         return size;
+    }
+
+    private long parseLong(String sizeStr) {
+        int digitStrLen = 0;
+        for (int i = 0; i < sizeStr.length(); i++) {
+            char c = sizeStr.charAt(i);
+            if (c >= '0' && c <= '9') {
+                digitStrLen++;
+            } else {
+                break;
+            }
+        }
+
+        if (digitStrLen > 0) {
+            return Long.parseLong(sizeStr.substring(0, digitStrLen));
+        } else {
+            return 0;
+        }
     }
 }

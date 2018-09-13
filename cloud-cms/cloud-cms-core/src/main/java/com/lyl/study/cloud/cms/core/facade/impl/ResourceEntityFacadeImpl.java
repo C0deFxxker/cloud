@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.JsonUtils;
+import com.lyl.study.cloud.cms.api.CmsConstants;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntityListConditions;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntitySaveForm;
 import com.lyl.study.cloud.cms.api.dto.response.ResourceEntityDTO;
@@ -15,6 +16,7 @@ import com.lyl.study.cloud.cms.core.entity.ResourceEntity;
 import com.lyl.study.cloud.cms.core.service.ResourceEntityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,9 +30,15 @@ public class ResourceEntityFacadeImpl implements ResourceEntityFacade {
 
     @Override
     public PageInfo<ResourceEntityDTO> list(ResourceEntityListConditions conditions) {
+        Assert.notNull(conditions.getPageIndex(), "pageIndex cannot be null");
+        Assert.notNull(conditions.getPageSize(), "pageSize cannot be null");
         EntityWrapper<ResourceEntity> wrapper = new EntityWrapper<>();
         if (conditions.getMediaType() != null) {
-            wrapper.like(ResourceEntity.CONTENT_TYPE, conditions.getMediaType(), SqlLike.RIGHT);
+            String mediaTypeValue = CmsConstants.getMediaTypeByIdx(conditions.getMediaType());
+            if (mediaTypeValue != null) {
+                mediaTypeValue = mediaTypeValue.substring(0, mediaTypeValue.length() - 1);
+            }
+            wrapper.like(ResourceEntity.MEDIATYPE, mediaTypeValue, SqlLike.RIGHT);
         }
 
         Page<ResourceEntity> page = new Page<>(conditions.getPageIndex(), conditions.getPageSize());
@@ -50,9 +58,9 @@ public class ResourceEntityFacadeImpl implements ResourceEntityFacade {
     public long save(ResourceEntitySaveForm form) {
         ResourceEntity record = new ResourceEntity();
         BeanUtils.copyProperties(form, record);
-        if (form.getProperties() != null) {
-            record.setProperties(JsonUtils.toJson(form));
-        }
+//        if (form.getProperties() != null) {
+//            record.setProperties(JsonUtils.toJson(form));
+//        }
         record.setId(sequence.nextId());
         resourceEntityService.insert(record);
         return record.getId();
@@ -61,5 +69,16 @@ public class ResourceEntityFacadeImpl implements ResourceEntityFacade {
     @Override
     public int deleteById(long id) {
         return resourceEntityService.deleteById(id) ? 1 : 0;
+    }
+
+    @Override
+    public ResourceEntityDTO getById(long id) {
+        ResourceEntity resourceEntity = resourceEntityService.selectById(id);
+        if (resourceEntity != null) {
+            ResourceEntityDTO dto = new ResourceEntityDTO();
+            BeanUtils.copyProperties(resourceEntity, dto);
+            return dto;
+        }
+        return null;
     }
 }
