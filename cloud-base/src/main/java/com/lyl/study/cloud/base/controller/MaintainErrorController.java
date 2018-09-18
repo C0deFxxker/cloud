@@ -2,8 +2,7 @@ package com.lyl.study.cloud.base.controller;
 
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.handler.CommonExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 @RestController
 public class MaintainErrorController implements ErrorController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String ERROR_PATH = "/error";
 
     @Autowired
@@ -37,8 +36,8 @@ public class MaintainErrorController implements ErrorController {
         String data = request.getAttribute("javax.servlet.error.request_uri").toString();
 
         Result<String> result = new Result<>(code, message, data);
-        if (logger.isDebugEnabled()) {
-            logger.debug(result.toString());
+        if (log.isDebugEnabled()) {
+            log.debug(result.toString());
         }
 
         return result;

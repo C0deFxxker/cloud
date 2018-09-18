@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.security;
+package com.lyl.study.cloud.admin.web.gateway.security;
 
 import com.google.common.base.Charsets;
 import com.lyl.study.cloud.base.CommonErrorCode;
@@ -15,8 +15,7 @@ import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;
 import lombok.Data;
 import lombok.ToString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -41,9 +40,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private UserFacade userFacade;
     private RoleFacade roleFacade;
     private JwtSigner jwtSigner;
@@ -125,8 +123,8 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingF
         if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)) {
             LoginForm loginForm = JsonUtils.fromJson(request.getInputStream(), LoginForm.class);
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("接受到用户登录请求: {}", loginForm);
+            if (log.isDebugEnabled()) {
+                log.debug("接受到用户登录请求: {}", loginForm);
             }
 
             checkLoginForm(loginForm);

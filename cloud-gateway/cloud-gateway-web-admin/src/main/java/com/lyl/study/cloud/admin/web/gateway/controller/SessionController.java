@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.controller;
+package com.lyl.study.cloud.admin.web.gateway.controller;
 
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.gateway.api.GatewayErrorCode;

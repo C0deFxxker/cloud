@@ -1,20 +1,16 @@
-package com.lyl.study.cloud.admin.web;
+package com.lyl.study.cloud.admin.web.cms;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 
-/**
- * 整个Admin应用都是通过import不同模块的jar来实现，这个类纯粹是一个总的启动器
- */
 @SpringBootApplication
-public class WebApplication {
-    private static final Logger logger = LoggerFactory.getLogger(WebApplication.class);
+public class CmsWebApplication {
+    private static final Logger logger = LoggerFactory.getLogger(CmsWebApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(CmsWebApplication.class, args);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("启动shutdownHook对程序进行关闭...");

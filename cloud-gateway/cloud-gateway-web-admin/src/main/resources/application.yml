@@ -1,8 +1,9 @@
+# 这个配置在联调环境中不会用到，只有在单模块开发时才起作用
 spring:
   application:
-    name: cloud-admin
+    name: cloud-admin-gateway
   profiles:
-    active: gateway, cms
+    active: gateway
 dubbo:
   protocol:
     name: dubbo
@@ -10,9 +11,8 @@ dubbo:
   registry:
     address: zookeeper://localhost:2181
   application:
-    name: cloud-admin
+    name: cloud-admin-gateway
 server:
-  context-path: /admin
   port: 8080
 cloud:
   security:

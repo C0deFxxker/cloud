@@ -1,0 +1,11 @@
+spring:
+  http:
+    multipart:
+      max-file-size: 100MB
+cloud:
+  resources:
+    uploadPath: file:upload-tmp/
+    urlPrefix: /admin/static/
+    maxImageSize: 5MB
+    maxAudioSize: 20MB
+    maxVideoSize: ${spring.http.multipart.max-file-size}

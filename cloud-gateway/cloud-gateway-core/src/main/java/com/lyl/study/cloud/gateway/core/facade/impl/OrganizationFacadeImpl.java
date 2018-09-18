@@ -16,8 +16,7 @@ import com.lyl.study.cloud.gateway.core.entity.Organization;
 import com.lyl.study.cloud.gateway.core.entity.Role;
 import com.lyl.study.cloud.gateway.core.service.OrganizationService;
 import com.lyl.study.cloud.gateway.core.service.RoleService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -32,10 +31,9 @@ import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
 /**
  * @author liyilin
  */
+@Slf4j
 @Service
 public class OrganizationFacadeImpl implements OrganizationFacade {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final TreeNodeUtils.BuildTreeConfig<OrganizationDTO> config;
 
     @Autowired
@@ -54,7 +52,7 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
 
     @Override
     public long save(OrganizationSaveForm organizationSaveForm) throws NoSuchDependentedEntityException {
-        logger.info("新增组织：" + organizationSaveForm);
+        log.info("新增组织：" + organizationSaveForm);
 
         // 判断父组织是否存在
         Long parentId = organizationSaveForm.getParentId();
@@ -73,7 +71,7 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
 
     @Override
     public void update(OrganizationUpdateForm organizationUpdateForm) throws NoSuchEntityException {
-        logger.info("修改组织：" + organizationUpdateForm);
+        log.info("修改组织：" + organizationUpdateForm);
 
         Long id = organizationUpdateForm.getId();
         Assert.notNull(id, "组织ID不能为空");
@@ -89,7 +87,7 @@ public class OrganizationFacadeImpl implements OrganizationFacade {
 
     @Override
     public void deleteById(long id) throws NoSuchEntityException, IllegalOperationException {
-        logger.info("删除组织: id={}", id);
+        log.info("删除组织: id={}", id);
 
         int numOfChild = organizationService.selectCount(new EntityWrapper<Organization>().eq(Organization.PARENT_ID, id));
         if (numOfChild > 0) {

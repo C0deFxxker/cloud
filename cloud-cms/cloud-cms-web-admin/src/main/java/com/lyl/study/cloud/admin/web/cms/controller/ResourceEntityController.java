@@ -1,15 +1,14 @@
-package com.lyl.study.cloud.admin.web.controller;
+package com.lyl.study.cloud.admin.web.cms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.lyl.study.cloud.admin.web.config.UploadProperties;
+import com.lyl.study.cloud.admin.web.cms.UploadProperties;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntityListConditions;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntitySaveForm;
 import com.lyl.study.cloud.cms.api.dto.response.ResourceEntityDTO;
 import com.lyl.study.cloud.cms.api.facade.ResourceEntityFacade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +25,10 @@ import java.util.UUID;
 
 import static com.lyl.study.cloud.cms.api.CmsErrorCode.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/resourceEntity")
 public class ResourceEntityController implements InitializingBean {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final MediaType MEDIA_TYPE_IMAGE = MediaType.parseMediaType("image/*");
     private final MediaType MEDIA_TYPE_AUDIO = MediaType.parseMediaType("audio/*");
     private final MediaType MEDIA_TYPE_VIDEO = MediaType.parseMediaType("video/*");
@@ -97,7 +95,7 @@ public class ResourceEntityController implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        logger.info("上传文件配置: {}", properties);
+        log.info("上传文件配置: {}", properties);
         BeanUtils.copyProperties(properties, this);
     }
 
@@ -109,7 +107,7 @@ public class ResourceEntityController implements InitializingBean {
             // 计算文件保存地址
             Path path = resolveFilePath(multipartFile);
             // 保存到本地
-            logger.info("保存文件: {}", path.toAbsolutePath().toString());
+            log.info("保存文件: {}", path.toAbsolutePath().toString());
             multipartFile.transferTo(path.toAbsolutePath().toFile());
             // 创建数据库记录保存表单
             ResourceEntitySaveForm form = buildSaveForm(multipartFile, path);
@@ -118,7 +116,7 @@ public class ResourceEntityController implements InitializingBean {
                 resourceEntityFacade.save(form);
                 return new Result<>(OK, "上传成功", form.getUrl());
             } catch (Exception e) {
-                logger.error("内部服务调用错误，将回滚上传的文件: {}\n\n{}",
+                log.error("内部服务调用错误，将回滚上传的文件: {}\n\n{}",
                         path.toAbsolutePath().toString(), e.toString());
                 Files.deleteIfExists(Paths.get(form.getFilepath()));
                 return new Result<>(FILE_SAVE_INTERNAL_SERVICE_EXCEPTION, "内部服务调用错误", e.getMessage());
@@ -130,17 +128,17 @@ public class ResourceEntityController implements InitializingBean {
 
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable("id") Long id) {
-        logger.info("删除ID为" + id + "的资源文件");
+        log.info("删除ID为" + id + "的资源文件");
 
         ResourceEntityDTO dto = resourceEntityFacade.getById(id);
 
         if (dto != null) {
             try {
                 Files.delete(Paths.get(dto.getFilepath()));
-                logger.info("文件删除成功: {}", dto.getFilepath());
+                log.info("文件删除成功: {}", dto.getFilepath());
             } catch (IOException e) {
                 // 可能是文件或路径不正确，暂不处理
-                logger.error("文件删除失败: {}", e.getMessage());
+                log.error("文件删除失败: {}", e.getMessage());
             }
 
             resourceEntityFacade.deleteById(id);

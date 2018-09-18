@@ -58,7 +58,7 @@ public class DubboCommonConfig {
      * 让Dubbo框架配置更简单，并且加入了服务注册IP的正则表达式匹配功能
      */
     public static class SingleDubboConfigServiceBeanAware implements BeanPostProcessor, InitializingBean {
-        protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+        private static final Logger logger = LoggerFactory.getLogger(SingleDubboConfigServiceBeanAware.class);
 
         @Autowired
         private SingleDubboConfigBindingProperties singleDubboConfig;

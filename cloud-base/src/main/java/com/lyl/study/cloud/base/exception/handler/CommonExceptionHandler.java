@@ -2,8 +2,7 @@ package com.lyl.study.cloud.base.exception.handler;
 
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.BaseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -24,10 +23,9 @@ import static com.lyl.study.cloud.base.CommonErrorCode.INTERNAL_ERROR;
  *
  * @author liyilin
  */
+@Slf4j
 @ControllerAdvice
 public class CommonExceptionHandler {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public Result<?> handle(Throwable e) {
@@ -64,8 +62,8 @@ public class CommonExceptionHandler {
 
             Result result = new Result<>(BAD_REQUEST, msgBuilder.toString(), null);
 
-            if (logger.isDebugEnabled()) {
-                logger.debug(result.toString());
+            if (log.isDebugEnabled()) {
+                log.debug(result.toString());
             }
 
             return result;
@@ -80,19 +78,19 @@ public class CommonExceptionHandler {
 
     protected Result<?> resolveBaseException(BaseException e) {
         if (LogLevel.ERROR.equals(e.getLogLevel())) {
-            logger.error(e.toString());
+            log.error(e.toString());
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("全局异常处理器捕捉到错误异常栈如下", e);
+            if (log.isDebugEnabled()) {
+                log.debug("全局异常处理器捕捉到错误异常栈如下", e);
             }
         } else if (LogLevel.WARN.equals(e.getLogLevel())) {
-            logger.warn(e.toString());
+            log.warn(e.toString());
         } else if (LogLevel.INFO.equals(e.getLogLevel())) {
-            logger.info(e.toString());
+            log.info(e.toString());
         } else if (LogLevel.TRACE.equals(e.getLogLevel())) {
-            logger.trace(e.toString());
-        } else if (LogLevel.DEBUG.equals(e.getLogLevel()) && logger.isDebugEnabled()) {
-            logger.debug(e.toString());
+            log.trace(e.toString());
+        } else if (LogLevel.DEBUG.equals(e.getLogLevel()) && log.isDebugEnabled()) {
+            log.debug(e.toString());
         }
         return e.toResult();
     }

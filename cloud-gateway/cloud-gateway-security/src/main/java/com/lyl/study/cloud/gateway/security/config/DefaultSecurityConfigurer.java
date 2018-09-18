@@ -9,8 +9,7 @@ import com.lyl.study.cloud.gateway.security.JsonAuthenticationEntryPoint;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.filter.UserJwtConcurrentSessionFilter;
 import io.jsonwebtoken.lang.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -24,13 +23,12 @@ import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConditionalOnMissingBean(WebSecurityConfigurerAdapter.class)
 public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     protected String[] permitUrls = new String[0];
 
     @Value("${cloud.security.token.cookie-name:token}")
@@ -51,7 +49,7 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
             permitUrls = StringUtils.tokenizeToStringArray(permitUrlString, ",; ");
         }
 
-        logger.info("permitUrls={}", Arrays.asList(permitUrls));
+        log.info("permitUrls={}", Arrays.asList(permitUrls));
     }
 
     @Override

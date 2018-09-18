@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.controller;
+package com.lyl.study.cloud.admin.web.cms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.PageInfo;
@@ -11,8 +11,6 @@ import com.lyl.study.cloud.cms.api.facade.ResourceArticleFacade;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +20,6 @@ import static com.lyl.study.cloud.cms.api.CmsErrorCode.OK;
 @RestController
 @RequestMapping("/resourceArticle")
 public class ResourceArticleController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Reference
     private ResourceArticleFacade resourceArticleFacade;
 

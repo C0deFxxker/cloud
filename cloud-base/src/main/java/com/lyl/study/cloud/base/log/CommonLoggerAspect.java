@@ -1,13 +1,12 @@
 package com.lyl.study.cloud.base.log;
 
 import com.lyl.study.cloud.base.util.ReflectionUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -16,21 +15,19 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Aspect
 @Component
 public class CommonLoggerAspect {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private Map<String, Class<?>> classMap = new HashMap<>();
     private Map<Method, String> methodNameCaches = new HashMap<>();
 
     public CommonLoggerAspect() {
-        logger.info("启用统一日志处理切片");
+        log.info("启用统一日志处理切片");
     }
 
     // 切所有dubbo以及web接口
-    @Pointcut("execution(public * com.lyl.study.cloud..*Facade.*(..)) " +
-            "|| execution(public * com.lyl.study.cloud..*Controller.*(..))")
+    @Pointcut("execution(public * com.lyl.study.cloud..*Facade.*(..)) || execution(public * com.lyl.study.cloud..*Controller.*(..))")
     public void pointCut() {
     }
 
@@ -42,7 +39,7 @@ public class CommonLoggerAspect {
         String methodName = getMethodName(method);
         NoLog annotation = method.getAnnotation(NoLog.class);
 
-        logger.info("开始调用方法: {}", methodName);
+        log.info("开始调用方法: {}", methodName);
 
         Object result;
         try {
@@ -54,13 +51,13 @@ public class CommonLoggerAspect {
             result = joinpoint.proceed(joinpoint.getArgs());
             long end = System.currentTimeMillis();
 
-            logger.info("方法[{}]执行时间: {}", methodName, (end - start) + " ms");
+            log.info("方法[{}]执行时间: {}", methodName, (end - start) + " ms");
 
             if (annotation == null || !annotation.result()) {
-                logger.info("方法[{}]返回值: {}", methodName, result);
+                log.info("方法[{}]返回值: {}", methodName, result);
             }
         } catch (Throwable e) {
-            logger.error("方法[{}]抛出了异常: {}", methodName, e.toString());
+            log.error("方法[{}]抛出了异常: {}", methodName, e.toString());
             throw e;
         }
         return result;
@@ -87,7 +84,7 @@ public class CommonLoggerAspect {
         if (stringBuilder.length() > 0) {
             stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
         }
-        logger.info("方法[{}]传入参数: {}", methodName, stringBuilder.toString());
+        log.info("方法[{}]传入参数: {}", methodName, stringBuilder.toString());
     }
 
     /**
@@ -118,7 +115,13 @@ public class CommonLoggerAspect {
         }
     }
 
-    private String getMethodName(Method method) throws IOException {
+    /**
+     * 获取修正过的方法名
+     *
+     * @param method 方法
+     * @return 修正过的方法名
+     */
+    private String getMethodName(Method method) {
         if (methodNameCaches.containsKey(method)) {
             return methodNameCaches.get(method);
         }
@@ -128,10 +131,20 @@ public class CommonLoggerAspect {
         Class<?>[] parameterTypes = method.getParameterTypes();
 
         StringBuilder stringBuilder = new StringBuilder();
-        String[] methodParamNames = ReflectionUtils.getMethodParamNames(method);
+        String[] methodParamNames = null;
+        try {
+            methodParamNames = ReflectionUtils.getMethodParamNames(method);
+        } catch (IOException ignored) {
+            // 什么都不做
+        }
+
         for (int i = 0; i < parameterTypes.length; i++) {
-            stringBuilder.append(parameterTypes[i].getSimpleName()).append(" ")
-                    .append(methodParamNames[i]).append(", ");
+            stringBuilder.append(parameterTypes[i].getSimpleName());
+            // 填充参数名称
+            if (methodParamNames != null) {
+                stringBuilder.append(" ").append(methodParamNames[i]);
+            }
+            stringBuilder.append(", ");
         }
 
         if (stringBuilder.length() > 0) {

@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS cms_article_message;
 CREATE TABLE cms_article_message (
   id            bigint(20)   NOT NULL
   COMMENT '主键id',
-  article_id BITINT NOT NULL,
+  article_id    BIGINT       NOT NULL
   COMMENT '图文ID',
   title         varchar(100) NOT NULL
   COMMENT '主题',

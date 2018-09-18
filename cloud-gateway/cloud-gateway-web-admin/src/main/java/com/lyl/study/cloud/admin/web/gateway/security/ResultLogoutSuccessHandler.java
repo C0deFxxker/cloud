@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.security;
+package com.lyl.study.cloud.admin.web.gateway.security;
 
 import com.lyl.study.cloud.base.CommonErrorCode;
 import com.lyl.study.cloud.base.dto.Result;

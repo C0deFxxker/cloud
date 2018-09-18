@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoleFacadeImpl implements RoleFacade {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private RoleService roleService;
     @Autowired

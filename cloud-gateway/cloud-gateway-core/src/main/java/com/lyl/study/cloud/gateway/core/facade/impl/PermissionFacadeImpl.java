@@ -15,8 +15,7 @@ import com.lyl.study.cloud.gateway.api.dto.response.PermissionDTO;
 import com.lyl.study.cloud.gateway.api.facade.PermissionFacade;
 import com.lyl.study.cloud.gateway.core.entity.Permission;
 import com.lyl.study.cloud.gateway.core.service.PermissionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -27,10 +26,9 @@ import java.util.stream.Collectors;
 import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.BAD_REQUEST;
 import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
 
+@Slf4j
 @Service
 public class PermissionFacadeImpl implements PermissionFacade {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static final int PERMISSION_TYPE_CATALOG = 0;
     private static final int PERMISSION_TYPE_PAGE = 1;
     private static final int PERMISSION_TYPE_REQUEST = 2;
@@ -51,7 +49,7 @@ public class PermissionFacadeImpl implements PermissionFacade {
 
     @Override
     public long save(PermissionSaveForm permissionSaveForm) throws NoSuchDependentedEntityException, InvalidArgumentException {
-        logger.info("新增授权项：" + permissionSaveForm);
+        log.info("新增授权项：" + permissionSaveForm);
         Integer parentType = null;
 
         // 判断父授权项是否存在
@@ -99,7 +97,7 @@ public class PermissionFacadeImpl implements PermissionFacade {
 
     @Override
     public void update(PermissionUpdateForm permissionUpdateForm) throws NoSuchEntityException {
-        logger.info("修改授权项：" + permissionUpdateForm);
+        log.info("修改授权项：" + permissionUpdateForm);
 
         Long id = permissionUpdateForm.getId();
         Assert.notNull(id, "授权项ID不能为空");

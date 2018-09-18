@@ -1,0 +1,4 @@
+cloud:
+  gateway:
+    loginUri: /session/login
+    logoutUri: /session/logout

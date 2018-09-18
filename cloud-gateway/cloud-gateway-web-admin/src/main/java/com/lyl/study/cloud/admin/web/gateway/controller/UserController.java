@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.controller;
+package com.lyl.study.cloud.admin.web.gateway.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.PageInfo;

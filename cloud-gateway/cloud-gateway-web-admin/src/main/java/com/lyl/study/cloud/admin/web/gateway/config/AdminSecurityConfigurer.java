@@ -1,14 +1,14 @@
-package com.lyl.study.cloud.admin.web.config;
+package com.lyl.study.cloud.admin.web.gateway.config;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lyl.study.cloud.admin.web.gateway.security.AdminAuthenticationFilter;
+import com.lyl.study.cloud.admin.web.gateway.security.ResultLogoutSuccessHandler;
+import com.lyl.study.cloud.admin.web.gateway.security.UserAuthenticationProvider;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
 import com.lyl.study.cloud.gateway.security.JwtSigner;
 import com.lyl.study.cloud.gateway.security.config.DefaultSecurityConfigurer;
-import com.lyl.study.cloud.admin.web.security.AdminAuthenticationFilter;
-import com.lyl.study.cloud.admin.web.security.ResultLogoutSuccessHandler;
-import com.lyl.study.cloud.admin.web.security.UserAuthenticationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final static Logger logger = LoggerFactory.getLogger(AdminSecurityConfigurer.class);
 
     @Value("${cloud.security.sessionAge}")
     protected Integer sessionAge;
-    @Value("${cloud.gateway.logoutUrl}")
-    private String logoutUrl;
-    @Value("${cloud.gateway.loginUrl}")
-    private String loginUrl;
+    @Value("${cloud.gateway.logoutUri}")
+    private String logoutUri;
+    @Value("${cloud.gateway.loginUri}")
+    private String loginUri;
 
     @Reference
     private UserFacade userFacade;
@@ -45,10 +45,12 @@ public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        logger.info("加载到的会话接口配置: loginUri={}, logoutUri={}, sessionAge={}", loginUri, logoutUri, sessionAge);
+
         super.configure(http);
 
         http
-                .logout().logoutUrl(logoutUrl)
+                .logout().logoutUrl(logoutUri)
                 .deleteCookies(tokenCookieName).invalidateHttpSession(true).clearAuthentication(true)
                 .logoutSuccessHandler(new ResultLogoutSuccessHandler())
                 .and()
@@ -63,7 +65,7 @@ public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
 
     public AbstractAuthenticationProcessingFilter gatewayAuthenticationFilter() throws Exception {
         AdminAuthenticationFilter filter = new AdminAuthenticationFilter(
-                new AntPathRequestMatcher(loginUrl, "POST"),
+                new AntPathRequestMatcher(loginUri, "POST"),
                 jsonAuthenticationEntryPoint()
         );
         filter.setTokenCookieName(tokenCookieName);

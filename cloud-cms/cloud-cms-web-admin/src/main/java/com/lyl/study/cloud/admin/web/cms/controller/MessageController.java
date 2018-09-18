@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.controller;
+package com.lyl.study.cloud.admin.web.cms.controller;
 
 import com.lyl.study.cloud.base.dto.Result;
 import org.springframework.web.bind.annotation.RestController;

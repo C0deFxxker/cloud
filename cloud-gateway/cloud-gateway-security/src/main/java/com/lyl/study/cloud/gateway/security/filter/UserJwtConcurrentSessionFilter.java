@@ -14,8 +14,7 @@ import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;
 import com.lyl.study.cloud.gateway.security.exception.InvalidJwtException;
 import com.lyl.study.cloud.gateway.security.exception.InvalidRoleException;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
@@ -38,9 +37,8 @@ import java.util.Objects;
  *
  * @author liyilin
  */
+@Slf4j
 public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     // Token有效期（秒）, 从登录开始计算
     private int sessionAge = 7200;
     // Token存放在Cookie中的名称
@@ -69,7 +67,7 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
             cookiePath = "/" + cookiePath;
         }
 
-        logger.info("初始化完毕: CookieName={}, CookiePath={}, SessionAge={}", cookieName, cookiePath, sessionAge);
+        log.info("初始化完毕: CookieName={}, CookiePath={}, SessionAge={}", cookieName, cookiePath, sessionAge);
     }
 
     @Override
@@ -81,8 +79,8 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
             try {
                 JwtClaims claims = jwtSigner.deserializeToken(token, JwtClaims.class);
 
-                if (logger.isDebugEnabled()) {
-                    logger.debug("JWT内容: {}", claims);
+                if (log.isDebugEnabled()) {
+                    log.debug("JWT内容: {}", claims);
                 }
 
                 assertJwtClaimsValid(claims);
@@ -96,35 +94,35 @@ public class UserJwtConcurrentSessionFilter extends GenericFilterBean {
                 authenticationToken.setAuthenticated(true);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } catch (ExpiredJwtException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("会话超时: " + token);
+                if (log.isDebugEnabled()) {
+                    log.debug("会话超时: " + token);
                 }
                 Result<?> result = new Result<>(GatewayErrorCode.EXPIRED_SESSION, "会话超时", null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (InvalidJwtException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(e.toString());
+                if (log.isDebugEnabled()) {
+                    log.debug(e.toString());
                 }
                 Result<?> result = new Result<>(GatewayErrorCode.INVALD_JWT, "无效Token", null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (InvalidRoleException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(e.toString());
+                if (log.isDebugEnabled()) {
+                    log.debug(e.toString());
                 }
                 Result<?> result = new Result<>(GatewayErrorCode.INVALD_ROLE, e.getMessage(), null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (NoSuchEntityException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(e.toString());
+                if (log.isDebugEnabled()) {
+                    log.debug(e.toString());
                 }
                 Result<?> result = new Result<>(GatewayErrorCode.EXPIRED_SESSION, e.getMessage(), null);
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
             } catch (Exception e) {
-                logger.error(e.toString());
+                log.error(e.toString());
                 Result<?> result = new Result<>(GatewayErrorCode.INTERNAL_ERROR, "内部错误", e.getMessage());
                 HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
                 return;
