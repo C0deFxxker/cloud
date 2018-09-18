@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: cloud-admin
+dubbo:
+  protocol:
+    name: dubbo
+  application:
+    name: cloud-admin
+server:
+  context-path: /admin
+cloud:
+  gateway:
+    loginUrl: /session/login
+    logoutUrl: /session/logout
+---
+spring:
+  profiles: dev
+  http:
+    multipart:
+      max-file-size: 100MB
+dubbo:
+  registry:
+    address: zookeeper://localhost:2181
+  protocol:
+    host: 10.73.
+server:
+  port: 8080
+cloud:
+  resources:
+    uploadPath: file:upload-tmp/
+    urlPrefix: /admin/static/
+    maxImageSize: 5MB
+    maxAudioSize: 20MB
+    maxVideoSize: ${spring.http.multipart.max-file-size}
+  security:
+    permit-urls: /static/**
+    sessionAge: 7200
+    secret: SECRET
+logging:
+  level:
+    com.lyl.study.cloud: DEBUG
+---
+spring:
+  profiles: beta
+#dubbo:
+#  registry:
+#    address: zookeeper://localhost:2181
+#server:
+#  port: 8080

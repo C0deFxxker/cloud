@@ -1,9 +1,11 @@
 package com.lyl.study.cloud.cms.core.entity;
 
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
 
 import lombok.Data;
@@ -50,6 +52,14 @@ public class ArticleMessage implements Serializable {
      */
     private String surfaceUrl;
     /**
+     * 期望目标人数
+     */
+    private Integer expectTargetNum;
+    /**
+     * 实际触达人数
+     */
+    private Integer actualTargetNum;
+    /**
      * 是否启用（用于消息撤回）
      */
     private Boolean enable;
@@ -91,9 +101,15 @@ public class ArticleMessage implements Serializable {
 
     public static final String SURFACE_URL = "surface_url";
 
+    public static final String EXPECT_TARGET_NUM = "expect_target_num";
+
+    public static final String ACTUAL_TARGET_NUM = "actual_target_num";
+
     public static final String ENABLE = "enable";
 
     public static final String ENABLE_TIME = "enable_time";
+
+    public static final String SEND_STATE = "send_state";
 
     public static final String CREATOR_ID = "creator_id";
 

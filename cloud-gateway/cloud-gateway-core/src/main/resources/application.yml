@@ -51,8 +51,6 @@ logging:
   level:
     com.lyl.study.cloud: DEBUG
 
-debug: true
-
 ---
 spring:
   profiles: beta

@@ -29,6 +29,12 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!-- dubbo+zookeeper -->
         <dependency>
             <groupId>com.alibaba.boot</groupId>

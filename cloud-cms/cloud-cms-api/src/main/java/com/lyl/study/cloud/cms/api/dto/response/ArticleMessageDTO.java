@@ -44,6 +44,14 @@ public class ArticleMessageDTO implements Serializable {
      */
     private String surfaceUrl;
     /**
+     * 期望目标人数
+     */
+    private Long expectTargetNum;
+    /**
+     * 实际触达人数
+     */
+    private Long actualTargetNum;
+    /**
      * 是否启用（用于消息撤回）
      */
     private Boolean enable;
@@ -71,5 +79,20 @@ public class ArticleMessageDTO implements Serializable {
      * 修改时间
      */
     private Date updateTime;
-
+    /**
+     * UV
+     */
+    private Long uv;
+    /**
+     * PV
+     */
+    private Long pv;
+    /**
+     * 发送状态
+     */
+    private Integer sendState;
+    /**
+     * 发送过程百分比
+     */
+    private Integer sendProgress;
 }

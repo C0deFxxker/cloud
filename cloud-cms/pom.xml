@@ -14,6 +14,5 @@
     <modules>
         <module>cloud-cms-api</module>
         <module>cloud-cms-core</module>
-        <module>cloud-cms-web</module>
     </modules>
 </project>
