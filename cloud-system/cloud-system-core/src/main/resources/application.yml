@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cloud-cms-core
+    name: cloud-gateway-core
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -17,9 +17,9 @@ spring:
 
 dubbo:
   scan:
-    basePackages: com.lyl.study.cloud.cms.core.facade.impl
+    basePackages: com.lyl.study.cloud.gateway.core.facade.impl
   application:
-    name: cloud-cms-core
+    name: cloud-gateway-core
   protocol:
     id: dubbo
     name: dubbo
@@ -27,9 +27,6 @@ dubbo:
 mybatis-plus:
   global-config:
     db-column-underline: true
-    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
-    logic-delete-value: 1
-    logic-not-delete-value: 0
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
@@ -48,7 +45,7 @@ dubbo:
     address: zookeeper://localhost:2181
   protocol:
     host: 10.73.
-    port: 4081
+    port: 4080
 
 logging:
   level:

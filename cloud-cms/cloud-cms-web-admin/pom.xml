@@ -27,7 +27,7 @@
         <!-- Web项目权限认证 -->
         <dependency>
             <groupId>com.lyl.study.cloud</groupId>
-            <artifactId>cloud-gateway-security</artifactId>
+            <artifactId>cloud-admin-security</artifactId>
             <version>${cloud.version}</version>
             <optional>true</optional>
         </dependency>

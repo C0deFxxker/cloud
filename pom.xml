@@ -10,9 +10,10 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>cloud-base</module>
-        <module>cloud-gateway</module>
+        <module>cloud-system</module>
         <module>cloud-cms</module>
         <module>cloud-admin</module>
+        <module>cloud-wechat</module>
     </modules>
 
     <properties>
@@ -29,6 +30,7 @@
         <springcloud.version>Edgware.SR4</springcloud.version>
         <cobertura.version>2.7</cobertura.version>
         <dubbo-starter.version>0.1.1</dubbo-starter.version>
+        <zkclient.version>0.10</zkclient.version>
         <drools.version>7.3.0.Final</drools.version>
         <wechat-sdk.version>3.1.0</wechat-sdk.version>
         <zxing.version>3.3.3</zxing.version>
@@ -74,6 +76,11 @@
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
                 <version>${dubbo-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient.version}</version>
             </dependency>
 
             <dependency>
