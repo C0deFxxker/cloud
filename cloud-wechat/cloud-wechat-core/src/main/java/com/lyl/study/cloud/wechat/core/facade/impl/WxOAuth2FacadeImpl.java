@@ -1,8 +1,8 @@
 package com.lyl.study.cloud.wechat.core.facade.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.lyl.study.cloud.wechat.api.dto.WxJsapiSign;
-import com.lyl.study.cloud.wechat.api.dto.WxUser;
+import com.lyl.study.cloud.wechat.api.dto.response.WxJsapiSign;
+import com.lyl.study.cloud.wechat.api.dto.response.WxUserDTO;
 import com.lyl.study.cloud.wechat.api.facade.WxOAuth2Facade;
 import com.lyl.study.cloud.wechat.core.service.WxOAuth2Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class WxOAuth2FacadeImpl implements WxOAuth2Facade {
     }
 
     @Override
-    public WxUser oauth2getUserInfo(String appId, String openId) {
+    public WxUserDTO oauth2getUserInfo(String appId, String openId) {
         return wxOAuth2Service.oauth2getUserInfo(appId, openId);
     }
 

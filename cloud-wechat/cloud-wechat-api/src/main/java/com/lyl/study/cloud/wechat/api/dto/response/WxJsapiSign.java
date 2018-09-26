@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.wechat.api.dto;
+package com.lyl.study.cloud.wechat.api.dto.response;
 
 import lombok.Data;
 import lombok.ToString;

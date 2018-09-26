@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.wechat.core.service;
+package com.lyl.study.cloud.wechat.api.facade;
 
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.wechat.api.dto.request.WxMaterialArticleUpdateForm;
@@ -9,13 +9,13 @@ import com.lyl.study.cloud.wechat.api.dto.response.WxMaterialFileBatchGetNewsIte
 import com.lyl.study.cloud.wechat.api.dto.response.WxMaterialNews;
 import com.lyl.study.cloud.wechat.api.dto.response.WxMaterialUploadResult;
 
-public interface WxMaterialService {
+public interface WxMaterialFacade {
     /**
      * 新增非图文永久素材
      *
      * @param appId 公众号AppID
      * @param form  上传表单
-     * @return 上传结果
+     * @return 上传资源的URL
      */
     WxMaterialUploadResult materialFileUpload(String appId, WxMaterialUploadForm form);
 
@@ -66,19 +66,20 @@ public interface WxMaterialService {
     /**
      * 分页获取图文信息
      *
-     * @param appId  公众号AppID
-     * @param offset 偏移量
-     * @param count  获取数目
+     * @param appId     公众号AppID
+     * @param pageIndex 页码
+     * @param pageSize  页面大小
      */
-    PageInfo<WxMaterialNews> materialNewsBatchGet(String appId, int offset, int count);
+    PageInfo<WxMaterialNews> materialNewsBatchGet(String appId, int pageIndex, int pageSize);
 
     /**
      * 分页获取其他媒体素材列表
      *
-     * @param appId  公众号AppID
-     * @param type   媒体类型
-     * @param offset 偏移量
-     * @param count  获取数目
+     * @param appId     公众号AppID
+     * @param type      媒体类型
+     * @param pageIndex 偏移量
+     * @param pageSize  获取数目
      */
-    PageInfo<WxMaterialFileBatchGetNewsItem> materialFileBatchGet(String appId, String type, int offset, int count);
+    PageInfo<WxMaterialFileBatchGetNewsItem> materialFileBatchGet(String appId, String type,
+                                                                  int pageIndex, int pageSize);
 }

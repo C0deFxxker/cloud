@@ -1,7 +1,7 @@
 package com.lyl.study.cloud.wechat.core.service;
 
-import com.lyl.study.cloud.wechat.api.dto.WxJsapiSign;
-import com.lyl.study.cloud.wechat.api.dto.WxUser;
+import com.lyl.study.cloud.wechat.api.dto.response.WxJsapiSign;
+import com.lyl.study.cloud.wechat.api.dto.response.WxUserDTO;
 
 public interface WxOAuth2Service {
     /**
@@ -20,7 +20,7 @@ public interface WxOAuth2Service {
      * @param openId OpenID
      * @return 微信用户信息
      */
-    WxUser oauth2getUserInfo(String appId, String openId);
+    WxUserDTO oauth2getUserInfo(String appId, String openId);
 
     /**
      * 创建Jsapi签名

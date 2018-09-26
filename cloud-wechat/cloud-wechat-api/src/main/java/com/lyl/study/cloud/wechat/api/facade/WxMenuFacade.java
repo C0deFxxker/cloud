@@ -1,6 +1,6 @@
-package com.lyl.study.cloud.wechat.core.service;
+package com.lyl.study.cloud.wechat.api.facade;
 
-public interface WxMenuService {
+public interface WxMenuFacade {
     /**
      * 设置菜单
      *
