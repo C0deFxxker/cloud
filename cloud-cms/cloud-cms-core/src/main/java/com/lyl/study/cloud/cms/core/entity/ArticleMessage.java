@@ -52,6 +52,10 @@ public class ArticleMessage implements Serializable {
      */
     private String surfaceUrl;
     /**
+     * 用户搜索条件
+     */
+    private String conditions;
+    /**
      * 期望目标人数
      */
     private Integer expectTargetNum;
@@ -100,6 +104,8 @@ public class ArticleMessage implements Serializable {
     public static final String CONTENT = "content";
 
     public static final String SURFACE_URL = "surface_url";
+
+    public static final String CONDITIONS = "conditions";
 
     public static final String EXPECT_TARGET_NUM = "expect_target_num";
 

@@ -4,9 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
+import com.lyl.study.cloud.base.exception.IllegalOperationException;
 import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
+import com.lyl.study.cloud.base.util.BeanUtils;
+import com.lyl.study.cloud.base.util.JsonUtils;
 import com.lyl.study.cloud.cms.api.dto.request.ArticleMessageListConditions;
 import com.lyl.study.cloud.cms.api.dto.request.ArticleMessageSaveForm;
 import com.lyl.study.cloud.cms.api.dto.request.ArticleMessageUpdateForm;
@@ -19,12 +22,13 @@ import com.lyl.study.cloud.cms.core.service.ResourceArticleService;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.lyl.study.cloud.cms.api.CmsErrorCode.MESSAGE_HAS_BEEN_SENDED;
 
 public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
     @Autowired
@@ -56,8 +60,8 @@ public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
         int expectTargetNum = userPage.getTotal();
 
         // 持久化记录
-        ArticleMessage articleMessage = new ArticleMessage();
-        BeanUtils.copyProperties(resourceArticle, articleMessage);
+        ArticleMessage articleMessage = BeanUtils.transform(resourceArticle, ArticleMessage.class);
+        articleMessage.setConditions(JsonUtils.toJson(form.getConditions()));
         articleMessage.setId(sequence.nextId());
         articleMessage.setEnableTime(form.getSendTime());
         articleMessage.setExpectTargetNum(expectTargetNum);
@@ -73,30 +77,14 @@ public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
     @Override
     public PageInfo<ArticleMessageDTO> list(ArticleMessageListConditions conditions) {
         EntityWrapper<ArticleMessage> wrapper = new EntityWrapper<>();
-        if (conditions.getTitle() != null) {
-            wrapper.like(ArticleMessage.TITLE, conditions.getTitle());
-        }
-        if (conditions.getAuthor() != null) {
-            wrapper.like(ArticleMessage.AUTHOR, conditions.getAuthor());
-        }
-        if (conditions.getEnable() != null) {
-            wrapper.eq(ArticleMessage.ENABLE, conditions.getEnable());
-        }
-        if (conditions.getEnableTimeStart() != null) {
-            wrapper.ge(ArticleMessage.ENABLE_TIME, conditions.getEnableTimeStart());
-        }
-        if (conditions.getEnableTimeEnd() != null) {
-            wrapper.le(ArticleMessage.ENABLE_TIME, conditions.getEnableTimeEnd());
-        }
-        if (conditions.getCreateTimeStart() != null) {
-            wrapper.ge(ArticleMessage.CREATE_TIME, conditions.getCreateTimeStart());
-        }
-        if (conditions.getCreateTimeEnd() != null) {
-            wrapper.le(ArticleMessage.CREATE_TIME, conditions.getCreateTimeEnd());
-        }
-        if (conditions.getSendState() != null) {
-            wrapper.eq(ArticleMessage.SEND_STATE, conditions.getSendState());
-        }
+        wrapper.like(conditions.getTitle() != null, ArticleMessage.TITLE, conditions.getTitle());
+        wrapper.like(conditions.getAuthor() != null, ArticleMessage.AUTHOR, conditions.getAuthor());
+        wrapper.eq(conditions.getEnable() != null, ArticleMessage.ENABLE, conditions.getEnable());
+        wrapper.ge(conditions.getEnableTimeStart() != null, ArticleMessage.ENABLE_TIME, conditions.getEnableTimeStart());
+        wrapper.le(conditions.getEnableTimeEnd() != null, ArticleMessage.ENABLE_TIME, conditions.getEnableTimeEnd());
+        wrapper.ge(conditions.getCreateTimeStart() != null, ArticleMessage.CREATE_TIME, conditions.getCreateTimeStart());
+        wrapper.le(conditions.getCreateTimeEnd() != null, ArticleMessage.CREATE_TIME, conditions.getCreateTimeEnd());
+        wrapper.eq(conditions.getSendState() != null, ArticleMessage.SEND_STATE, conditions.getSendState());
 
         Page<ArticleMessage> page = new Page<>(conditions.getPageIndex(), conditions.getPageSize());
         page = articleMessageService.selectPage(page, wrapper);
@@ -118,7 +106,26 @@ public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
 
     @Override
     public void update(ArticleMessageUpdateForm form) {
+        ArticleMessage articleMessage = articleMessageService.selectById(form.getMessageId());
+        Date now = new Date();
 
+        if (articleMessage == null) {
+            throw new NoSuchEntityException("找不到ID为" + form.getMessageId() + "的消息");
+        }
+        if (articleMessage.getEnableTime().before(now)) {
+            throw new IllegalOperationException(MESSAGE_HAS_BEEN_SENDED, "消息已经发送，不能修改");
+        }
+        if (form.getSendTime() != null && form.getSendTime().before(now)) {
+            throw new InvalidArgumentException("发送时间不能早于当前时间");
+        }
+
+        articleMessage.setConditions(JsonUtils.toJson(form.getConditions()));
+        articleMessage.setEnableTime(form.getSendTime());
+        articleMessageService.updateById(articleMessage);
+
+        if (articleMessage.getEnableTime() == null) {
+            // TODO 如果发送时间为空，表示立即发送消息
+        }
     }
 
     @Override
