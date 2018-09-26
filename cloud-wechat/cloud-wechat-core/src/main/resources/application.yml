@@ -1,0 +1,29 @@
+server:
+  port: 8000
+  context-path: /wechat
+spring:
+  application:
+    name: cloud-wechat-core
+dubbo:
+  scan:
+    basePackages: com.lyl.study.cloud.wechat.core.facade.impl
+  application:
+    name: cloud-wechat-core
+  protocol:
+    id: dubbo
+    name: dubbo
+    host: 10.73.
+    port: 4000
+  registry:
+    address: zookeeper://localhost:2181
+cloud:
+  wechat:
+    mp:
+      configs:
+      - appId: wx9f2dc0c322edc637
+        secret: f4480391718a90677f744ef75453b92b
+        token: liyilin
+      - appId: wx284f071b5ae9597e
+        secret: be3bd5d001ff1026a29c74c56cc484fa
+        token: liyilin
+        aesKey: aHwPq2ErhT5aZbD5LPkqTXQp8LF4aweiwIuxAls1m0G
