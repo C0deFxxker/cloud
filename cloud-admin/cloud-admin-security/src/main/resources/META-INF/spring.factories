@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.lyl.study.cloud.gateway.security.config.DefaultSecurityConfigurer
+  com.lyl.study.cloud.admin.security.config.DefaultSecurityConfigurer

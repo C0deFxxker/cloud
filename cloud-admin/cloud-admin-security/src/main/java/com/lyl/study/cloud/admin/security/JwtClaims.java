@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.gateway.security;
+package com.lyl.study.cloud.admin.security;
 
 import lombok.Data;
 import lombok.ToString;

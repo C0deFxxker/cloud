@@ -50,33 +50,37 @@ CREATE TABLE cms_resource_article (
 
 DROP TABLE IF EXISTS cms_article_message;
 CREATE TABLE cms_article_message (
-  id            bigint(20)   NOT NULL
+  id                bigint(20)   NOT NULL
   COMMENT '主键id',
-  article_id    BIGINT       NOT NULL
+  article_id        BIGINT       NOT NULL
   COMMENT '图文ID',
-  title         varchar(100) NOT NULL
+  title             varchar(100) NOT NULL
   COMMENT '主题',
-  author        varchar(32)  NOT NULL
+  author            varchar(32)  NOT NULL
   COMMENT '作者名称',
-  abstract_text varchar(255) NOT NULL
+  abstract_text     varchar(255) NOT NULL
   COMMENT '文本摘要',
-  content       MEDIUMTEXT   NOT NULL
+  content           MEDIUMTEXT   NOT NULL
   COMMENT '文章内容',
-  surface_url   varchar(255) NOT NULL
+  surface_url       varchar(255) NOT NULL
   COMMENT '封面图链接url',
-  enable        BIT(1)       NOT NULL
+  expect_target_num INT          NOT NULL
+  COMMENT '期望触达人数',
+  actual_target_num INT          NOT NULL
+  COMMENT '实际触达人数',
+  enable            BIT(1)       NOT NULL
   COMMENT '是否启用（用于消息撤回）',
-  enable_time   TIMESTAMP    NOT NULL
+  enable_time       TIMESTAMP    NOT NULL
   COMMENT '启用时间（用于定时发布）',
-  creator_id    bigint(20) DEFAULT NULL
+  creator_id        bigint(20) DEFAULT NULL
   COMMENT '创建者id',
-  owner_id      bigint(20) DEFAULT NULL
+  owner_id          bigint(20) DEFAULT NULL
   COMMENT '拥有者id，默认为创建者id',
-  owner_role_id bigint(20) DEFAULT NULL
+  owner_role_id     bigint(20) DEFAULT NULL
   COMMENT '拥有者角色id',
-  create_time   datetime   DEFAULT CURRENT_TIMESTAMP
+  create_time       datetime   DEFAULT CURRENT_TIMESTAMP
   COMMENT '创建时间',
-  update_time   datetime   DEFAULT CURRENT_TIMESTAMP
+  update_time       datetime   DEFAULT CURRENT_TIMESTAMP
   ON UPDATE CURRENT_TIMESTAMP
   COMMENT '修改时间',
   PRIMARY KEY (id)
@@ -95,10 +99,3 @@ CREATE TABLE cms_message_user (
   KEY select_unread_user_messages (user_id, state)
 )
   COMMENT '消息用户关联表';
-
-# DROP TABLE IF EXISTS cms_message_pvuv;
-# CREATE TABLE cms_message_pvuv (
-#   id BIGINT PRIMARY KEY,
-#   message_id BIGINT NOT NULL,
-#
-# );

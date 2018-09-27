@@ -10,7 +10,7 @@ import com.lyl.study.cloud.cms.api.dto.response.ResourceArticleDTO;
 import com.lyl.study.cloud.cms.api.facade.ResourceArticleFacade;
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.gateway.security.CurrentSessionHolder;
+import com.lyl.study.cloud.admin.security.CurrentSessionHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

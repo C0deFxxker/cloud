@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.gateway.security;
+package com.lyl.study.cloud.admin.security;
 
 import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;

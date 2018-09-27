@@ -60,9 +60,6 @@ public class ResourceEntityFacadeImpl implements ResourceEntityFacade {
     public long save(ResourceEntitySaveForm form) {
         ResourceEntity record = new ResourceEntity();
         BeanUtils.copyProperties(form, record);
-//        if (form.getProperties() != null) {
-//            record.setProperties(JsonUtils.toJson(form));
-//        }
         record.setId(sequence.nextId());
         resourceEntityService.insert(record);
         return record.getId();

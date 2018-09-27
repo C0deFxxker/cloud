@@ -1,5 +1,8 @@
-package com.lyl.study.cloud.gateway.security.filter;
+package com.lyl.study.cloud.admin.security.filter;
 
+import com.lyl.study.cloud.admin.security.UserAuthenticationToken;
+import com.lyl.study.cloud.admin.security.exception.InvalidJwtException;
+import com.lyl.study.cloud.admin.security.exception.InvalidRoleException;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.util.HttpServletUtils;
@@ -8,11 +11,8 @@ import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import com.lyl.study.cloud.gateway.security.JwtClaims;
-import com.lyl.study.cloud.gateway.security.JwtSigner;
-import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;
-import com.lyl.study.cloud.gateway.security.exception.InvalidJwtException;
-import com.lyl.study.cloud.gateway.security.exception.InvalidRoleException;
+import com.lyl.study.cloud.admin.security.JwtClaims;
+import com.lyl.study.cloud.admin.security.JwtSigner;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

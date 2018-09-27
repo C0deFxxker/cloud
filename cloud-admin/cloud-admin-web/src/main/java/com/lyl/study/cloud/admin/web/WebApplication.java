@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 /**
- * 整个Admin应用都是通过import不同模块的jar来实现，这个类纯粹是一个总的启动器
+ * 整个Admin应用都是通过import不同模块的jar来实现
  */
 @SpringBootApplication
 public class WebApplication {

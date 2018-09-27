@@ -7,8 +7,8 @@ import com.lyl.study.cloud.admin.web.gateway.security.ResultLogoutSuccessHandler
 import com.lyl.study.cloud.admin.web.gateway.security.UserAuthenticationProvider;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import com.lyl.study.cloud.gateway.security.JwtSigner;
-import com.lyl.study.cloud.gateway.security.config.DefaultSecurityConfigurer;
+import com.lyl.study.cloud.admin.security.JwtSigner;
+import com.lyl.study.cloud.admin.security.config.DefaultSecurityConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

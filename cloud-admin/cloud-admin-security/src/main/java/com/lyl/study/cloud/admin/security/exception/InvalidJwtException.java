@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.gateway.security.exception;
+package com.lyl.study.cloud.admin.security.exception;
 
 public class InvalidJwtException extends RuntimeException {
     public InvalidJwtException() {

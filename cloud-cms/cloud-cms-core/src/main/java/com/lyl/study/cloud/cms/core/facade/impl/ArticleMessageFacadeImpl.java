@@ -1,6 +1,7 @@
 package com.lyl.study.cloud.cms.core.facade.impl;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 
 import static com.lyl.study.cloud.cms.api.CmsErrorCode.MESSAGE_HAS_BEEN_SENDED;
 
+@Service
 public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
     @Autowired
     private Sequence sequence;
@@ -64,6 +66,7 @@ public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
         articleMessage.setConditions(JsonUtils.toJson(form.getConditions()));
         articleMessage.setId(sequence.nextId());
         articleMessage.setEnableTime(form.getSendTime());
+        articleMessage.setEnable(true);
         articleMessage.setExpectTargetNum(expectTargetNum);
         articleMessageService.insert(articleMessage);
 
@@ -112,7 +115,10 @@ public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
         if (articleMessage == null) {
             throw new NoSuchEntityException("找不到ID为" + form.getMessageId() + "的消息");
         }
-        if (articleMessage.getEnableTime().before(now)) {
+        if (!articleMessage.getEnable()) {
+            throw new IllegalOperationException(MESSAGE_HAS_BEEN_SENDED, "消息已撤回");
+        }
+        if (articleMessage.getEnableTime() == null || articleMessage.getEnableTime().before(now)) {
             throw new IllegalOperationException(MESSAGE_HAS_BEEN_SENDED, "消息已经发送，不能修改");
         }
         if (form.getSendTime() != null && form.getSendTime().before(now)) {
@@ -130,11 +136,28 @@ public class ArticleMessageFacadeImpl implements ArticleMessageFacade {
 
     @Override
     public void cancel(long messageId) {
+        ArticleMessage articleMessage = articleMessageService.selectById(messageId);
+        if (articleMessage == null) {
+            throw new NoSuchEntityException("找不到ID为" + messageId + "的消息");
+        }
+        if (!articleMessage.getEnable()) {
+            throw new IllegalOperationException(MESSAGE_HAS_BEEN_SENDED, "消息已撤回");
+        }
+        if (articleMessage.getEnableTime() == null || articleMessage.getEnableTime().before(new Date())) {
+            throw new IllegalOperationException(MESSAGE_HAS_BEEN_SENDED, "消息已经发送，不能撤销");
+        }
 
+        articleMessage.setEnable(false);
+        articleMessageService.updateById(articleMessage);
     }
 
     @Override
     public ArticleMessageDTO getById(long id) {
-        return null;
+        ArticleMessage articleMessage = articleMessageService.selectById(id);
+        if (articleMessage == null) {
+            return BeanUtils.transform(articleMessage, ArticleMessageDTO.class);
+        } else {
+            return null;
+        }
     }
 }

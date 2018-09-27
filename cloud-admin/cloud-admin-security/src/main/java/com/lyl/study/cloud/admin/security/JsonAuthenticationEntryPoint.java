@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.gateway.security;
+package com.lyl.study.cloud.admin.security;
 
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.util.HttpServletUtils;

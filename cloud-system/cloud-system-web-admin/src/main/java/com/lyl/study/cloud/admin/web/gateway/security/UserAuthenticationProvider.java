@@ -2,7 +2,7 @@ package com.lyl.study.cloud.admin.web.gateway.security;
 
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import com.lyl.study.cloud.gateway.security.UserAuthenticationToken;
+import com.lyl.study.cloud.admin.security.UserAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
