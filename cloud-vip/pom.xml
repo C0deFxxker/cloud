@@ -12,8 +12,8 @@
     <artifactId>cloud-member</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>cloud-member-api</module>
-        <module>cloud-member-core</module>
+        <module>cloud-vip-api</module>
+        <module>cloud-vip-core</module>
     </modules>
 
 
