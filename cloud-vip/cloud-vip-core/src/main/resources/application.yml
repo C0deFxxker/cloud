@@ -68,6 +68,9 @@ sharding:
 mybatis-plus:
   global-config:
     db-column-underline: true
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    logic-delete-value: 1
+    logic-not-delete-value: 0
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

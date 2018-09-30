@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.cms;
+package com.lyl.study.cloud.admin.web.cms.config;
 
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;

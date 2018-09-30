@@ -1,7 +1,7 @@
 package com.lyl.study.cloud.admin.web.cms.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.lyl.study.cloud.admin.web.cms.UploadProperties;
+import com.lyl.study.cloud.admin.web.cms.config.UploadProperties;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.cms.api.dto.request.ResourceEntityListConditions;

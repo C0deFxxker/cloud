@@ -2,9 +2,11 @@ package com.lyl.study.cloud.member.core.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotations.Version;
@@ -15,7 +17,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author liyilin

@@ -33,18 +33,18 @@
         <dubbo-starter.version>0.1.1</dubbo-starter.version>
         <zkclient.version>0.10</zkclient.version>
         <drools.version>7.3.0.Final</drools.version>
-        <wechat-sdk.version>3.1.0</wechat-sdk.version>
+        <wechat-sdk.version>3.2.0</wechat-sdk.version>
         <zxing.version>3.3.3</zxing.version>
         <sharding-sphere.version>3.0.0.M4</sharding-sphere.version>
         <asm.version>6.1.1</asm.version>
-        <!--<skipTests>false</skipTests>-->
+        <skipTests>true</skipTests>
     </properties>
 
     <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>nexus-snapshots</id>-->
-            <!--<url>http://10.18.35.159:7000/repository/maven-snapshots/</url>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--<id>nexus-snapshots</id>-->
+    <!--<url>http://10.18.35.159:7000/repository/maven-snapshots/</url>-->
+    <!--</repository>-->
     <!--</distributionManagement>-->
 
     <dependencies>

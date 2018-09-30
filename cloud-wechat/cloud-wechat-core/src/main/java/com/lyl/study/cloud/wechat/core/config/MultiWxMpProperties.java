@@ -18,16 +18,16 @@ import java.util.Map;
  * @author lyl
  */
 @Slf4j
-@ConfigurationProperties(prefix = "wechat.mp")
+@ConfigurationProperties(prefix = "cloud.wechat.mp")
 public class MultiWxMpProperties implements InitializingBean {
 
-    private List<Map<String, String>> configs = new ArrayList<>();
+    private List<WxMpInMemoryConfigStorage> configs = new ArrayList<>();
 
-    public List<Map<String, String>> getConfigs() {
+    public List<WxMpInMemoryConfigStorage> getConfigs() {
         return configs;
     }
 
-    public MultiWxMpProperties setConfigs(List<Map<String, String>> configs) {
+    public MultiWxMpProperties setConfigs(List<WxMpInMemoryConfigStorage> configs) {
         this.configs = configs;
         return this;
     }
@@ -46,10 +46,12 @@ public class MultiWxMpProperties implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if (wxMpConfigStorageMap.isEmpty() && !configs.isEmpty()) {
             int idx = 0;
-            for (Map<String, String> each : configs) {
+            for (WxMpInMemoryConfigStorage each : configs) {
                 WxMpConfigStorage wxMpConfigStorage = BeanUtils.transform(each, new WxMpInMemoryConfigStorage());
                 wxMpConfigStorageMap.put(wxMpConfigStorage.getAppId(), wxMpConfigStorage);
-                log.info("读取公众号配置[{}]：{}", idx, wxMpConfigStorage);
+                log.info("配置公众号：[appId={}, secret={}, token={}, aesKey={}]",
+                        wxMpConfigStorage.getAppId(), wxMpConfigStorage.getSecret(),
+                        wxMpConfigStorage.getToken(), wxMpConfigStorage.getAesKey());
                 idx++;
             }
         }
