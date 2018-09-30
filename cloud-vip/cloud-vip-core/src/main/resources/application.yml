@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: cloud-vip-core
+sharding:
+  jdbc:
+    datasource:
+      names: cloud
+      cloud:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/cloud
+        username: root
+        password: root
+    config:
+      sharding:
+        tables:
+          vip_member:
+            actual-data-nodes: cloud.vip_member_${0..3}
+            key-generator-column-name: id
+            table-strategy:
+              inline:
+                sharding-column: id
+                algorithm-expression: vip_member_${id % 4}
+          vip_member_grow:
+            actual-data-nodes: cloud.vip_member_grow_${0..3}
+            key-generator-column-name: member_id
+            table-strategy:
+              inline:
+                sharding-column: member_id
+                algorithm-expression: vip_member_grow_${member_id % 4}
+          vip_member_grow_record:
+            actual-data-nodes: cloud.vip_member_grow_record_${0..3}
+            key-generator-column-name: member_id
+            table-strategy:
+              inline:
+                sharding-column: member_id
+                algorithm-expression: vip_member_grow_record_${member_id % 4}
+          vip_member_point:
+            actual-data-nodes: cloud.vip_member_point_${0..3}
+            key-generator-column-name: member_id
+            table-strategy:
+              inline:
+                sharding-column: member_id
+                algorithm-expression: vip_member_point_${member_id % 4}
+          vip_member_point_record:
+            actual-data-nodes: cloud.vip_member_point_record_${0..3}
+            key-generator-column-name: member_id
+            table-strategy:
+              inline:
+                sharding-column: member_id
+                algorithm-expression: vip_member_point_record_${member_id % 4}
+          vip_member_point_record_consume_item:
+            actual-data-nodes: cloud.vip_member_point_record_consume_item_${0..3}
+            key-generator-column-name: member_id
+            table-strategy:
+              inline:
+                sharding-column: member_id
+                algorithm-expression: vip_member_point_record_consume_item_${member_id % 4}
+          vip_member_level_record:
+            actual-data-nodes: cloud.vip_member_level_record_${0..3}
+            key-generator-column-name: member_id
+            table-strategy:
+              inline:
+                sharding-column: member_id
+                algorithm-expression: vip_member_level_record_${member_id % 4}
+        props:
+          sql.show: true
+mybatis-plus:
+  global-config:
+    db-column-underline: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  mapper-locations: classpath:/mapper/*Mapper.mapper

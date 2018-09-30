@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cloud-gateway-core
+    name: cloud-system-core
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -30,7 +30,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-  mapper-locations: classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/*Mapper.mapper
 
 ---
 spring:

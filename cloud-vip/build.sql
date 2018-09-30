@@ -83,4 +83,4 @@ CREATE TABLE vip_member_point_record_consume_item (
   `value` DECIMAL(20, 2) NOT NULL,
   expire_time TIMESTAMP,
   create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-)COMMENT='考虑消耗积分操作的撤回功能，需要按照同样过期时间返还';
+) COMMENT='考虑消耗积分操作的撤回功能，需要按照同样过期时间返还';

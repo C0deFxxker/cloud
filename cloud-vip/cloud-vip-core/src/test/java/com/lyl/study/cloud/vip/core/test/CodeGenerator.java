@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.gateway.core.test;
+package com.lyl.study.cloud.vip.core.test;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -55,10 +55,14 @@ public class CodeGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
-        strategy.setTablePrefix("sys_");// 此处可以修改为您的表前缀
+        strategy.setTablePrefix("vip_");// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setDbColumnUnderline(true);
-        strategy.setInclude("sys_user");
+        strategy.setInclude(
+                "vip_member", "vip_member_grow", "vip_member_grow_record",
+                "vip_member_level_record", "vip_member_point", "vip_member_point_record",
+                "vip_member_point_record_consume_item"
+        );
 //        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_organization");
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setInclude(tableNames); // 需要生成的表
@@ -86,7 +90,7 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.lyl.study.cloud.gateway.core");
+        pc.setParent("com.lyl.study.cloud.member.core");
         pc.setController("controller");
         pc.setEntity("entity");
         pc.setMapper("mapper");

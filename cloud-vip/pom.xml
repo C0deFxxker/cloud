@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-member</artifactId>
+    <artifactId>cloud-vip</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>cloud-vip-api</module>

@@ -14,7 +14,7 @@
         <module>cloud-cms</module>
         <module>cloud-admin</module>
         <module>cloud-wechat</module>
-        <module>cloud-member</module>
+        <module>cloud-vip</module>
     </modules>
 
     <properties>
@@ -35,6 +35,7 @@
         <drools.version>7.3.0.Final</drools.version>
         <wechat-sdk.version>3.1.0</wechat-sdk.version>
         <zxing.version>3.3.3</zxing.version>
+        <sharding-sphere.version>3.0.0.M4</sharding-sphere.version>
         <asm.version>6.1.1</asm.version>
         <!--<skipTests>false</skipTests>-->
     </properties>
@@ -122,6 +123,17 @@
                 <groupId>com.google.zxing</groupId>
                 <artifactId>javase</artifactId>
                 <version>${zxing.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-namespace</artifactId>
+                <version>${sharding-sphere.version}</version>
             </dependency>
 
             <dependency>
