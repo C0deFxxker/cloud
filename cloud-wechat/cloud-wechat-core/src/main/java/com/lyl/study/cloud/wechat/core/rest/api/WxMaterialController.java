@@ -23,22 +23,26 @@ public class WxMaterialController {
     private WxMaterialService wxMaterialService;
 
     @PostMapping("/file")
-    public Result<WxMaterialUploadResult> materialFileUpload(String appId, WxMaterialUploadForm form) {
+    public Result<WxMaterialUploadResult> materialFileUpload(@PathVariable("appId") String appId,
+                                                             @RequestBody WxMaterialUploadForm form) {
         return new Result<>(OK, "上传成功", wxMaterialService.materialFileUpload(appId, form));
     }
 
     @PostMapping("/news")
-    public Result<WxMaterialUploadResult> materialNewsUpload(String appId, WxMaterialNewsForm form) {
+    public Result<WxMaterialUploadResult> materialNewsUpload(@PathVariable("appId") String appId,
+                                                             @RequestBody WxMaterialNewsForm form) {
         return new Result<>(OK, "上传成功", wxMaterialService.materialNewsUpload(appId, form));
     }
 
     @GetMapping("/news/{mediaId}")
-    public Result<WxMaterialNews> materialNewsInfo(String appId, String mediaId) {
+    public Result<WxMaterialNews> materialNewsInfo(@PathVariable("appId") String appId,
+                                                   @PathVariable("mediaId") String mediaId) {
         return new Result<>(OK, "获取成功", wxMaterialService.materialNewsInfo(appId, mediaId));
     }
 
-    @PostMapping("/news/{mediaId}")
-    public Result materialNewsUpdate(String appId, WxMaterialArticleUpdateForm wxMpMaterialArticleUpdate) {
+    @PutMapping("/news")
+    public Result materialNewsUpdate(@PathVariable("appId") String appId,
+                                     @RequestBody WxMaterialArticleUpdateForm wxMpMaterialArticleUpdate) {
         if (wxMaterialService.materialNewsUpdate(appId, wxMpMaterialArticleUpdate)) {
             return new Result<>(OK, "修改成功", null);
         } else {
@@ -47,7 +51,8 @@ public class WxMaterialController {
     }
 
     @DeleteMapping("/{mediaId}")
-    public Result materialDelete(String appId, String mediaId) {
+    public Result materialDelete(@PathVariable("appId") String appId,
+                                 @PathVariable("mediaId") String mediaId) {
         if (wxMaterialService.materialDelete(appId, mediaId)) {
             return new Result<>(OK, "删除成功", null);
         } else {
@@ -56,19 +61,21 @@ public class WxMaterialController {
     }
 
     @GetMapping("/count")
-    public Result<WxMaterialCountResult> materialCount(String appId) {
+    public Result<WxMaterialCountResult> materialCount(@PathVariable("appId") String appId) {
         return new Result<>(OK, "查询成功", wxMaterialService.materialCount(appId));
     }
 
     @GetMapping("/news/batchGet")
-    public Result<PageInfo<WxMaterialNews>> materialNewsBatchGet(String appId, int pageIndex, int pageSize) {
+    public Result<PageInfo<WxMaterialNews>> materialNewsBatchGet(@PathVariable("appId") String appId,
+                                                                 @RequestParam("pageIndex") int pageIndex,
+                                                                 @RequestParam("pageSize") int pageSize) {
         PageInfo<WxMaterialNews> pageInfo = wxMaterialService.materialNewsBatchGet(appId, pageIndex, pageSize);
         return new Result<>(OK, "查询成功", pageInfo);
     }
 
     @GetMapping("/file/batchGet")
-    public Result<PageInfo<WxMaterialFileBatchGetNewsItem>> materialFileBatchGet(String appId,
-                                                                                 String type,
+    public Result<PageInfo<WxMaterialFileBatchGetNewsItem>> materialFileBatchGet(@PathVariable("appId") String appId,
+                                                                                 @RequestParam("type") String type,
                                                                                  @RequestParam("pageIndex") int pageIndex,
                                                                                  @RequestParam("pageSize") int pageSize) {
         PageInfo<WxMaterialFileBatchGetNewsItem> pageInfo

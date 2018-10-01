@@ -27,3 +27,6 @@ cloud:
         secret: be3bd5d001ff1026a29c74c56cc484fa
         token: liyilin
         aesKey: aHwPq2ErhT5aZbD5LPkqTXQp8LF4aweiwIuxAls1m0G
+logging:
+  level:
+    com.lyl.study.cloud: debug

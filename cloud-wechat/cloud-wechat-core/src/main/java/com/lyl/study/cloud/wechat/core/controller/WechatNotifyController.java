@@ -20,9 +20,10 @@ public class WechatNotifyController {
     public Object receiveTicket(@PathVariable("appId") String appId,
                                 @RequestParam("timestamp") String timestamp,
                                 @RequestParam("nonce") String nonce,
-                                @RequestParam("signature") String signature) {
-        log.info("接收到来自微信服务器的认证消息：[appId={}, signature={}, timestamp={}, nonce={}]",
-                appId, signature, timestamp, nonce);
+                                @RequestParam("signature") String signature,
+                                @RequestParam("echostr") String echostr) {
+        log.info("接收到来自微信服务器的认证消息：[appId={}, signature={}, timestamp={}, nonce={}, echostr={}]",
+                appId, signature, timestamp, nonce, echostr);
         if (StringUtils.isAnyBlank(signature, timestamp, nonce, nonce)) {
             throw new IllegalArgumentException("请求参数非法，请核实!");
         }
@@ -31,7 +32,7 @@ public class WechatNotifyController {
 
         if (wxService.checkSignature(timestamp, nonce, signature)) {
             log.info("签名认证通过");
-            return nonce;
+            return echostr;
         }
 
         log.info("非法请求");
@@ -48,7 +49,7 @@ public class WechatNotifyController {
                        @RequestParam(name = "encrypt_type", required = false) String encType,
                        @RequestParam(name = "msg_signature", required = false) String msgSignature) {
         final WxMpService wxService = multiWxService.getMpServiceByAppId(appId);
-        log.info("\n接收微信请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
+        log.debug("接收微信请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
                         + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
                 openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
