@@ -2,7 +2,7 @@ spring:
   application:
     name: cloud-admin
   profiles:
-    active: gateway, cms
+    active: system, cms
 dubbo:
   protocol:
     name: dubbo

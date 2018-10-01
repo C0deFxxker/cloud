@@ -1,4 +1,4 @@
 cloud:
-  gateway:
+  security:
     loginUri: /session/login
     logoutUri: /session/logout

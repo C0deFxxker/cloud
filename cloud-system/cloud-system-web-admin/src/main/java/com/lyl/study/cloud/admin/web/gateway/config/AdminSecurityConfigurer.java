@@ -31,9 +31,9 @@ public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
 
     @Value("${cloud.security.sessionAge}")
     protected Integer sessionAge;
-    @Value("${cloud.gateway.logoutUri}")
+    @Value("${cloud.security.logoutUri}")
     private String logoutUri;
-    @Value("${cloud.gateway.loginUri}")
+    @Value("${cloud.security.loginUri}")
     private String loginUri;
 
     @Reference

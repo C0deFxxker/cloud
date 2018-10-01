@@ -15,6 +15,7 @@
         <module>cloud-admin</module>
         <module>cloud-wechat</module>
         <module>cloud-vip</module>
+        <module>cloud-wxclient</module>
     </modules>
 
     <properties>
