@@ -1,6 +1,6 @@
 package com.lyl.study.cloud.cms.api.dto.request;
 
-import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.system.api.dto.request.UserListConditions;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;

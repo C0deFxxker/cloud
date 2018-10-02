@@ -7,7 +7,7 @@ spring:
 dubbo:
   protocol:
     name: dubbo
-    host: 10.73.
+#    host: 192.168.
   registry:
     address: zookeeper://localhost:2181
   application:

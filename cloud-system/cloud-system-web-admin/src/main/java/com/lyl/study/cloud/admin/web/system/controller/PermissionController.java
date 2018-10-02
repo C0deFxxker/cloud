@@ -3,12 +3,12 @@ package com.lyl.study.cloud.admin.web.system.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.dto.TreeNode;
-import com.lyl.study.cloud.gateway.api.dto.request.PermissionSaveForm;
-import com.lyl.study.cloud.gateway.api.dto.request.PermissionUpdateForm;
-import com.lyl.study.cloud.gateway.api.dto.response.PermissionDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.gateway.api.facade.PermissionFacade;
+import com.lyl.study.cloud.system.api.dto.request.PermissionSaveForm;
+import com.lyl.study.cloud.system.api.dto.request.PermissionUpdateForm;
+import com.lyl.study.cloud.system.api.dto.response.PermissionDTO;
+import com.lyl.study.cloud.system.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.system.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.system.api.facade.PermissionFacade;
 import com.lyl.study.cloud.admin.security.CurrentSessionHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.lyl.study.cloud.gateway.api.SystemErrorCode.NOT_FOUND;
-import static com.lyl.study.cloud.gateway.api.SystemErrorCode.OK;
+import static com.lyl.study.cloud.system.api.SystemErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.system.api.SystemErrorCode.OK;
 
 /**
  * @author liyilin

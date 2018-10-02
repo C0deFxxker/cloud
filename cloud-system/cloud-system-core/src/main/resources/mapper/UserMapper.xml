@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lyl.study.cloud.gateway.core.mapper.UserMapper">
-    <select id="selectRolesByUserId" resultType="com.lyl.study.cloud.gateway.api.dto.response.RoleDTO">
+<mapper namespace="com.lyl.study.cloud.system.core.mapper.UserMapper">
+    <select id="selectRolesByUserId" resultType="com.lyl.study.cloud.system.api.dto.response.RoleDTO">
         SELECT
         b.*,
         d.name AS organization_name
@@ -72,8 +72,8 @@
     </sql>
 
     <select id="selectByConditions"
-            parameterType="com.lyl.study.cloud.gateway.api.dto.request.UserListConditions"
-            resultType="com.lyl.study.cloud.gateway.core.entity.User">
+            parameterType="com.lyl.study.cloud.system.api.dto.request.UserListConditions"
+            resultType="com.lyl.study.cloud.system.core.entity.User">
         SELECT
         a.*
         <include refid="selectByConditionsSql"/>
@@ -81,7 +81,7 @@
         LIMIT ${offset}, ${pageSize}
     </select>
 
-    <select id="countByConditions" parameterType="com.lyl.study.cloud.gateway.api.dto.request.UserListConditions"
+    <select id="countByConditions" parameterType="com.lyl.study.cloud.system.api.dto.request.UserListConditions"
             resultType="java.lang.Integer">
         SELECT
         COUNT(*)

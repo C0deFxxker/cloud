@@ -1,7 +1,7 @@
 package com.lyl.study.cloud.admin.security;
 
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.system.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.system.api.dto.response.UserDetailDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -11,10 +11,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public abstract class CurrentSessionHolder {
     public static UserDetailDTO getCurrentUser() {
-        return (UserDetailDTO) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            return (UserDetailDTO) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        } else {
+            return null;
+        }
     }
 
     public static RoleDTO getCurrentRole() {
-        return ((UserAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getCurrentRole();
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            return ((UserAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getCurrentRole();
+        } else {
+            return null;
+        }
     }
 }

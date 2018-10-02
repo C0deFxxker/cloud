@@ -5,12 +5,12 @@ import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.dto.TreeNode;
 import com.lyl.study.cloud.base.exception.NoSuchDependentedEntityException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.api.dto.request.OrganizationSaveForm;
-import com.lyl.study.cloud.gateway.api.dto.request.OrganizationUpdateForm;
-import com.lyl.study.cloud.gateway.api.dto.response.OrganizationDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.gateway.api.facade.OrganizationFacade;
+import com.lyl.study.cloud.system.api.dto.request.OrganizationSaveForm;
+import com.lyl.study.cloud.system.api.dto.request.OrganizationUpdateForm;
+import com.lyl.study.cloud.system.api.dto.response.OrganizationDTO;
+import com.lyl.study.cloud.system.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.system.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.system.api.facade.OrganizationFacade;
 import com.lyl.study.cloud.admin.security.CurrentSessionHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.lyl.study.cloud.gateway.api.SystemErrorCode.NOT_FOUND;
-import static com.lyl.study.cloud.gateway.api.SystemErrorCode.OK;
+import static com.lyl.study.cloud.system.api.SystemErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.system.api.SystemErrorCode.OK;
 
 /**
  * @author liyilin

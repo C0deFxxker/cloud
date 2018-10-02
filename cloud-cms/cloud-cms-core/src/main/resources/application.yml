@@ -33,7 +33,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-  mapper-locations: classpath:/mapper/*Mapper.mapper
+  mapper-locations: classpath:/mapper/*Mapper.xml
 
 ---
 spring:

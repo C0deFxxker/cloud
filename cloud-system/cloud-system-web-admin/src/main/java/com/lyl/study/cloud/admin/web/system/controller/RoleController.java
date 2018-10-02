@@ -4,17 +4,17 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.admin.security.CurrentSessionHolder;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
-import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
-import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
+import com.lyl.study.cloud.system.api.dto.request.RoleSaveForm;
+import com.lyl.study.cloud.system.api.dto.request.RoleUpdateForm;
+import com.lyl.study.cloud.system.api.dto.response.RoleDTO;
+import com.lyl.study.cloud.system.api.dto.response.UserDetailDTO;
+import com.lyl.study.cloud.system.api.facade.RoleFacade;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.lyl.study.cloud.gateway.api.SystemErrorCode.NOT_FOUND;
-import static com.lyl.study.cloud.gateway.api.SystemErrorCode.OK;
+import static com.lyl.study.cloud.system.api.SystemErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.system.api.SystemErrorCode.OK;
 
 @RestController
 @RequestMapping("/role")

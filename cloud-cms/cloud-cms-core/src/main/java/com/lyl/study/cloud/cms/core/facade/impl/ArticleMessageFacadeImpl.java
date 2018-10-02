@@ -20,9 +20,9 @@ import com.lyl.study.cloud.cms.core.entity.ArticleMessage;
 import com.lyl.study.cloud.cms.core.entity.ResourceArticle;
 import com.lyl.study.cloud.cms.core.service.ArticleMessageService;
 import com.lyl.study.cloud.cms.core.service.ResourceArticleService;
-import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDTO;
-import com.lyl.study.cloud.gateway.api.facade.UserFacade;
+import com.lyl.study.cloud.system.api.dto.request.UserListConditions;
+import com.lyl.study.cloud.system.api.dto.response.UserDTO;
+import com.lyl.study.cloud.system.api.facade.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
