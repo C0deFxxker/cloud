@@ -1,10 +1,11 @@
-package com.lyl.study.cloud.member.api.dto.response;
+package com.lyl.study.cloud.vip.api.dto.response;
 
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -17,6 +18,8 @@ public class MemberDTO implements Serializable {
     private String mobile;
     private String email;
     private Long levelId;
+    private BigDecimal remainPoint;
+    private BigDecimal remainGrow;
     private Boolean enable;
     private Date createTime;
 }

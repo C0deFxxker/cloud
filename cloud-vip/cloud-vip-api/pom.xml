@@ -11,5 +11,11 @@
 
     <artifactId>cloud-vip-api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-base</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
+    </dependencies>
 </project>

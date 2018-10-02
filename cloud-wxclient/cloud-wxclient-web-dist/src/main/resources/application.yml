@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: cloud-wxclient
+  profiles:
+    active: system, cms
+dubbo:
+  protocol:
+    name: dubbo
+    host: 10.73.
+  registry:
+    address: zookeeper://localhost:2181
+  application:
+    name: cloud-wxclient
+server:
+  context-path: /wxclient
+  port: 8081
+cloud:
+  security:
+    permit-urls: /static/**
+    sessionAge: 7200
+    secret: SECRET
+logging:
+  level:
+    com.lyl.study.cloud: DEBUG

@@ -1,6 +1,6 @@
 package com.lyl.study.cloud.wxclient.security;
 
-import com.lyl.study.cloud.member.api.dto.response.MemberDTO;
+import com.lyl.study.cloud.vip.api.dto.response.MemberDTO;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.util.Assert;
 

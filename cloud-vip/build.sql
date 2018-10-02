@@ -10,6 +10,13 @@ CREATE TABLE vip_level (
   update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+INSERT INTO vip_level(id, name, label, sort, require_value) VALUES
+(1, '青铜会员', 'V1', 1, 0),
+(2, '白银会员', 'V2', 2, 0),
+(3, '黄金会员', 'V3', 3, 0),
+(4, '铂金会员', 'V4', 4, 0),
+(5, '钻石会员', 'V5', 5, 0);
+
 DROP TABLE IF EXISTS vip_member;
 CREATE TABLE vip_member (
   id BIGINT PRIMARY KEY,

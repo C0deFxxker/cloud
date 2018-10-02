@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>cloud-wxclient-security</module>
+        <module>cloud-wxclient-web-dist</module>
     </modules>
 
 

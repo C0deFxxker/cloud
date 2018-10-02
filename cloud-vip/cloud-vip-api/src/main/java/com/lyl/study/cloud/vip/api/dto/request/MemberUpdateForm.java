@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.member.api.dto.request;
+package com.lyl.study.cloud.vip.api.dto.request;
 
 import lombok.Data;
 import lombok.ToString;
@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Data
 @ToString
 @Accessors(chain = true)
-public class MemberSaveForm implements Serializable {
-    private String username;
+public class MemberUpdateForm implements Serializable {
+    private long id;
     private String mobile;
     private String email;
 }

@@ -59,9 +59,7 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setDbColumnUnderline(true);
         strategy.setInclude(
-                "vip_member", "vip_member_grow", "vip_member_grow_record",
-                "vip_member_level_record", "vip_member_point", "vip_member_point_record",
-                "vip_member_point_record_consume_item"
+                "vip_level"
         );
 //        strategy.setExclude("sys_user_role", "sys_role_permission", "sys_role_organization");
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
