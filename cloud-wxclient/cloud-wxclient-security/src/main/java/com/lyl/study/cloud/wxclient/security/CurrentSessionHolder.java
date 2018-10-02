@@ -10,6 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public abstract class CurrentSessionHolder {
     public static MemberDTO getCurrentUser() {
-        return (MemberDTO) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            return (MemberDTO) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        } else {
+            return null;
+        }
     }
 }

@@ -45,4 +45,20 @@ public interface MemberFacade {
      * @return 查询成功时，返回对应的会员信息；不存在时，返回null
      */
     MemberDTO getById(long id);
+
+    /**
+     * 根据手机号查询会员信息
+     *
+     * @param mobile 手机号
+     * @return
+     */
+    MemberDTO getByMobile(String mobile);
+
+    /**
+     * 根据Email查询会员信息
+     *
+     * @param email Email
+     * @return
+     */
+    MemberDTO getByEmail(String email);
 }

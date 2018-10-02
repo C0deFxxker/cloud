@@ -1,22 +1,20 @@
-package com.lyl.study.cloud.admin.web.system.security;
+package com.lyl.study.cloud.wxclient.web.vip.security;
 
-import com.google.common.base.Charsets;
-import com.lyl.study.cloud.admin.security.JwtClaims;
-import com.lyl.study.cloud.admin.security.UserAuthenticationToken;
 import com.lyl.study.cloud.base.CommonErrorCode;
 import com.lyl.study.cloud.base.dto.Result;
+import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.security.jwt.JwtSigner;
-import com.lyl.study.cloud.base.util.CryptoUtils;
 import com.lyl.study.cloud.base.util.HttpServletUtils;
 import com.lyl.study.cloud.base.util.JsonUtils;
-import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
-import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
-import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
+import com.lyl.study.cloud.vip.api.dto.response.MemberDTO;
+import com.lyl.study.cloud.wechat.api.facade.WxOAuth2Facade;
+import com.lyl.study.cloud.wxclient.security.JwtClaims;
+import com.lyl.study.cloud.wxclient.security.MemberAuthenticationToken;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -36,45 +34,64 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
-public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    private RoleFacade roleFacade;
+public class WxClientAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+    private String appId;
     private JwtSigner jwtSigner;
+    private String verifyCodeSessionName;
     private String tokenCookieName;
     private String tokenCookiePath;
+    private WxOAuth2Facade wxOAuth2Facade;
 
-    public AdminAuthenticationFilter(AuthenticationEntryPoint authenticationEntryPoint) {
+    public WxClientAuthenticationFilter(AuthenticationEntryPoint authenticationEntryPoint) {
         this(new AntPathRequestMatcher("/session/login", "POST"), authenticationEntryPoint);
     }
 
-    public AdminAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher,
-                                     AuthenticationEntryPoint authenticationEntryPoint) {
+    public WxClientAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher,
+                                        AuthenticationEntryPoint authenticationEntryPoint) {
         super(requiresAuthenticationRequestMatcher);
         setContinueChainBeforeSuccessfulAuthentication(false);
 
         setSessionAuthenticationStrategy(new AccountSessionAuthenticationStrategy(this));
-        setAuthenticationSuccessHandler(new AdminAuthenticationSuccessHandler());
-        setAuthenticationFailureHandler(new AdminAuthenticationFailureHandler(authenticationEntryPoint));
+        setAuthenticationSuccessHandler(new WxClientAuthenticationSuccessHandler());
+        setAuthenticationFailureHandler(new WxClientAuthenticationFailureHandler(authenticationEntryPoint));
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public WxClientAuthenticationFilter setAppId(String appId) {
+        this.appId = appId;
+        return this;
+    }
+
+    public String getVerifyCodeSessionName() {
+        return verifyCodeSessionName;
+    }
+
+    public WxClientAuthenticationFilter setVerifyCodeSessionName(String verifyCodeSessionName) {
+        this.verifyCodeSessionName = verifyCodeSessionName;
+        return this;
+    }
+
+    public WxOAuth2Facade getWxOAuth2Facade() {
+        return wxOAuth2Facade;
+    }
+
+    public WxClientAuthenticationFilter setWxOAuth2Facade(WxOAuth2Facade wxOAuth2Facade) {
+        this.wxOAuth2Facade = wxOAuth2Facade;
+        return this;
     }
 
     public String getTokenCookieName() {
         return tokenCookieName;
     }
 
-    public AdminAuthenticationFilter setTokenCookieName(String tokenCookieName) {
+    public WxClientAuthenticationFilter setTokenCookieName(String tokenCookieName) {
         this.tokenCookieName = tokenCookieName;
         return this;
-    }
-
-    public RoleFacade getRoleFacade() {
-        return roleFacade;
-    }
-
-    public void setRoleFacade(RoleFacade roleFacade) {
-        this.roleFacade = roleFacade;
     }
 
     public JwtSigner getJwtSigner() {
@@ -97,7 +114,9 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingF
     public void afterPropertiesSet() {
         super.afterPropertiesSet();
 
-        Assert.notNull(roleFacade, "roleFacade cannot be null");
+        Assert.notNull(appId, "appId cannot be null");
+        Assert.notNull(wxOAuth2Facade, "wxOAuth2Facade cannot be null");
+        Assert.notNull(verifyCodeSessionName, "verifyCodeSessionName cannot be null");
         Assert.notNull(jwtSigner, "jwtSigner cannot be null");
         Assert.notNull(tokenCookieName, "tokenCookieName cannot be null");
         Assert.notNull(tokenCookiePath, "tokenCookiePath cannot be null");
@@ -116,16 +135,13 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingF
                 log.debug("接受到用户登录请求: {}", loginForm);
             }
 
-            checkLoginForm(loginForm);
+            checkLoginForm(loginForm, request);
 
-            // 对密码加密
-            loginForm.password = encryptPassword(loginForm.username, loginForm.password);
+            MemberDTO member = new MemberDTO();
+            member.setMobile(loginForm.mobile);
 
-            UserDetailDTO user = new UserDetailDTO();
-            user.setUsername(loginForm.username);
-            user.setPassword(loginForm.password);
-
-            Authentication authentication = new UserAuthenticationToken(user, null);
+            MemberAuthenticationToken authentication = new MemberAuthenticationToken(member);
+            authentication.setCode(loginForm.getCode());
             return getAuthenticationManager().authenticate(authentication);
         } else {
             throw new HttpMediaTypeNotSupportedException(contentType,
@@ -133,50 +149,50 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingF
         }
     }
 
-    protected void checkLoginForm(LoginForm loginForm) {
-        if (loginForm.username == null || loginForm.password == null) {
-            throw new IllegalArgumentException("请填写用户名、密码");
+    protected void checkLoginForm(LoginForm loginForm, HttpServletRequest request) {
+        if (loginForm.mobile == null || loginForm.verifyCode == null) {
+            throw new InvalidArgumentException("请填写手机号、验证码");
         }
-    }
 
-    /**
-     * 对账号密码进行加密
-     *
-     * @param account  账号
-     * @param password 密码
-     * @return 加密后的密码
-     */
-    protected static String encryptPassword(String account, String password) {
-        String hmacSha1 = CryptoUtils.hmacSha1(account, password);
-        return CryptoUtils.md5String(hmacSha1.getBytes(Charsets.UTF_8));
+        // 校验验证码
+        String verifyCodeInSession = (String) request.getSession().getAttribute(verifyCodeSessionName);
+        if (!loginForm.verifyCode.toLowerCase().equals(verifyCodeInSession.toLowerCase())) {
+            throw new InvalidArgumentException("验证码不正确");
+        }
     }
 
     @Data
     @ToString
     private static class LoginForm {
-        private String username;
-        private String password;
+        private String mobile;
+        private String code;
+        private String verifyCode;
     }
 
     private static class AccountSessionAuthenticationStrategy implements SessionAuthenticationStrategy {
-        private AdminAuthenticationFilter filter;
+        private WxClientAuthenticationFilter filter;
 
-        AccountSessionAuthenticationStrategy(AdminAuthenticationFilter filter) {
+        AccountSessionAuthenticationStrategy(WxClientAuthenticationFilter filter) {
             this.filter = filter;
         }
 
         @Override
         public void onAuthentication(Authentication authentication, HttpServletRequest request,
                                      HttpServletResponse response) throws SessionAuthenticationException {
-            UserAuthenticationToken webAuthenticationToken = (UserAuthenticationToken) authentication;
-            UserDetailDTO dto = (UserDetailDTO) webAuthenticationToken.getDetails();
-            Long currentRoleId = getCurrentRoleId(dto);
+            MemberAuthenticationToken authenticationToken = (MemberAuthenticationToken) authentication;
+            MemberDTO dto = (MemberDTO) authenticationToken.getDetails();
 
             // 构建Jwtliams
             JwtClaims jwtClaims = new JwtClaims();
-            jwtClaims.setUserId(dto.getId());
+            jwtClaims.setMemberId(dto.getId());
             jwtClaims.setLoginTime(System.currentTimeMillis());
-            jwtClaims.setCurrentRoleId(currentRoleId);
+
+            // 获取OpenID
+            String code = ((MemberAuthenticationToken) authentication).getCode();
+            if (code != null) {
+                jwtClaims.setOpenId(filter.wxOAuth2Facade.oauth2getOpenId(filter.appId, code));
+            }
+
             String jwt = filter.jwtSigner.serializeToken(jwtClaims);
 
 
@@ -189,28 +205,22 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationProcessingF
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
-
-        private long getCurrentRoleId(UserDetailDTO dto) throws InsufficientAuthenticationException {
-            List<RoleDTO> roles = dto.getRoles();
-            Optional<RoleDTO> first = roles.stream().filter(RoleDTO::getEnable).findFirst();
-            return first.orElseThrow(() -> new InsufficientAuthenticationException("该用户没有角色")).getId();
-        }
     }
 
-    private static class AdminAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    private static class WxClientAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                             Authentication authentication) throws IOException, ServletException {
-            HttpServletUtils.writeJson(200,
+            HttpServletUtils.writeJson(HttpStatus.OK.value(),
                     new Result<>(CommonErrorCode.OK, "登录成功", null),
                     response);
         }
     }
 
-    private static class AdminAuthenticationFailureHandler implements AuthenticationFailureHandler {
+    private static class WxClientAuthenticationFailureHandler implements AuthenticationFailureHandler {
         private AuthenticationEntryPoint authenticationEntryPoint;
 
-        public AdminAuthenticationFailureHandler(AuthenticationEntryPoint authenticationEntryPoint) {
+        public WxClientAuthenticationFailureHandler(AuthenticationEntryPoint authenticationEntryPoint) {
             this.authenticationEntryPoint = authenticationEntryPoint;
         }
 

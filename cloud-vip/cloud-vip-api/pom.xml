@@ -17,5 +17,11 @@
             <artifactId>cloud-base</artifactId>
             <version>${cloud.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

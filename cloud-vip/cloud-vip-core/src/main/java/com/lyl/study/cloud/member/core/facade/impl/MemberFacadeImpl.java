@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.member.core.facade.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.lyl.study.cloud.base.dto.PageInfo;
@@ -7,24 +8,39 @@ import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.BeanUtils;
+import com.lyl.study.cloud.member.core.entity.Level;
+import com.lyl.study.cloud.member.core.entity.Member;
+import com.lyl.study.cloud.member.core.entity.MemberGrow;
+import com.lyl.study.cloud.member.core.entity.MemberPoint;
+import com.lyl.study.cloud.member.core.service.LevelService;
+import com.lyl.study.cloud.member.core.service.MemberGrowService;
+import com.lyl.study.cloud.member.core.service.MemberPointService;
+import com.lyl.study.cloud.member.core.service.MemberService;
 import com.lyl.study.cloud.vip.api.dto.request.MemberSaveForm;
 import com.lyl.study.cloud.vip.api.dto.request.MemberUpdateForm;
 import com.lyl.study.cloud.vip.api.dto.response.MemberDTO;
 import com.lyl.study.cloud.vip.api.facade.MemberFacade;
-import com.lyl.study.cloud.member.core.entity.Level;
-import com.lyl.study.cloud.member.core.entity.Member;
-import com.lyl.study.cloud.member.core.service.LevelService;
-import com.lyl.study.cloud.member.core.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Service
 public class MemberFacadeImpl implements MemberFacade {
+    @Autowired
     private Sequence sequence;
+    @Autowired
     private MemberService memberService;
+    @Autowired
     private LevelService levelService;
+    @Autowired
+    private MemberPointService memberPointService;
+    @Autowired
+    private MemberGrowService memberGrowService;
 
     @Override
     public long save(MemberSaveForm memberSaveForm) {
@@ -143,17 +159,27 @@ public class MemberFacadeImpl implements MemberFacade {
         Page<Member> page = new Page<>(pageIndex, pageSize);
         page = memberService.selectPage(page, new EntityWrapper<>());
         List<MemberDTO> records = page.getRecords().stream()
-                // TODO 添加积分和成长值
-                .map(a -> BeanUtils.transform(a, MemberDTO.class))
+                .map(this::parseDTO)
                 .collect(Collectors.toList());
         return new PageInfo<>(pageIndex, pageSize, page.getTotal(), records);
     }
 
     @Override
     public MemberDTO getById(long id) {
-        // TODO 添加积分和成长值
         Member member = memberService.selectById(id);
-        return BeanUtils.transform(member, MemberDTO.class);
+        return parseDTO(member);
+    }
+
+    @Override
+    public MemberDTO getByMobile(String mobile) {
+        Member member = memberService.selectOne(new EntityWrapper<Member>().eq(Member.MOBILE, mobile));
+        return parseDTO(member);
+    }
+
+    @Override
+    public MemberDTO getByEmail(String email) {
+        Member member = memberService.selectOne(new EntityWrapper<Member>().eq(Member.EMAIL, email));
+        return parseDTO(member);
     }
 
     private long getDefaultLevelId() {
@@ -167,5 +193,30 @@ public class MemberFacadeImpl implements MemberFacade {
         }
 
         return levels.get(0).getId();
+    }
+
+    private MemberDTO parseDTO(Member record) {
+        if (record == null) {
+            return null;
+        }
+
+        MemberDTO member = BeanUtils.transform(record, MemberDTO.class);
+        // 查询剩余成长值
+        BigDecimal remainGrow = (BigDecimal) memberGrowService.selectObj(
+                new EntityWrapper<MemberGrow>()
+                        .eq(MemberGrow.MEMBER_ID, record.getId())
+                        .gt(MemberGrow.EXPIRE_TIME, new Date())
+                        .setSqlSelect("COALESCE(SUM(`value`), 0)")
+        );
+        // 查询剩余积分值
+        BigDecimal remainPoint = (BigDecimal) memberPointService.selectObj(
+                new EntityWrapper<MemberPoint>()
+                        .eq(MemberPoint.MEMBER_ID, record.getId())
+                        .gt(MemberPoint.EXPIRE_TIME, new Date())
+                        .setSqlSelect("COALESCE(SUM(`value`), 0)")
+        );
+        member.setRemainGrow(remainGrow);
+        member.setRemainPoint(remainPoint);
+        return member;
     }
 }

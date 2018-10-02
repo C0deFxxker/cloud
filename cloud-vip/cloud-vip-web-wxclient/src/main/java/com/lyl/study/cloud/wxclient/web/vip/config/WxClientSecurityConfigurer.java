@@ -1,14 +1,14 @@
-package com.lyl.study.cloud.admin.web.system.config;
+package com.lyl.study.cloud.wxclient.web.vip.config;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyl.study.cloud.admin.security.DefaultSecurityConfigurer;
-import com.lyl.study.cloud.admin.web.system.security.AdminAuthenticationFilter;
-import com.lyl.study.cloud.admin.web.system.security.ResultLogoutSuccessHandler;
-import com.lyl.study.cloud.admin.web.system.security.UserAuthenticationProvider;
 import com.lyl.study.cloud.base.security.jwt.JwtSigner;
-import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
-import com.lyl.study.cloud.gateway.api.facade.UserFacade;
+import com.lyl.study.cloud.vip.api.facade.MemberFacade;
+import com.lyl.study.cloud.wechat.api.facade.WxOAuth2Facade;
+import com.lyl.study.cloud.wxclient.security.DefaultSecurityConfigurer;
+import com.lyl.study.cloud.wxclient.web.vip.security.MemberAuthenticationProvider;
+import com.lyl.study.cloud.wxclient.web.vip.security.ResultLogoutSuccessHandler;
+import com.lyl.study.cloud.wxclient.web.vip.security.WxClientAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
-    private final static Logger logger = LoggerFactory.getLogger(AdminSecurityConfigurer.class);
+public class WxClientSecurityConfigurer extends DefaultSecurityConfigurer {
+    private final static Logger logger = LoggerFactory.getLogger(WxClientSecurityConfigurer.class);
 
+    @Value("${cloud.security.verifyCodeSessionName}")
+    private String verifyCodeSessionName;
     @Value("${cloud.security.sessionAge}")
     protected Integer sessionAge;
     @Value("${cloud.security.logoutUri}")
@@ -37,9 +39,9 @@ public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
     private String loginUri;
 
     @Reference
-    private UserFacade userFacade;
+    private MemberFacade memberFacade;
     @Reference
-    private RoleFacade roleFacade;
+    private WxOAuth2Facade wxOAuth2Facade;
     @Autowired
     private JwtSigner jwtSigner;
 
@@ -60,18 +62,19 @@ public class AdminSecurityConfigurer extends DefaultSecurityConfigurer {
 
     @Bean
     public AuthenticationProvider webAuthenticationProvider() {
-        return new UserAuthenticationProvider(userFacade);
+        return new MemberAuthenticationProvider(memberFacade);
     }
 
     public AbstractAuthenticationProcessingFilter authenticationFilter() throws Exception {
-        AdminAuthenticationFilter filter = new AdminAuthenticationFilter(
+        WxClientAuthenticationFilter filter = new WxClientAuthenticationFilter(
                 new AntPathRequestMatcher(loginUri, "POST"),
                 jsonAuthenticationEntryPoint()
         );
+        filter.setVerifyCodeSessionName(verifyCodeSessionName);
         filter.setTokenCookieName(tokenCookieName);
         filter.setTokenCookiePath(tokenCookiePath);
         filter.setJwtSigner(jwtSigner);
-        filter.setRoleFacade(roleFacade);
+        filter.setWxOAuth2Facade(wxOAuth2Facade);
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }

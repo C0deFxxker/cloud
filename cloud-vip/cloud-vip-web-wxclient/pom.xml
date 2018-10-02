@@ -11,5 +11,36 @@
 
     <artifactId>cloud-vip-web-wxclient</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-base</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-vip-api</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-wechat-api</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
 
+        <!-- Web项目权限认证 -->
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-wxclient-security</artifactId>
+            <version>${cloud.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- web项目 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>

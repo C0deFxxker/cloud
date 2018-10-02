@@ -14,9 +14,9 @@ import java.util.Date;
 public class MemberDTO implements Serializable {
     private Long id;
     private String uid;
-    private String username;
     private String mobile;
     private String email;
+    private String openId;
     private Long levelId;
     private BigDecimal remainPoint;
     private BigDecimal remainGrow;

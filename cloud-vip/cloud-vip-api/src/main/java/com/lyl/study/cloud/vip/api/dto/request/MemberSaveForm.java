@@ -5,6 +5,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @ToString
@@ -13,4 +14,7 @@ public class MemberSaveForm implements Serializable {
     private String username;
     private String mobile;
     private String email;
+    private Date birthday;
+    private String name;
+    private String address;
 }
