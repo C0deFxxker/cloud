@@ -34,9 +34,10 @@
         <dubbo-starter.version>0.1.1</dubbo-starter.version>
         <zkclient.version>0.10</zkclient.version>
         <drools.version>7.3.0.Final</drools.version>
-        <wechat-sdk.version>3.2.0</wechat-sdk.version>
+        <wechat-sdk.version>3.1.0</wechat-sdk.version>
         <zxing.version>3.3.3</zxing.version>
         <sharding-sphere.version>3.0.0.M4</sharding-sphere.version>
+        <jjwt.version>0.9.0</jjwt.version>
         <asm.version>6.1.1</asm.version>
         <skipTests>true</skipTests>
     </properties>
@@ -135,6 +136,12 @@
                 <groupId>io.shardingsphere</groupId>
                 <artifactId>sharding-jdbc-spring-namespace</artifactId>
                 <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <dependency>

@@ -86,7 +86,7 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.lyl.study.cloud.gateway.core");
+        pc.setParent("com.lyl.study.cloud.system.core");
         pc.setController("controller");
         pc.setEntity("entity");
         pc.setMapper("mapper");

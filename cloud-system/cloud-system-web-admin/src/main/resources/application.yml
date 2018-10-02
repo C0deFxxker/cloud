@@ -1,7 +1,7 @@
 # 这个配置在联调环境中不会用到，只有在单模块开发时才起作用
 spring:
   application:
-    name: cloud-admin-gateway
+    name: cloud-admin-system
   profiles:
     active: system
 dubbo:
@@ -11,7 +11,7 @@ dubbo:
   registry:
     address: zookeeper://localhost:2181
   application:
-    name: cloud-admin-gateway
+    name: cloud-admin-system
 server:
   port: 8080
 cloud:

@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.security;
+package com.lyl.study.cloud.wxclient.security;
 
 import lombok.Data;
 import lombok.ToString;
@@ -12,10 +12,10 @@ import java.io.Serializable;
 public class JwtClaims implements Serializable {
     // Current session ID
     private String sessionId;
-    // Current user ID
-    private Long userId;
-    // Current role ID
-    private Long currentRoleId;
+    // Current member ID
+    private Long memberId;
+    // Current member OpenID
+    private String openId;
     // Last login time (timestamp)
     private Long loginTime;
 }

@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.gateway.controller;
+package com.lyl.study.cloud.admin.web.system.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.dto.Result;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.OK;
+import static com.lyl.study.cloud.gateway.api.SystemErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.gateway.api.SystemErrorCode.OK;
 
 /**
  * @author liyilin

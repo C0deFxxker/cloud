@@ -6,7 +6,7 @@ import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
 import com.lyl.study.cloud.base.util.CryptoUtils;
-import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
+import com.lyl.study.cloud.gateway.api.SystemErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
@@ -121,7 +121,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = baseMapper.selectOne(new User().setUsername(username));
 
         if (user == null) {
-            throw new NoSuchEntityException(GatewayErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息");
+            throw new NoSuchEntityException(SystemErrorCode.NOT_FOUND, "找不到用户名为" + username + "的用户信息");
         }
 
         String encryptedPassword = encryptPassword(username, password);

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-@MapperScan("com.lyl.study.cloud.gateway.core.mapper")
+@MapperScan("com.lyl.study.cloud.system.core.mapper")
 public class CoreApplication {
     private static final Logger logger = LoggerFactory.getLogger(CoreApplication.class);
 

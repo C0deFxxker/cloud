@@ -23,8 +23,8 @@ import org.springframework.util.Assert;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.BAD_REQUEST;
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.gateway.api.SystemErrorCode.BAD_REQUEST;
+import static com.lyl.study.cloud.gateway.api.SystemErrorCode.NOT_FOUND;
 
 @Slf4j
 @Service

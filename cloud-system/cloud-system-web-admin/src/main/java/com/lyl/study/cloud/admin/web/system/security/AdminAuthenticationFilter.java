@@ -1,6 +1,7 @@
-package com.lyl.study.cloud.admin.web.gateway.security;
+package com.lyl.study.cloud.admin.web.system.security;
 
 import com.google.common.base.Charsets;
+import com.lyl.study.cloud.admin.security.JwtClaims;
 import com.lyl.study.cloud.base.CommonErrorCode;
 import com.lyl.study.cloud.base.dto.Result;
 import com.lyl.study.cloud.base.util.CryptoUtils;
@@ -10,8 +11,7 @@ import com.lyl.study.cloud.gateway.api.dto.response.RoleDTO;
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import com.lyl.study.cloud.admin.security.JwtClaims;
-import com.lyl.study.cloud.admin.security.JwtSigner;
+import com.lyl.study.cloud.base.security.jwt.JwtSigner;
 import com.lyl.study.cloud.admin.security.UserAuthenticationToken;
 import lombok.Data;
 import lombok.ToString;

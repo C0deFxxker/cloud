@@ -1,7 +1,7 @@
-package com.lyl.study.cloud.admin.security;
+package com.lyl.study.cloud.base.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyl.study.cloud.admin.security.exception.InvalidJwtException;
+import com.lyl.study.cloud.base.exception.InvalidJwtException;
 import io.jsonwebtoken.*;
 import lombok.Data;
 

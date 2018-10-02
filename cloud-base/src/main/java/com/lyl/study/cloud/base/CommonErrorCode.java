@@ -25,4 +25,24 @@ public class CommonErrorCode {
      * 内部错误
      */
     public static final int INTERNAL_ERROR = 500;
+    /**
+     * 会话超时
+     */
+    public static final int EXPIRED_SESSION = 601;
+    /**
+     * 无效JWT
+     */
+    public static final int INVALD_JWT = 602;
+    /**
+     * 找不到用户名
+     */
+    public static int USERNAME_NOT_FOUND = 603;
+    /**
+     * 非法凭证
+     */
+    public static int BAD_CREDENTIALS = 604;
+    /**
+     * 账号被冻结
+     */
+    public static int ACCOUNT_DISABLED = 605;
 }

@@ -1,0 +1,15 @@
+package com.lyl.study.cloud.wxclient.security;
+
+import com.lyl.study.cloud.member.api.dto.response.MemberDTO;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+/**
+ * 更方便地获取当前会话信息
+ *
+ * @author liyilin
+ */
+public abstract class CurrentSessionHolder {
+    public static MemberDTO getCurrentUser() {
+        return (MemberDTO) SecurityContextHolder.getContext().getAuthentication().getDetails();
+    }
+}

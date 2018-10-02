@@ -17,9 +17,9 @@ spring:
 
 dubbo:
   scan:
-    basePackages: com.lyl.study.cloud.gateway.core.facade.impl
+    basePackages: com.lyl.study.cloud.system.core.facade.impl
   application:
-    name: cloud-gateway-core
+    name: cloud-system-core
   protocol:
     id: dubbo
     name: dubbo

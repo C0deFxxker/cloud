@@ -1,4 +1,4 @@
-package com.lyl.study.cloud.admin.web.gateway.security;
+package com.lyl.study.cloud.admin.web.system.security;
 
 import com.lyl.study.cloud.gateway.api.dto.response.UserDetailDTO;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;

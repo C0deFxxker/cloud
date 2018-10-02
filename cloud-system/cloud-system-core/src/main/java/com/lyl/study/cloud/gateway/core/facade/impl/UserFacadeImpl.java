@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.exception.InvalidArgumentException;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
-import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
+import com.lyl.study.cloud.gateway.api.SystemErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.UserListConditions;
 import com.lyl.study.cloud.gateway.api.dto.request.UserSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.UserUpdateForm;
@@ -23,7 +23,6 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.lyl.study.cloud.base.CommonErrorCode.BAD_REQUEST;
@@ -51,7 +50,7 @@ public class UserFacadeImpl implements UserFacade {
     public List<RoleDTO> getRolesByUserId(long userId, boolean onlyEnable) throws NoSuchEntityException {
         User user = userService.selectById(userId);
         if (user == null) {
-            throw new NoSuchEntityException(GatewayErrorCode.NOT_FOUND, "找不到ID为" + userId + "的用户信息");
+            throw new NoSuchEntityException(SystemErrorCode.NOT_FOUND, "找不到ID为" + userId + "的用户信息");
         }
 
         return userService.getRolesByUserId(userId, onlyEnable);

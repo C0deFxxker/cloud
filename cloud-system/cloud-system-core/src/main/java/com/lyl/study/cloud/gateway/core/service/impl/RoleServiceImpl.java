@@ -3,7 +3,7 @@ package com.lyl.study.cloud.gateway.core.service.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.lyl.study.cloud.base.exception.NoSuchEntityException;
 import com.lyl.study.cloud.base.idworker.Sequence;
-import com.lyl.study.cloud.gateway.api.GatewayErrorCode;
+import com.lyl.study.cloud.gateway.api.SystemErrorCode;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleSaveForm;
 import com.lyl.study.cloud.gateway.api.dto.request.RoleUpdateForm;
 import com.lyl.study.cloud.gateway.api.dto.response.PermissionItem;
@@ -54,7 +54,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         Assert.notNull(roleId, "id cannot be null");
         Role record = baseMapper.selectById(roleId);
         if (record == null) {
-            throw new NoSuchEntityException(GatewayErrorCode.NOT_FOUND, "找不到ID为" + roleId + "的角色");
+            throw new NoSuchEntityException(SystemErrorCode.NOT_FOUND, "找不到ID为" + roleId + "的角色");
         }
 
         BeanUtils.copyProperties(form, record);

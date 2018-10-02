@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.DEPARTMENT_DELETE_FAILED;
-import static com.lyl.study.cloud.gateway.api.GatewayErrorCode.NOT_FOUND;
+import static com.lyl.study.cloud.gateway.api.SystemErrorCode.DEPARTMENT_DELETE_FAILED;
+import static com.lyl.study.cloud.gateway.api.SystemErrorCode.NOT_FOUND;
 
 /**
  * @author liyilin

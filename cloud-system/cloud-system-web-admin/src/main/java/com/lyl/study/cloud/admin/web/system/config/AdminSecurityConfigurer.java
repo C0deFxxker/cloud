@@ -1,14 +1,14 @@
-package com.lyl.study.cloud.admin.web.gateway.config;
+package com.lyl.study.cloud.admin.web.system.config;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyl.study.cloud.admin.web.gateway.security.AdminAuthenticationFilter;
-import com.lyl.study.cloud.admin.web.gateway.security.ResultLogoutSuccessHandler;
-import com.lyl.study.cloud.admin.web.gateway.security.UserAuthenticationProvider;
+import com.lyl.study.cloud.admin.web.system.security.AdminAuthenticationFilter;
+import com.lyl.study.cloud.admin.web.system.security.ResultLogoutSuccessHandler;
+import com.lyl.study.cloud.admin.web.system.security.UserAuthenticationProvider;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import com.lyl.study.cloud.admin.security.JwtSigner;
-import com.lyl.study.cloud.admin.security.config.DefaultSecurityConfigurer;
+import com.lyl.study.cloud.base.security.jwt.JwtSigner;
+import com.lyl.study.cloud.admin.security.DefaultSecurityConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,13 @@
-package com.lyl.study.cloud.admin.security.config;
+package com.lyl.study.cloud.admin.security;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyl.study.cloud.admin.security.DefaultAccessDeniedHandler;
-import com.lyl.study.cloud.admin.security.JsonAuthenticationEntryPoint;
+import com.lyl.study.cloud.base.security.DefaultAccessDeniedHandler;
+import com.lyl.study.cloud.base.security.JsonAuthenticationEntryPoint;
+import com.lyl.study.cloud.base.security.jwt.JwtSigner;
+import com.lyl.study.cloud.admin.security.UserJwtConcurrentSessionFilter;
 import com.lyl.study.cloud.gateway.api.facade.RoleFacade;
 import com.lyl.study.cloud.gateway.api.facade.UserFacade;
-import com.lyl.study.cloud.admin.security.JwtSigner;
-import com.lyl.study.cloud.admin.security.filter.UserJwtConcurrentSessionFilter;
 import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
