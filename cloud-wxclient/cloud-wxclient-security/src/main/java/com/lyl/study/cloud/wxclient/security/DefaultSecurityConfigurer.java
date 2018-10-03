@@ -81,10 +81,10 @@ public class DefaultSecurityConfigurer extends WebSecurityConfigurerAdapter {
      * 不添加@Bean，否则会被同时加到SpringApplicationFilterChain与SpringSecurityFilterChain导致该Filter被重复调用
      */
 //    @Bean
-    public MemberJwtConcurrentSessionFilter jwtConcurrentSessionFilter(JwtSigner jwtSigner) {
+    public WxClientJwtConcurrentSessionFilter jwtConcurrentSessionFilter(JwtSigner jwtSigner) {
         Assert.notNull(memberFacade, "memberFacade不能为空，请检查Dubbo服务是否启动并确保服务提供方已成功注册服务");
 
-        MemberJwtConcurrentSessionFilter filter = new MemberJwtConcurrentSessionFilter(jwtSigner);
+        WxClientJwtConcurrentSessionFilter filter = new WxClientJwtConcurrentSessionFilter(jwtSigner);
         filter.setCookieName(tokenCookieName);
         filter.setCookiePath(tokenCookiePath);
         filter.setMemberFacade(memberFacade);

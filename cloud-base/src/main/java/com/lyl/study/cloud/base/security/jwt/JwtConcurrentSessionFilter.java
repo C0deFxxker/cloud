@@ -83,16 +83,16 @@ public abstract class JwtConcurrentSessionFilter extends GenericFilterBean {
                 if (log.isDebugEnabled()) {
                     log.debug("会话超时: " + token);
                 }
-                Result<?> result = new Result<>(CommonErrorCode.EXPIRED_SESSION, "会话超时", null);
-                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
-                return;
+//                Result<?> result = new Result<>(CommonErrorCode.EXPIRED_SESSION, "会话超时", null);
+//                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+//                return;
             } catch (InvalidJwtException e) {
                 if (log.isDebugEnabled()) {
-                    log.debug(e.toString());
+                    log.debug("无效Token: " + e.getMessage());
                 }
-                Result<?> result = new Result<>(CommonErrorCode.INVALD_JWT, "无效Token", null);
-                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
-                return;
+//                Result<?> result = new Result<>(CommonErrorCode.INVALD_JWT, "无效Token", null);
+//                HttpServletUtils.writeJson(HttpStatus.OK.value(), result, (HttpServletResponse) servletResponse);
+//                return;
             } catch (BaseException e) {
                 if (log.isDebugEnabled()) {
                     log.debug(e.toString());

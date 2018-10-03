@@ -22,7 +22,7 @@ import static com.lyl.study.cloud.base.CommonErrorCode.OK;
  * @author liyilin
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/system/user")
 public class UserController {
     @Reference
     private UserFacade userFacade;

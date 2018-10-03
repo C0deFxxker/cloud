@@ -23,7 +23,7 @@ import static com.lyl.study.cloud.system.api.SystemErrorCode.OK;
  * @author liyilin
  */
 @RestController
-@RequestMapping("/permission")
+@RequestMapping("/system/permission")
 public class PermissionController {
     @Reference
     private PermissionFacade permissionFacade;

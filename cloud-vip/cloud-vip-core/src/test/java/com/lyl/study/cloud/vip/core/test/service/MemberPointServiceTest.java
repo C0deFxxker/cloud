@@ -1,8 +1,8 @@
 package com.lyl.study.cloud.vip.core.test.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.lyl.study.cloud.member.core.entity.MemberPoint;
-import com.lyl.study.cloud.member.core.service.MemberPointService;
+import com.lyl.study.cloud.vip.core.entity.MemberPoint;
+import com.lyl.study.cloud.vip.core.service.MemberPointService;
 import com.lyl.study.cloud.vip.core.test.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

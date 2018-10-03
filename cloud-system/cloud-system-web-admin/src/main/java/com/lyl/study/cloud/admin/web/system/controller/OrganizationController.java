@@ -25,7 +25,7 @@ import static com.lyl.study.cloud.system.api.SystemErrorCode.OK;
  * @author liyilin
  */
 @RestController
-@RequestMapping("/organization")
+@RequestMapping("/system/organization")
 public class OrganizationController {
     @Reference
     private OrganizationFacade organizationFacade;

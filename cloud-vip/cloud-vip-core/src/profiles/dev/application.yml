@@ -1,6 +1,7 @@
 spring:
   application:
     name: cloud-vip-core
+# shading-jdbc的配置必须在mybatis之前，否则会报找不到DataSource的异常
 sharding:
   jdbc:
     datasource:
@@ -75,4 +76,16 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-  mapper-locations: classpath:/mapper/*Mapper.mapper
+  mapper-locations: classpath:/mapper/*Mapper.xml
+dubbo:
+  scan:
+    basePackages: com.lyl.study.cloud.vip.core.facade.impl
+  application:
+    name: cloud-vip-core
+  protocol:
+    id: dubbo
+    name: dubbo
+    #    host: 10.73.
+    port: 4001
+  registry:
+    address: zookeeper://localhost:2181

@@ -28,6 +28,11 @@
             <artifactId>cloud-cms-web-admin</artifactId>
             <version>${cloud.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.lyl.study.cloud</groupId>
+            <artifactId>cloud-vip-web-admin</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
 
         <!-- Web项目权限认证 -->
         <dependency>

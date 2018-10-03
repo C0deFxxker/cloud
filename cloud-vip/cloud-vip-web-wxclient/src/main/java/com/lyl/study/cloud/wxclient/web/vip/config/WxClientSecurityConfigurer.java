@@ -6,7 +6,7 @@ import com.lyl.study.cloud.base.security.jwt.JwtSigner;
 import com.lyl.study.cloud.vip.api.facade.MemberFacade;
 import com.lyl.study.cloud.wechat.api.facade.WxOAuth2Facade;
 import com.lyl.study.cloud.wxclient.security.DefaultSecurityConfigurer;
-import com.lyl.study.cloud.wxclient.web.vip.security.MemberAuthenticationProvider;
+import com.lyl.study.cloud.wxclient.web.vip.security.WxClientAuthenticationProvider;
 import com.lyl.study.cloud.wxclient.web.vip.security.ResultLogoutSuccessHandler;
 import com.lyl.study.cloud.wxclient.web.vip.security.WxClientAuthenticationFilter;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class WxClientSecurityConfigurer extends DefaultSecurityConfigurer {
 
     @Bean
     public AuthenticationProvider webAuthenticationProvider() {
-        return new MemberAuthenticationProvider(memberFacade);
+        return new WxClientAuthenticationProvider(memberFacade);
     }
 
     public AbstractAuthenticationProcessingFilter authenticationFilter() throws Exception {

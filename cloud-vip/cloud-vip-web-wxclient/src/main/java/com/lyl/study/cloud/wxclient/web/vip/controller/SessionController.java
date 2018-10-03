@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.wxclient.web.vip.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.CommonErrorCode;
 import com.lyl.study.cloud.base.ImageVerification;
 import com.lyl.study.cloud.base.dto.Result;
@@ -21,7 +22,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/session")
 public class SessionController {
-    @Autowired
+    @Reference
     private MemberFacade memberFacade;
 
     private ImageVerification imageVerification = new ImageVerification();

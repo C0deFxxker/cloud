@@ -1,5 +1,6 @@
 package com.lyl.study.cloud.admin.web.vip.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.lyl.study.cloud.base.CommonErrorCode;
 import com.lyl.study.cloud.base.dto.PageInfo;
 import com.lyl.study.cloud.base.dto.Result;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/vip/member")
 public class MemberController {
-    @Autowired
+    @Reference
     private MemberFacade memberFacade;
 
     /**

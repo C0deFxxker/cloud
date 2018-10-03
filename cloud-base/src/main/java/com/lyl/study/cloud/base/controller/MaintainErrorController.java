@@ -37,7 +37,7 @@ public class MaintainErrorController implements ErrorController {
 
         Result<String> result = new Result<>(code, message, data);
         if (log.isDebugEnabled()) {
-            log.debug(result.toString());
+            log.debug("错误处理结果：" + result.toString());
         }
 
         return result;

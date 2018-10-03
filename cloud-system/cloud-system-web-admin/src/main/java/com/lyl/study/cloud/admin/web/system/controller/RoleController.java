@@ -17,7 +17,7 @@ import static com.lyl.study.cloud.system.api.SystemErrorCode.NOT_FOUND;
 import static com.lyl.study.cloud.system.api.SystemErrorCode.OK;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/system/role")
 public class RoleController {
     @Reference
     private RoleFacade roleFacade;
