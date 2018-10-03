@@ -4,6 +4,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/cloud?characterEncoding=utf8
     druid:
       initial-size: 1
       max-active: 20
@@ -20,9 +23,13 @@ dubbo:
     basePackages: com.lyl.study.cloud.cms.core.facade.impl
   application:
     name: cloud-cms-core
+  registry:
+    address: zookeeper://localhost:2181
   protocol:
     id: dubbo
     name: dubbo
+    # host: 10.73.
+    port: 4081
 
 mybatis-plus:
   global-config:
@@ -35,40 +42,6 @@ mybatis-plus:
     cache-enabled: false
   mapper-locations: classpath:/mapper/*Mapper.xml
 
----
-spring:
-  profiles: dev
-  datasource:
-    username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/cloud?characterEncoding=utf8
-
-dubbo:
-  registry:
-    address: zookeeper://localhost:2181
-  protocol:
-    host: 10.73.
-    port: 4081
-
 logging:
   level:
     com.lyl.study.cloud: DEBUG
-
----
-spring:
-  profiles: beta
-#  datasource:
-#    username: root
-#    password: root
-#    url: jdbc:mysql://localhost:3306/cloud?characterEncoding=utf8
-#dubbo:
-#  registry:
-#    address: zookeeper://localhost:2181
-#  protocol:
-#    host: 10.73
-#    port: 4080
-#
-#logging:
-#  level:
-#    com.lyl.study.cloud: DEBUG
-#debug: true

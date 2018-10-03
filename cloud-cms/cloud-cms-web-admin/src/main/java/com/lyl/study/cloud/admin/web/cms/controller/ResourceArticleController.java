@@ -18,7 +18,7 @@ import static com.lyl.study.cloud.base.CommonErrorCode.NOT_FOUND;
 import static com.lyl.study.cloud.cms.api.CmsErrorCode.OK;
 
 @RestController
-@RequestMapping("/resourceArticle")
+@RequestMapping("/cms/resourceArticle")
 public class ResourceArticleController {
     @Reference
     private ResourceArticleFacade resourceArticleFacade;

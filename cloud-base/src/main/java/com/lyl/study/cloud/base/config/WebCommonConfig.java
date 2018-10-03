@@ -3,6 +3,8 @@ package com.lyl.study.cloud.base.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyl.study.cloud.base.controller.MaintainErrorController;
 import com.lyl.study.cloud.base.exception.handler.CommonExceptionHandler;
+import com.lyl.study.cloud.base.log.CommonLoggerAspect;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

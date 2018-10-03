@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.annotations.Version;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -21,6 +22,7 @@ import lombok.experimental.Accessors;
  * @since 2018-09-07
  */
 @Data
+@ToString
 @Accessors(chain = true)
 @TableName("sys_organization")
 public class Organization implements Serializable {

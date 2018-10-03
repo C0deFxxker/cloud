@@ -1,6 +1,5 @@
 package com.lyl.study.cloud.base.log;
 
-import com.lyl.study.cloud.base.util.ReflectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,7 +9,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,10 +19,6 @@ import java.util.Map;
 public class CommonLoggerAspect {
     private Map<String, Class<?>> classMap = new HashMap<>();
     private Map<Method, String> methodNameCaches = new HashMap<>();
-
-    public CommonLoggerAspect() {
-        log.info("启用统一日志处理切片");
-    }
 
     // 切所有dubbo以及web接口
     @Pointcut("execution(public * com.lyl.study.cloud..*Facade.*(..)) || execution(public * com.lyl.study.cloud..*Controller.*(..))")
@@ -57,7 +51,9 @@ public class CommonLoggerAspect {
                 log.info("方法[{}]返回值: {}", methodName, result);
             }
         } catch (Throwable e) {
-            log.error("方法[{}]抛出了异常: {}", methodName, e.toString());
+            if (annotation == null || !annotation.except()) {
+                log.error("方法[{}]抛出了异常: {}", methodName, e.toString());
+            }
             throw e;
         }
         return result;
@@ -131,19 +127,9 @@ public class CommonLoggerAspect {
         Class<?>[] parameterTypes = method.getParameterTypes();
 
         StringBuilder stringBuilder = new StringBuilder();
-        String[] methodParamNames = null;
-        try {
-            methodParamNames = ReflectionUtils.getMethodParamNames(method);
-        } catch (IOException ignored) {
-            // 什么都不做
-        }
 
         for (int i = 0; i < parameterTypes.length; i++) {
             stringBuilder.append(parameterTypes[i].getSimpleName());
-            // 填充参数名称
-            if (methodParamNames != null) {
-                stringBuilder.append(" ").append(methodParamNames[i]);
-            }
             stringBuilder.append(", ");
         }
 

@@ -27,7 +27,7 @@ import static com.lyl.study.cloud.cms.api.CmsErrorCode.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/resourceEntity")
+@RequestMapping("/cms/resourceEntity")
 public class ResourceEntityController implements InitializingBean {
     private final MediaType MEDIA_TYPE_IMAGE = MediaType.parseMediaType("image/*");
     private final MediaType MEDIA_TYPE_AUDIO = MediaType.parseMediaType("audio/*");

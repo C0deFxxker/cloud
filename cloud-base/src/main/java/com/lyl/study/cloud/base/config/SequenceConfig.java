@@ -2,9 +2,7 @@ package com.lyl.study.cloud.base.config;
 
 
 import com.lyl.study.cloud.base.config.annotation.EnableSequence;
-import com.lyl.study.cloud.base.idworker.IdWorkerRegister;
-import com.lyl.study.cloud.base.idworker.RedisIdWorkerRegister;
-import com.lyl.study.cloud.base.idworker.Sequence;
+import com.lyl.study.cloud.base.idworker.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -32,7 +30,7 @@ public class SequenceConfig {
     private ApplicationContext applicationContext;
 
     @Bean
-    @ConditionalOnMissingBean(Sequence.class)
+    @ConditionalOnMissingBean
     public Sequence sequence() {
         int serviceId = 1;
         long twepoch = 1514736000000L;  // 2018-01-01 00:00:00
@@ -44,9 +42,12 @@ public class SequenceConfig {
         } catch (NoSuchBeanDefinitionException e) {
             logger.info("找不到IdWorkerRegister，使用本地版本的Sequence: serviceId={}, twepoch={}", serviceId, twepoch);
         }
-        return new Sequence(serviceId, twepoch);
+        return new SnowflakeSequence(serviceId, twepoch);
     }
 
+    /**
+     * 目前有Redis的情况下都走Redis的ID注册机制
+     */
     @Configuration
     @ConditionalOnClass(name = "org.springframework.data.redis.core.RedisTemplate")
     public static class RedisSequence {
@@ -56,6 +57,12 @@ public class SequenceConfig {
         @Bean
         public IdWorkerRegister idWorkerRegister(RedisTemplate redisTemplate) {
             return new RedisIdWorkerRegister(keyPrefix, redisTemplate);
+        }
+
+        @Bean
+        public IncrementSequence incrementSequence(RedisTemplate redisTemplate) {
+            return new RedisIncrementSequence(redisTemplate);
+
         }
     }
 }

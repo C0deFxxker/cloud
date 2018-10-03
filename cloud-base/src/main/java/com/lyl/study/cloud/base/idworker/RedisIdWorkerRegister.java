@@ -15,15 +15,15 @@ public class RedisIdWorkerRegister implements IdWorkerRegister {
     private static final Logger logger = LoggerFactory.getLogger(RedisIdWorkerRegister.class);
 
     private String prefix;
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
     private int maxServiceId = 1024;
 
-    public RedisIdWorkerRegister(String prefix, RedisTemplate<String, Object> redisTemplate) {
+    public RedisIdWorkerRegister(String prefix, RedisTemplate redisTemplate) {
         this.prefix = prefix;
         this.redisTemplate = redisTemplate;
     }
 
-    public RedisIdWorkerRegister(String prefix, RedisTemplate<String, Object> redisTemplate, int maxServiceId) {
+    public RedisIdWorkerRegister(String prefix, RedisTemplate redisTemplate, int maxServiceId) {
         this.prefix = prefix;
         this.redisTemplate = redisTemplate;
         this.maxServiceId = maxServiceId;
@@ -86,11 +86,13 @@ public class RedisIdWorkerRegister implements IdWorkerRegister {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected Integer getExistsServiceId(long mac) {
         Object o = redisTemplate.opsForHash().get(getServiceIdHashKey(prefix), mac);
         return o != null ? Integer.parseInt(o.toString()) : null;
     }
 
+    @SuppressWarnings("unchecked")
     protected int doRegisterServiceId(long mac) {
         Long serviceId = redisTemplate.opsForValue().increment(getServiceCountKey(prefix), 1L);
         redisTemplate.opsForHash().put(getServiceIdHashKey(prefix), mac, serviceId);
