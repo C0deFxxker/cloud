@@ -4,6 +4,10 @@ spring:
     name: cloud-admin-cms
   profiles:
     active: cms
+  resources:
+    static-locations: file:upload-tmp/
+  mvc:
+    static-path-pattern: /static/**
 dubbo:
   protocol:
     name: dubbo
@@ -16,7 +20,7 @@ server:
   port: 8080
 cloud:
   security:
-    permit-urls: /static/**
+    permit-urls: /static/**, /cms/resourceEntity/**
     sessionAge: 7200
     secret: SECRET
 logging:

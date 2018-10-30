@@ -114,10 +114,12 @@ public class ResourceEntityController implements InitializingBean {
 
             try {
                 resourceEntityFacade.save(form);
-                return new Result<>(OK, "上传成功", form.getUrl());
+                String url = form.getUrl().replace("{urlPrefix}", urlPrefix);
+                return new Result<>(OK, "上传成功", url);
             } catch (Exception e) {
                 log.error("内部服务调用错误，将回滚上传的文件: {}\n\n{}",
                         path.toAbsolutePath().toString(), e.toString());
+                e.printStackTrace();
                 Files.deleteIfExists(Paths.get(form.getFilepath()));
                 return new Result<>(FILE_SAVE_INTERNAL_SERVICE_EXCEPTION, "内部服务调用错误", e.getMessage());
             }

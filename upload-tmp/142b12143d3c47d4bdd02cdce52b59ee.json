@@ -1,0 +1,1010 @@
+[
+    {
+        "id": 1,
+        "label": "首页",
+        "parentId": null,
+        "detail": {
+            "id": 1,
+            "parentId": null,
+            "type": 1,
+            "label": "首页",
+            "sign": "/home",
+            "icon": null,
+            "sort": 0,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": []
+    },
+    {
+        "id": 2,
+        "label": "系统设置",
+        "parentId": null,
+        "detail": {
+            "id": 2,
+            "parentId": null,
+            "type": 0,
+            "label": "系统设置",
+            "sign": "/system",
+            "icon": null,
+            "sort": 0,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": [
+            {
+                "id": 3,
+                "label": "组织架构",
+                "parentId": 2,
+                "detail": {
+                    "id": 3,
+                    "parentId": 2,
+                    "type": 0,
+                    "label": "组织架构",
+                    "sign": null,
+                    "icon": null,
+                    "sort": 0,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": [
+                    {
+                        "id": 3,
+                        "label": "组织架构",
+                        "parentId": 2,
+                        "detail": {
+                            "id": 3,
+                            "parentId": 2,
+                            "type": 1,
+                            "label": "组织架构",
+                            "sign": "/system/organization",
+                            "icon": null,
+                            "sort": 0,
+                            "enable": true,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1539068097000,
+                            "updateTime": 1539068097000
+                        },
+                        "children": [
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-启用禁用用户按钮",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-启用禁用用户按钮",
+                                    "sign": "system:organization:toggleUser",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-编辑用户按钮",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-编辑用户按钮",
+                                    "sign": "system:organization:updateUser",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-新建用户",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-新建用户",
+                                    "sign": "system:organization:saveUser",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-移入用户",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-移入用户",
+                                    "sign": "system:organization:acceptUser",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-移出用户",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-移出用户",
+                                    "sign": "system:organization:kickoutUser",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-新建子部门",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-新建子部门",
+                                    "sign": "system:organization:saveOrganization",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-修改部门名称",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-修改部门名称",
+                                    "sign": "system:organization:updateOrganization",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-组织架构-删除部门",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-组织架构-删除部门",
+                                    "sign": "system:organization:deleteOrganization",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-角色管理-禁用启用角色",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-角色管理-禁用启用角色",
+                                    "sign": "system.organization:toggleRole",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-角色管理-编辑角色",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-角色管理-编辑角色",
+                                    "sign": "system.organization:updateRole",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-角色管理-删除角色",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-角色管理-删除角色",
+                                    "sign": "system.organization:deleteRole",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-角色管理-添加角色",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-角色管理-添加角色",
+                                    "sign": "system.organization:saveRole",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 3,
+                                "label": "系统设置-数据字典-编辑字典值",
+                                "parentId": 2,
+                                "detail": {
+                                    "id": 3,
+                                    "parentId": 2,
+                                    "type": 2,
+                                    "label": "系统设置-数据字典-编辑字典值",
+                                    "sign": "system.organization.updateDictValue",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "enable": true,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1539068097000,
+                                    "updateTime": 1539068097000
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "label": "角色管理",
+                "parentId": 2,
+                "detail": {
+                    "id": 5,
+                    "parentId": 2,
+                    "type": 0,
+                    "label": "角色管理",
+                    "sign": null,
+                    "icon": null,
+                    "sort": 1,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": [
+                    {
+                        "id": 5,
+                        "label": "角色管理",
+                        "parentId": 2,
+                        "detail": {
+                            "id": 5,
+                            "parentId": 2,
+                            "type": 1,
+                            "label": "角色管理",
+                            "sign": "/system/rolemgr",
+                            "icon": null,
+                            "sort": 1,
+                            "enable": true,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1539068097000,
+                            "updateTime": 1539068097000
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "label": "数据字典",
+                "parentId": 2,
+                "detail": {
+                    "id": 6,
+                    "parentId": 2,
+                    "type": 0,
+                    "label": "数据字典",
+                    "sign": null,
+                    "icon": null,
+                    "sort": 3,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": [
+                    {
+                        "id": 6,
+                        "label": "数据字典",
+                        "parentId": 2,
+                        "detail": {
+                            "id": 6,
+                            "parentId": 2,
+                            "type": 1,
+                            "label": "数据字典",
+                            "sign": "/system/dictionary",
+                            "icon": null,
+                            "sort": 3,
+                            "enable": true,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1539068097000,
+                            "updateTime": 1539068097000
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "label": "会员管理",
+        "parentId": 2,
+        "detail": {
+            "id": 6,
+            "parentId": 2,
+            "type": 1,
+            "label": "会员管理",
+            "sign": null,
+            "icon": null,
+            "sort": 3,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": []
+    },
+    {
+        "id": 8,
+        "label": "积分管理",
+        "parentId": 2,
+        "detail": {
+            "id": 6,
+            "parentId": 2,
+            "type": 1,
+            "label": "积分管理",
+            "sign": "/integral",
+            "icon": null,
+            "sort": 3,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": [
+            {
+                "id": 8,
+                "label": "积分规则",
+                "parentId": 2,
+                "detail": {
+                    "id": 6,
+                    "parentId": 2,
+                    "type": 1,
+                    "label": "积分规则",
+                    "sign": "/integral/integralRule",
+                    "icon": null,
+                    "sort": 3,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": []
+            },
+            {
+                "id": 8,
+                "label": "积分列表",
+                "parentId": 2,
+                "detail": {
+                    "id": 6,
+                    "parentId": 2,
+                    "type": 1,
+                    "label": "积分列表",
+                    "sign": "/integral/integralRecord",
+                    "icon": null,
+                    "sort": 3,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": []
+            },
+            {
+                "id": 8,
+                "label": "积分商城",
+                "parentId": 2,
+                "detail": {
+                    "id": 6,
+                    "parentId": 2,
+                    "type": 0,
+                    "label": "积分商城",
+                    "sign": null,
+                    "icon": null,
+                    "sort": 3,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": [
+                    {
+                        "id": 8,
+                        "label": "兑换商品",
+                        "parentId": 2,
+                        "detail": {
+                            "id": 6,
+                            "parentId": 2,
+                            "type": 1,
+                            "label": "兑换商品",
+                            "sign": "/integral/integralProductList",
+                            "icon": null,
+                            "sort": 3,
+                            "enable": true,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1539068097000,
+                            "updateTime": 1539068097000
+                        },
+                        "children": []
+                    },
+                    {
+                        "id": 8,
+                        "label": "兑换记录",
+                        "parentId": 2,
+                        "detail": {
+                            "id": 6,
+                            "parentId": 2,
+                            "type": 1,
+                            "label": "兑换记录",
+                            "sign": "/integral/integralExchangeRecord",
+                            "icon": null,
+                            "sort": 3,
+                            "enable": true,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1539068097000,
+                            "updateTime": 1539068097000
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "label": "营销中心",
+        "parentId": 2,
+        "detail": {
+            "id": 9,
+            "parentId": 2,
+            "type": 0,
+            "label": "营销中心",
+            "sign": "/marketingCenter",
+            "icon": null,
+            "sort": 3,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": [
+            {
+                "id": 1,
+                "label": "活动中心",
+                "parentId": 8,
+                "detail": {
+                    "id": 1,
+                    "appKey": null,
+                    "parentId": 8,
+                    "type": 0,
+                    "label": "创建活动",
+                    "sign": "/marketingCenter/activityMgr",
+                    "icon": null,
+                    "sort": 0,
+                    "visible": true,
+                    "enable": true,
+                    "deleted": false,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1536114982000,
+                    "updateTime": 1536114982000
+                },
+                "children": [
+                    {
+                        "id": 2,
+                        "label": "创建活动",
+                        "parentId": 8,
+                        "detail": {
+                            "id": 2,
+                            "appKey": null,
+                            "parentId": 8,
+                            "type": 1,
+                            "label": "创建活动",
+                            "sign": "/marketingCenter/activityMgr",
+                            "icon": null,
+                            "sort": 0,
+                            "visible": true,
+                            "enable": true,
+                            "deleted": false,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1536114982000,
+                            "updateTime": 1536114982000
+                        },
+                        "children": []
+                    },
+                    {
+                        "id": 3,
+                        "label": "我的活动",
+                        "parentId": 8,
+                        "detail": {
+                            "id": 3,
+                            "appKey": null,
+                            "parentId": 8,
+                            "type": 0,
+                            "label": "我的活动",
+                            "sign": "/marketingCenter/activityMgr",
+                            "icon": null,
+                            "sort": 0,
+                            "visible": true,
+                            "enable": true,
+                            "deleted": false,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1536114982000,
+                            "updateTime": 1536114982000
+                        },
+                        "children": [
+                            {
+                                "id": 4,
+                                "label": "签到活动",
+                                "parentId": 8,
+                                "detail": {
+                                    "id": 4,
+                                    "appKey": null,
+                                    "parentId": 8,
+                                    "type": 0,
+                                    "label": "签到活动",
+                                    "sign": "/marketingCenter/activitySignList",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "visible": true,
+                                    "enable": true,
+                                    "deleted": false,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1536114982000,
+                                    "updateTime": 1536114982000
+                                },
+                                "children": [
+                                    {
+                                        "id": 5,
+                                        "label": "签到列表",
+                                        "parentId": 8,
+                                        "detail": {
+                                            "id": 5,
+                                            "appKey": null,
+                                            "parentId": 8,
+                                            "type": 1,
+                                            "label": "签到列表",
+                                            "sign": "/marketingCenter/activitySignList",
+                                            "icon": null,
+                                            "sort": 0,
+                                            "visible": true,
+                                            "enable": true,
+                                            "deleted": false,
+                                            "creatorId": null,
+                                            "ownerId": null,
+                                            "ownerRoleId": null,
+                                            "createTime": 1536114982000,
+                                            "updateTime": 1536114982000
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "id": 6,
+                                        "label": "领取记录",
+                                        "parentId": 8,
+                                        "detail": {
+                                            "id": 6,
+                                            "appKey": null,
+                                            "parentId": 8,
+                                            "type": 1,
+                                            "label": "领取记录",
+                                            "sign": "/marketingCenter/activityRewardRecord",
+                                            "icon": null,
+                                            "sort": 0,
+                                            "visible": true,
+                                            "enable": true,
+                                            "deleted": false,
+                                            "creatorId": null,
+                                            "ownerId": null,
+                                            "ownerRoleId": null,
+                                            "createTime": 1536114982000,
+                                            "updateTime": 1536114982000
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "id": 7,
+                                        "label": "签到记录",
+                                        "parentId": 8,
+                                        "detail": {
+                                            "id": 7,
+                                            "appKey": null,
+                                            "parentId": 8,
+                                            "type": 1,
+                                            "label": "签到记录",
+                                            "sign": "/marketingCenter/activitySignRecord",
+                                            "icon": null,
+                                            "sort": 0,
+                                            "visible": true,
+                                            "enable": true,
+                                            "deleted": false,
+                                            "creatorId": null,
+                                            "ownerId": null,
+                                            "ownerRoleId": null,
+                                            "createTime": 1536114982000,
+                                            "updateTime": 1536114982000
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": 8,
+                        "label": "礼品中心",
+                        "parentId": 8,
+                        "detail": {
+                            "id": 8,
+                            "appKey": null,
+                            "parentId": 8,
+                            "type": 0,
+                            "label": "礼品中心",
+                            "sign": "/marketingCenter/giftMgr",
+                            "icon": null,
+                            "sort": 0,
+                            "visible": true,
+                            "enable": true,
+                            "deleted": false,
+                            "creatorId": null,
+                            "ownerId": null,
+                            "ownerRoleId": null,
+                            "createTime": 1536114982000,
+                            "updateTime": 1536114982000
+                        },
+                        "children": [
+                            {
+                                "id": 1,
+                                "label": "礼品列表",
+                                "parentId": 8,
+                                "detail": {
+                                    "id": 1,
+                                    "appKey": null,
+                                    "parentId": 8,
+                                    "type": 1,
+                                    "label": "新建礼品",
+                                    "sign": "/marketingCenter/giftMgr",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "visible": true,
+                                    "enable": true,
+                                    "deleted": false,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1536114982000,
+                                    "updateTime": 1536114982000
+                                },
+                                "children": []
+                            },
+                            {
+                                "id": 2,
+                                "label": "新建礼品",
+                                "parentId": 8,
+                                "detail": {
+                                    "id": 2,
+                                    "appKey": null,
+                                    "parentId": 8,
+                                    "type": 1,
+                                    "label": "新建礼品",
+                                    "sign": "/marketingCenter/giftCreate",
+                                    "icon": null,
+                                    "sort": 0,
+                                    "visible": true,
+                                    "enable": true,
+                                    "deleted": false,
+                                    "creatorId": null,
+                                    "ownerId": null,
+                                    "ownerRoleId": null,
+                                    "createTime": 1536114982000,
+                                    "updateTime": 1536114982000
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "label": "广告位管理",
+                "parentId": 8,
+                "detail": {
+                    "id": 9,
+                    "parentId": 8,
+                    "type": 1,
+                    "label": "广告位管理",
+                    "sign": "/marketingCenter/adMgr",
+                    "icon": null,
+                    "sort": 0,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": []
+            },
+            {
+                "id": 10,
+                "label": "短信管理",
+                "parentId": 8,
+                "detail": {
+                    "id": 10,
+                    "parentId": 8,
+                    "type": 1,
+                    "label": "短信管理",
+                    "sign": "/marketingCenter/SMSMgr",
+                    "icon": null,
+                    "sort": 0,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": []
+            },
+            {
+                "id": 11,
+                "label": "短链管理",
+                "parentId": 8,
+                "detail": {
+                    "id": 11,
+                    "parentId": 8,
+                    "type": 1,
+                    "label": "短链管理",
+                    "sign": "/marketingCenter/shortLinkMgr",
+                    "icon": null,
+                    "sort": 0,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": []
+            },
+            {
+                "id": 12,
+                "label": "异业二维码管理",
+                "parentId": 8,
+                "detail": {
+                    "id": 12,
+                    "parentId": 8,
+                    "type": 1,
+                    "label": "异业二维码管理",
+                    "sign": "/marketingCenter/QRCodeMgr",
+                    "icon": null,
+                    "sort": 0,
+                    "enable": true,
+                    "creatorId": null,
+                    "ownerId": null,
+                    "ownerRoleId": null,
+                    "createTime": 1539068097000,
+                    "updateTime": 1539068097000
+                },
+                "children": []
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "label": "内容管理",
+        "parentId": 2,
+        "detail": {
+            "id": 6,
+            "parentId": 2,
+            "type": 1,
+            "label": "内容管理",
+            "sign": null,
+            "icon": null,
+            "sort": 3,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": []
+    },
+    {
+        "id": 8,
+        "label": "基础档案",
+        "parentId": 2,
+        "detail": {
+            "id": 6,
+            "parentId": 2,
+            "type": 1,
+            "label": "基础档案",
+            "sign": null,
+            "icon": null,
+            "sort": 3,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": []
+    },
+    {
+        "id": 8,
+        "label": "微信管理",
+        "parentId": 2,
+        "detail": {
+            "id": 6,
+            "parentId": 2,
+            "type": 1,
+            "label": "微信管理",
+            "sign": null,
+            "icon": null,
+            "sort": 3,
+            "enable": true,
+            "creatorId": null,
+            "ownerId": null,
+            "ownerRoleId": null,
+            "createTime": 1539068097000,
+            "updateTime": 1539068097000
+        },
+        "children": []
+    }
+]

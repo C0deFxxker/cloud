@@ -3,6 +3,10 @@ spring:
     name: cloud-admin
   profiles:
     active: system, cms
+  resources:
+    static-locations: file:upload-tmp/
+  mvc:
+    static-path-pattern: /static/**
 dubbo:
   protocol:
     name: dubbo
